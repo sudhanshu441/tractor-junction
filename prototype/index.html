@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Krishi Junction Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F4F7F1; --surface:#FFFFFF; --surface-2:#EDF2EA; --sunk:#E4EBE0;
+  --ink:#12180F; --ink-2:#41503F; --ink-3:#6C7C68;
+  --line:#D8E2D4; --line-2:#C3D2BE;
+  --field:#1F6B3A; --field-soft:#E4F0E5; --field-ink:#14512B;
+  --harvest:#C97A02; --harvest-soft:#FBEEDA;
+  --soil:#7A5230;
+  --danger:#B3261E; --danger-soft:#FBE7E5;
+  --info:#1B5E9E; --info-soft:#E3EEF8;
+  --on-field:#FFFFFF; --on-accent:#FFFFFF;
+  --shadow:0 1px 2px rgba(18,24,15,.06), 0 8px 24px -12px rgba(18,24,15,.18);
+  --r:10px; --r-sm:6px;
+  --display:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E120D; --surface:#161C15; --surface-2:#1D251C; --sunk:#131A13;
+    --ink:#E9EFE6; --ink-2:#B4C2B1; --ink-3:#84947F;
+    --line:#2A342A; --line-2:#3A473A;
+    --field:#5FB07A; --field-soft:#17301F; --field-ink:#8FD3A5;
+    --harvest:#E9A93C; --harvest-soft:#33260E;
+    --soil:#B08256;
+    --danger:#F0857C; --danger-soft:#331715;
+    --info:#7BB3E8; --info-soft:#12222F;
+    --on-field:#0B120C; --on-accent:#241A06;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E120D; --surface:#161C15; --surface-2:#1D251C; --sunk:#131A13;
+  --ink:#E9EFE6; --ink-2:#B4C2B1; --ink-3:#84947F;
+  --line:#2A342A; --line-2:#3A473A;
+  --field:#5FB07A; --field-soft:#17301F; --field-ink:#8FD3A5;
+  --harvest:#E9A93C; --harvest-soft:#33260E;
+  --soil:#B08256;
+  --danger:#F0857C; --danger-soft:#331715;
+  --info:#7BB3E8; --info-soft:#12222F;
+  --on-field:#0B120C; --on-accent:#241A06;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--field);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+.rail{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:18px 18px 14px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.mark{width:34px;height:34px;flex:none;border-radius:8px;background:var(--field);display:grid;place-items:center}
+.mark svg{width:22px;height:22px}
+.brand b{font-family:var(--display);font-size:15px;letter-spacing:-.02em;display:block}
+.brand span{font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.02em}
+.railnote{padding:12px 18px;font-size:11.5px;color:var(--ink-3);border-bottom:1px solid var(--line);line-height:1.45}
+.navgroup{padding:14px 12px 4px}
+.navgroup>h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);padding:0 8px 7px;font-weight:600}
+.navbtn{display:flex;width:100%;gap:9px;align-items:center;background:none;border:0;text-align:left;padding:7px 8px;border-radius:var(--r-sm);color:var(--ink-2);font-size:13px}
+.navbtn:hover{background:var(--surface-2);color:var(--ink)}
+.navbtn[aria-current="true"]{background:var(--field-soft);color:var(--field-ink);font-weight:600}
+.navnum{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);width:20px;flex:none}
+.navbtn[aria-current="true"] .navnum{color:var(--field)}
+.railfoot{margin-top:auto;padding:14px 18px;border-top:1px solid var(--line);font-size:11px;color:var(--ink-3)}
+
+.stage{padding:22px 26px 60px;min-width:0}
+.stagehead{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.stagehead h1{font-size:21px}
+.stagehead p{color:var(--ink-2);font-size:13px;max-width:62ch;margin-top:4px}
+.route{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);padding:5px 9px;border-radius:999px;white-space:nowrap}
+
+/* browser frame */
+.frame{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.chrome{display:flex;gap:10px;align-items:center;padding:9px 12px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:5px}.dots i{width:9px;height:9px;border-radius:50%;background:var(--line-2);display:block}
+.urlbar{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-family:var(--mono);font-size:11.5px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chrome .who{font-size:11px;font-family:var(--mono);color:var(--ink-3)}
+.canvas{padding:0}
+
+/* site header */
+.sitebar{display:flex;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
+.sitebar nav{display:flex;gap:14px;font-size:12.5px;color:var(--ink-2);flex-wrap:wrap}
+.sitebar nav b{color:var(--ink);font-weight:600}
+.searchbox{flex:1;min-width:150px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;color:var(--ink-3)}
+.btn{border:1px solid var(--field);background:var(--field);color:var(--on-field);border-radius:var(--r-sm);padding:6px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--field);border-color:var(--line-2)}
+.btn.amber{background:var(--harvest);border-color:var(--harvest);color:var(--on-accent)}
+.btn.sm{padding:4px 9px;font-size:11.5px}
+.lang{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 8px;color:var(--ink-2)}
+
+/* generic layout helpers */
+.pad{padding:18px}
+.row{display:flex;gap:12px}
+.wrap{flex-wrap:wrap}
+.between{justify-content:space-between;align-items:center}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.g6{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:1100px){.g5,.g6{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.shell{grid-template-columns:1fr}.rail{position:static;height:auto}.g3,.g4,.g5,.g6,.g2{grid-template-columns:1fr}}
+.sec{padding:16px 18px;border-top:1px solid var(--line)}
+.sec>h3{font-size:14px;margin-bottom:2px}
+.sec>.sub{font-size:11.5px;color:var(--ink-3);margin-bottom:12px}
+.muted{color:var(--ink-3)}
+.small{font-size:11.5px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.card .body{padding:11px}
+.thumb{aspect-ratio:4/3;background:linear-gradient(160deg,var(--surface-2),var(--sunk));display:grid;place-items:center;border-bottom:1px solid var(--line)}
+.thumb svg{width:58%;height:58%;opacity:.55}
+.price{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-.02em}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);white-space:nowrap}
+.pill.ok{background:var(--field-soft);color:var(--field-ink);border-color:transparent}
+.pill.warn{background:var(--harvest-soft);color:var(--harvest);border-color:transparent}
+.pill.bad{background:var(--danger-soft);color:var(--danger);border-color:transparent}
+.pill.info{background:var(--info-soft);color:var(--info);border-color:transparent}
+
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-size:11.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.chip.on{background:var(--field);border-color:var(--field);color:var(--on-field)}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--surface-2);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.kpi .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:600}
+.kpi .v{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.03em;margin-top:3px;font-variant-numeric:tabular-nums}
+.kpi .d{font-size:11px;color:var(--ink-3);margin-top:2px}
+.kpi.alert{border-color:var(--harvest);background:var(--harvest-soft)}
+.kpi.alert .k,.kpi.alert .d{color:var(--harvest)}
+.kpi.alert .v{color:var(--harvest)}
+
+.field{border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 10px;font-size:12.5px;color:var(--ink-3);background:var(--surface)}
+.label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:600;margin-bottom:4px;display:block}
+.filterbox{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:var(--surface)}
+.filterbox h4{font-size:12px;margin-bottom:8px}
+.fgroup{padding:10px 0;border-top:1px solid var(--line)}
+.check{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-2);padding:2px 0}
+.box{width:13px;height:13px;border:1.5px solid var(--line-2);border-radius:3px;flex:none}
+.box.on{background:var(--field);border-color:var(--field);position:relative}
+.box.on::after{content:"";position:absolute;left:3.5px;top:.5px;width:4px;height:8px;border:solid var(--on-field);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.slider{height:3px;background:var(--line);border-radius:2px;position:relative;margin:14px 4px 6px}
+.slider i{position:absolute;height:3px;background:var(--field);left:18%;right:32%}
+.slider b{position:absolute;width:13px;height:13px;border-radius:50%;background:var(--surface);border:2px solid var(--field);top:-5px}
+
+.steps{display:flex;gap:0;align-items:center;flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink-3)}
+.step i{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;font-family:var(--mono);font-size:10px;font-style:normal}
+.step.done i{background:var(--field);border-color:var(--field);color:#fff}
+.step.now i{border-color:var(--field);color:var(--field);font-weight:600}
+.step.now{color:var(--ink);font-weight:600}
+.stepline{flex:1;height:1px;background:var(--line);min-width:12px;margin:0 8px}
+
+.timeline{border-left:2px solid var(--line);padding-left:14px;display:flex;flex-direction:column;gap:12px}
+.tl{position:relative}
+.tl::before{content:"";position:absolute;left:-19px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--line-2);border:2px solid var(--surface)}
+.tl.on::before{background:var(--field)}
+.tl b{font-size:12.5px;display:block}
+.tl span{font-size:11px;color:var(--ink-3);font-family:var(--mono)}
+
+.bars{display:flex;align-items:flex-end;gap:6px;height:96px;padding-top:6px}
+.bars div{flex:1;background:var(--field);border-radius:3px 3px 0 0;min-height:4px;opacity:.85}
+.bars div:nth-child(even){background:var(--harvest)}
+.axis{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3);font-family:var(--mono);margin-top:5px}
+
+.adminshell{display:grid;grid-template-columns:190px minmax(0,1fr)}
+@media(max-width:820px){.adminshell{grid-template-columns:1fr}}
+.adminnav{background:var(--surface-2);border-right:1px solid var(--line);padding:12px 8px;font-size:12px}
+.adminnav a{display:flex;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:var(--r-sm);color:var(--ink-2);text-decoration:none}
+.adminnav a.on{background:var(--field);color:var(--on-field);font-weight:600}
+.adminnav .badge{background:var(--danger);color:var(--surface);border-radius:999px;font-size:10px;padding:0 6px;font-family:var(--mono)}
+.adminnav a.on .badge{background:rgba(255,255,255,.28)}
+.adminnav hr{border:0;border-top:1px solid var(--line);margin:8px 4px}
+
+.specrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.specrow:last-child{border-bottom:0}
+.specrow span{color:var(--ink-3)}
+.specrow b{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-3)}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px}
+.note{background:var(--info-soft);border:1px solid transparent;border-left:3px solid var(--info);border-radius:var(--r-sm);padding:9px 11px;font-size:12px;color:var(--ink-2)}
+.diff{background:var(--harvest-soft)}
+.hidden{display:none}
+.footerbar{padding:12px 18px;border-top:1px solid var(--line);background:var(--surface-2);font-size:11px;color:var(--ink-3);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.mobileframe{max-width:330px;margin:0 auto;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface)}
+.mobiletop{padding:8px 14px;background:var(--surface-2);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink-3)}
+</style>
+
+</head>
+<body>
+<div class="shell">
+<aside class="rail">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--on-field)" stroke-width="1.7" stroke-linecap="round"><circle cx="7" cy="17" r="4"/><circle cx="18" cy="18" r="3"/><path d="M4 9h7l2 5"/><path d="M11 9V5h4l2 4v6"/></svg>
+    </span>
+    <span><b>Krishi Junction</b><span>PROTOTYPE v1 &middot; 15 screens</span></span>
+  </div>
+  <p class="railnote">Wireframe prototype for review. Every screen shows its real route from the sitemap. No live data &mdash; figures are illustrative samples.</p>
+
+  <div class="navgroup"><h4>Website</h4>
+    <button class="navbtn" data-s="home"><span class="navnum">01</span>Home</button>
+    <button class="navbtn" data-s="listing"><span class="navnum">02</span>Tractor listing</button>
+    <button class="navbtn" data-s="detail"><span class="navnum">03</span>Model detail</button>
+    <button class="navbtn" data-s="compare"><span class="navnum">04</span>Compare</button>
+    <button class="navbtn" data-s="used"><span class="navnum">05</span>Used marketplace</button>
+    <button class="navbtn" data-s="uListing"><span class="navnum">06</span>Used listing detail</button>
+    <button class="navbtn" data-s="sell"><span class="navnum">07</span>Sell wizard (mobile)</button>
+    <button class="navbtn" data-s="dealers"><span class="navnum">08</span>Dealer locator</button>
+    <button class="navbtn" data-s="emi"><span class="navnum">09</span>EMI calculator</button>
+    <button class="navbtn" data-s="loan"><span class="navnum">10</span>Loan application</button>
+  </div>
+  <div class="navgroup"><h4>Customer &amp; dealer</h4>
+    <button class="navbtn" data-s="account"><span class="navnum">11</span>Customer dashboard</button>
+    <button class="navbtn" data-s="dealerpanel"><span class="navnum">12</span>Dealer panel</button>
+  </div>
+  <div class="navgroup"><h4>Admin</h4>
+    <button class="navbtn" data-s="admin"><span class="navnum">13</span>Admin dashboard</button>
+    <button class="navbtn" data-s="moderation"><span class="navnum">14</span>Listing moderation</button>
+    <button class="navbtn" data-s="leads"><span class="navnum">15</span>Leads board</button>
+  </div>
+  <div class="railfoot">Phase 0 deliverable &middot; awaiting approval before development</div>
+</aside>
+
+<main class="stage">
+  <div class="stagehead">
+    <div><h1 id="sTitle">Home</h1><p id="sDesc"></p></div>
+    <span class="route mono" id="sRoute">/</span>
+  </div>
+  <div class="frame">
+    <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="urlbar" id="sUrl">krishijunction.com</span><span class="who" id="sWho">guest</span></div>
+    <div class="canvas" id="canvas"></div>
+  </div>
+  <p class="small muted" style="margin-top:12px">Prototype only &mdash; illustrative sample data, no third-party imagery. Layout, hierarchy and states are the deliverable; final visual design follows approval.</p>
+</main>
+</div>
+<script>
+const TR = '<svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><circle cx="16" cy="28" r="9"/><circle cx="16" cy="28" r="3"/><circle cx="47" cy="30" r="7"/><circle cx="47" cy="30" r="2.5"/><path d="M7 22h9l4 8"/><path d="M22 22V10h11l5 9v11"/><path d="M38 24h9"/><path d="M25 10V6h6v4"/></svg>';
+const IM = '<svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="10" width="44" height="9" rx="2"/><path d="M16 19v10M24 19v10M32 19v10M40 19v10M48 19v10"/><path d="M13 29h38"/></svg>';
+
+const sitebar = (active) => `
+<div class="sitebar">
+  <span class="mark" style="width:26px;height:26px;border-radius:6px"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-field)" stroke-width="1.8" stroke-linecap="round" style="width:16px;height:16px"><circle cx="7" cy="17" r="4"/><circle cx="18" cy="18" r="3"/><path d="M4 9h7l2 5"/><path d="M11 9V5h4l2 4v6"/></svg></span>
+  <nav>
+    ${['New Tractors','Used','Implements','Compare','Dealers','Loan &amp; EMI','News'].map(x=>`<span>${x===active?`<b>${x}</b>`:x}</span>`).join('')}
+  </nav>
+  <span class="searchbox">Search &ldquo;Mahindra 575&rdquo; or &ldquo;रोटावेटर&rdquo;&hellip;</span>
+  <span class="lang">EN / हिं</span>
+  <button class="btn amber">Sell your tractor</button>
+  <button class="btn ghost">Login</button>
+</div>`;
+
+const card = (brand,name,hp,price,tag) => `
+<div class="card">
+  <div class="thumb">${TR}</div>
+  <div class="body">
+    <div class="small muted mono">${brand}</div>
+    <div style="font-weight:600;font-size:13px;margin:1px 0 4px">${name}</div>
+    <div class="row between"><span class="price">${price}</span><span class="pill">${hp}</span></div>
+    ${tag?`<div style="margin-top:7px">${tag}</div>`:''}
+  </div>
+</div>`;
+
+const SCREENS = {
+home:{title:'Home',route:'/',who:'guest',
+ desc:'Seventeen admin-managed blocks. Intent is captured in the first screen: buy new, buy used, sell, or finance.',
+ html: sitebar('') + `
+<div class="pad" style="background:linear-gradient(150deg,var(--field-soft),transparent 60%)">
+  <div class="eyebrow">India&rsquo;s rural machinery marketplace</div>
+  <h2 style="font-size:24px;margin:6px 0 4px;max-width:22ch">Find the right tractor, at the right price, near you.</h2>
+  <p class="muted small" style="max-width:60ch">312 new models &middot; 41,800 used listings &middot; 2,140 verified dealers across 640 districts.</p>
+  <div class="row wrap" style="margin-top:14px">
+    <span class="chip on">Buy new</span><span class="chip">Buy used</span><span class="chip">Sell mine</span><span class="chip">Get a loan</span><span class="chip">Find a dealer</span>
+  </div>
+  <div class="row wrap" style="margin-top:12px">
+    <span class="field" style="flex:1;min-width:130px">Brand &mdash; any</span>
+    <span class="field" style="flex:1;min-width:130px">HP range &mdash; 40&ndash;50 HP</span>
+    <span class="field" style="flex:1;min-width:130px">Budget &mdash; up to &#8377;7 lakh</span>
+    <span class="field" style="flex:1;min-width:130px">District &mdash; Sitapur, UP</span>
+    <button class="btn">Search 38 tractors</button>
+  </div>
+</div>
+<div class="sec"><h3>Browse by brand</h3><p class="sub">25 brands &middot; admin-managed logos and ordering</p>
+  <div class="grid g6">${['Mahindra','Swaraj','Sonalika','John Deere','Massey Ferguson','New Holland','Eicher','Powertrac','Farmtrac','Kubota','VST','Preet'].map(b=>`<div class="card" style="padding:12px;text-align:center"><div class="mono small" style="opacity:.5">LOGO</div><div style="font-size:12.5px;font-weight:600;margin-top:5px">${b}</div></div>`).join('')}</div>
+</div>
+<div class="sec"><h3>Popular new tractors</h3><p class="sub">Ranked by popularity_score &mdash; views, enquiries and compares over 30 days</p>
+  <div class="grid g4">
+    ${card('Mahindra','575 DI XP Plus','47 HP','&#8377;7.30&ndash;7.65 L','<span class="pill ok">Most enquired</span>')}
+    ${card('Swaraj','744 FE','48 HP','&#8377;7.10&ndash;7.45 L','')}
+    ${card('Sonalika','DI 745 III','50 HP','&#8377;7.05&ndash;7.35 L','')}
+    ${card('Massey Ferguson','241 DI Maha Shakti','42 HP','&#8377;6.60&ndash;6.95 L','<span class="pill warn">Offer live</span>')}
+  </div>
+</div>
+<div class="sec"><h3>Used tractors near Sitapur</h3><p class="sub">Geo-detected from pincode &middot; distance-sorted</p>
+  <div class="grid g4">
+    ${card('2019 &middot; 2,140 hrs','Mahindra 265 DI &mdash; Sitapur','32 HP','&#8377;3.85 L','<span class="pill ok">Inspected &middot; Grade B</span>')}
+    ${card('2021 &middot; 980 hrs','Swaraj 744 FE &mdash; Hardoi','48 HP','&#8377;5.40 L','<span class="pill info">18 km away</span>')}
+    ${card('2017 &middot; 3,600 hrs','Sonalika DI 42 &mdash; Lakhimpur','42 HP','&#8377;3.10 L','')}
+    ${card('2020 &middot; 1,520 hrs','Farmtrac 60 &mdash; Sitapur','50 HP','&#8377;5.95 L','<span class="pill ok">Inspected &middot; Grade A</span>')}
+  </div>
+</div>
+<div class="sec"><div class="grid g2">
+  <div class="card"><div class="body">
+    <h3 style="font-size:14px">Check your EMI in 3 taps</h3>
+    <div class="row" style="margin-top:10px;gap:10px"><span class="field" style="flex:1">&#8377;7,30,000</span><span class="field" style="flex:1">20% down</span><span class="field" style="flex:1">60 months</span></div>
+    <div class="row between" style="margin-top:12px"><div><div class="eyebrow">Monthly EMI</div><div class="price mono" style="font-size:20px">&#8377;12,847</div></div><button class="btn">Apply for loan</button></div>
+  </div></div>
+  <div class="card"><div class="body">
+    <h3 style="font-size:14px">Sell your tractor in 3 minutes</h3>
+    <p class="small muted" style="margin-top:6px">Six steps, OTP verified, reviewed by our team within 6 hours. Free.</p>
+    <div class="row wrap" style="margin-top:10px"><span class="pill">4 photos minimum</span><span class="pill">Free listing</span><span class="pill">Optional inspection</span></div>
+    <button class="btn amber" style="margin-top:12px">Post your listing</button>
+  </div></div>
+</div></div>
+<div class="sec"><h3>Implements &amp; harvesters</h3><p class="sub">Matched to your tractor&rsquo;s HP and hitch type</p>
+  <div class="grid g4">${[['Rotavator','Shaktiman 7 Feet','35&ndash;50 HP','&#8377;92,000'],['Cultivator','Fieldking 9 Tyne','40&ndash;55 HP','&#8377;46,500'],['Seed drill','Landforce 11 Row','35&ndash;45 HP','&#8377;78,000'],['Thresher','Dashmesh 522','45+ HP','&#8377;2.15 L']].map(([c,n,h,p])=>`<div class="card"><div class="thumb">${IM}</div><div class="body"><div class="small muted mono">${c}</div><div style="font-weight:600;font-size:13px;margin:1px 0 4px">${n}</div><div class="row between"><span class="price">${p}</span><span class="pill">${h}</span></div></div></div>`).join('')}</div>
+</div>
+<div class="sec"><div class="grid g4">
+  ${[['312','New models listed'],['41,800','Used listings'],['2,140','Verified dealers'],['1.9 M','Monthly visitors']].map(([v,k])=>`<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('')}
+</div></div>
+<div class="footerbar"><span>Company &middot; Explore &middot; Popular brands &middot; Support &middot; Newsletter</span><span>&copy; 2026 Krishi Junction</span></div>`},
+
+listing:{title:'Tractor listing',route:'/tractors/hp/40-50-hp',who:'guest',
+ desc:'Shared template for tractors, implements, harvesters and tyres. Facets are URL-encoded so every combination is shareable and indexable.',
+ html: sitebar('New Tractors') + `
+<div class="pad">
+  <div class="small muted mono">Home / Tractors / 40&ndash;50 HP</div>
+  <div class="row between wrap" style="margin-top:8px">
+    <div><h2 style="font-size:19px">40&ndash;50 HP tractors in India</h2><p class="small muted">38 models &middot; prices from &#8377;5.85 L to &#8377;9.20 L (ex-showroom)</p></div>
+    <div class="row"><span class="field">Sort: Popularity</span><button class="btn ghost">Compare (2)</button></div>
+  </div>
+</div>
+<div class="pad" style="padding-top:0"><div class="grid" style="grid-template-columns:230px minmax(0,1fr)">
+  <div class="filterbox">
+    <div class="row between"><h4>Filters</h4><span class="small muted">Clear</span></div>
+    <div class="chips" style="margin-bottom:4px"><span class="chip on">40&ndash;50 HP &times;</span><span class="chip on">Mahindra &times;</span></div>
+    <div class="fgroup"><span class="label">Brand</span>
+      ${[['Mahindra',12,1],['Swaraj',9,0],['Sonalika',8,0],['John Deere',6,0],['Eicher',5,0]].map(([b,n,on])=>`<label class="check"><i class="box ${on?'on':''}"></i>${b}<span class="muted mono" style="margin-left:auto">${n}</span></label>`).join('')}
+      <span class="small muted">+ 20 more</span></div>
+    <div class="fgroup"><span class="label">Price (ex-showroom)</span><div class="slider"><i></i><b style="left:16%"></b><b style="right:30%"></b></div><div class="row between small mono muted"><span>&#8377;4 L</span><span>&#8377;12 L</span></div></div>
+    <div class="fgroup"><span class="label">HP range</span><div class="chips">${['&lt;25','25&ndash;35','35&ndash;40','40&ndash;50','50&ndash;60','60+'].map(h=>`<span class="chip ${h==='40&ndash;50'?'on':''}">${h}</span>`).join('')}</div></div>
+    <div class="fgroup"><span class="label">Wheel drive</span><label class="check"><i class="box"></i>2WD<span class="muted mono" style="margin-left:auto">26</span></label><label class="check"><i class="box"></i>4WD<span class="muted mono" style="margin-left:auto">12</span></label></div>
+    <div class="fgroup"><span class="label">Other</span><label class="check"><i class="box"></i>Power steering</label><label class="check"><i class="box"></i>AC cabin</label><label class="check"><i class="box"></i>Available now</label></div>
+  </div>
+  <div>
+    <div class="grid g3">
+      ${card('Mahindra','575 DI XP Plus','47 HP','&#8377;7.30&ndash;7.65 L','<span class="pill ok">4.4 &#9733; &middot; 312 reviews</span>')}
+      ${card('Mahindra','Arjun Novo 605 DI-i','57 HP','&#8377;9.10&ndash;9.60 L','')}
+      ${card('Swaraj','744 FE','48 HP','&#8377;7.10&ndash;7.45 L','<span class="pill warn">Compare added</span>')}
+      ${card('Sonalika','DI 745 III','50 HP','&#8377;7.05&ndash;7.35 L','')}
+      ${card('Massey Ferguson','241 DI Maha Shakti','42 HP','&#8377;6.60&ndash;6.95 L','<span class="pill warn">Offer &#8377;25,000 off</span>')}
+      ${card('Eicher','380 Super Plus','40 HP','&#8377;6.15&ndash;6.50 L','')}
+    </div>
+    <div class="note" style="margin-top:14px"><b>SEO block:</b> admin-editable long-form copy about choosing a 40&ndash;50 HP tractor, plus an FAQ accordion emitting FAQPage schema. Facet pages beyond the whitelist carry <span class="mono">noindex,follow</span>.</div>
+  </div>
+</div></div>`},
+
+detail:{title:'Model detail',route:'/tractors/mahindra/575-di-xp-plus',who:'guest',
+ desc:'The commercial centre of the site: price, specs, EMI, dealers, reviews and enquiry, all on one indexable page.',
+ html: sitebar('New Tractors') + `
+<div class="pad">
+  <div class="small muted mono">Home / Tractors / Mahindra / 575 DI XP Plus</div>
+  <div class="grid" style="grid-template-columns:1.1fr .9fr;margin-top:10px">
+    <div><div class="thumb" style="border:1px solid var(--line);border-radius:var(--r);aspect-ratio:16/10">${TR}</div>
+      <div class="row" style="margin-top:8px">${[1,2,3,4,5].map(()=>`<div class="thumb" style="width:56px;aspect-ratio:4/3;border:1px solid var(--line);border-radius:6px">${TR}</div>`).join('')}</div></div>
+    <div>
+      <div class="row wrap" style="gap:6px"><span class="pill ok">Available</span><span class="pill">4.4 &#9733; (312)</span><span class="pill info">Popular in Uttar Pradesh</span></div>
+      <h2 style="font-size:22px;margin:8px 0 2px">Mahindra 575 DI XP Plus</h2>
+      <p class="small muted">47 HP &middot; 2WD &middot; 4 cylinder &middot; 1600 kg lift capacity</p>
+      <div style="margin-top:12px"><div class="eyebrow">Ex-showroom price</div><div class="price mono" style="font-size:24px">&#8377;7,30,000 &ndash; &#8377;7,65,000</div></div>
+      <div class="tablewrap" style="margin-top:10px"><table><tr><td>Ex-showroom, Lucknow</td><td class="num">&#8377;7,30,000</td></tr><tr><td>RTO &amp; registration</td><td class="num">&#8377;24,500</td></tr><tr><td>Insurance (1 yr)</td><td class="num">&#8377;18,200</td></tr><tr><td><b>On-road, Lucknow</b></td><td class="num"><b>&#8377;7,72,700</b></td></tr></table></div>
+      <div class="row wrap" style="margin-top:12px"><button class="btn">Get best price</button><button class="btn ghost">Check EMI</button><button class="btn ghost">Compare</button><button class="btn ghost">Brochure PDF</button></div>
+      <p class="small muted" style="margin-top:8px">Enquiry asks only name, mobile and city, then verifies by OTP.</p>
+    </div>
+  </div>
+</div>
+<div class="sec"><h3>Key specifications</h3><p class="sub">Rendered from spec attributes flagged <span class="mono">is_key_spec</span></p>
+  <div class="grid g4">${[['Engine','2979 cc, 4 cyl'],['Engine HP','47 HP'],['PTO HP','41.3 HP'],['Gearbox','8 Fwd + 2 Rev'],['Lift capacity','1600 kg'],['Brakes','Oil immersed'],['Steering','Power steering'],['Fuel tank','60 L']].map(([k,v])=>`<div class="kpi"><div class="k">${k}</div><div class="v" style="font-size:16px">${v}</div></div>`).join('')}</div>
+</div>
+<div class="sec"><div class="grid g2">
+  <div><h3>Full specifications</h3><p class="sub">11 groups &middot; 42 attributes</p>
+    <div class="eyebrow" style="margin-bottom:6px">Engine</div>
+    ${[['Cylinders','4'],['Capacity','2979 cc'],['Rated RPM','1900'],['Air filter','Dry type, dual element'],['Cooling','Water cooled']].map(([k,v])=>`<div class="specrow"><span>${k}</span><b>${v}</b></div>`).join('')}
+    <div class="eyebrow" style="margin:12px 0 6px">Transmission</div>
+    ${[['Type','Partial constant mesh'],['Clutch','Dual clutch'],['Forward speed','32.3 kmph max']].map(([k,v])=>`<div class="specrow"><span>${k}</span><b>${v}</b></div>`).join('')}
+    <p class="small muted" style="margin-top:8px">+ Brakes, Steering, PTO, Hydraulics, Wheels &amp; tyres, Dimensions, Warranty&hellip;</p>
+  </div>
+  <div>
+    <div class="card"><div class="body"><h3 style="font-size:14px">EMI for this tractor</h3>
+      <div class="row between" style="margin-top:10px"><span class="small muted">&#8377;7.30 L &middot; 20% down &middot; 11.5% &middot; 60 mo</span></div>
+      <div class="price mono" style="font-size:22px;margin-top:6px">&#8377;12,847<span class="small muted mono" style="font-weight:400"> /month</span></div>
+      <button class="btn" style="margin-top:10px">Apply for loan</button></div></div>
+    <div class="card" style="margin-top:12px"><div class="body"><h3 style="font-size:14px">Dealers near you</h3>
+      ${[['Krishi Motors','Sitapur &middot; 6 km','4.6 &#9733;'],['Agro Tractors','Hardoi &middot; 42 km','4.2 &#9733;']].map(([n,l,r])=>`<div class="row between" style="padding:8px 0;border-bottom:1px solid var(--line)"><div><b style="font-size:12.5px">${n}</b><div class="small muted">${l}</div></div><span class="pill">${r}</span></div>`).join('')}
+      <button class="btn ghost sm" style="margin-top:9px">View all 14 dealers</button></div></div>
+    <div class="card" style="margin-top:12px"><div class="body"><h3 style="font-size:14px">Owner reviews</h3>
+      <div class="row between" style="margin-top:6px"><span class="price">4.4 &#9733;</span><span class="small muted">312 verified owners</span></div>
+      ${[['Mileage','4.6'],['Comfort','4.3'],['Maintenance','4.1'],['Value for money','4.5']].map(([k,v])=>`<div class="specrow"><span>${k}</span><b>${v}</b></div>`).join('')}</div></div>
+  </div>
+</div></div>
+<div class="sec"><h3>Compare with similar tractors</h3><p class="sub">Editor-picked competitors, also used for internal linking</p>
+  <div class="grid g4">${card('Swaraj','744 FE','48 HP','&#8377;7.10 L','')}${card('Sonalika','DI 745 III','50 HP','&#8377;7.05 L','')}${card('Farmtrac','60 Classic','50 HP','&#8377;7.40 L','')}${card('Eicher','485','45 HP','&#8377;6.90 L','')}</div>
+</div>`},
+
+compare:{title:'Compare',route:'/compare/mahindra-575-di-xp-plus-vs-swaraj-744-fe-vs-sonalika-di-745-iii',who:'guest',
+ desc:'Up to 4 models. Differing rows are highlighted; the URL is an indexable, shareable page with its own copy and FAQ.',
+ html: sitebar('Compare') + `
+<div class="pad"><h2 style="font-size:19px">Mahindra 575 DI XP Plus vs Swaraj 744 FE vs Sonalika DI 745 III</h2>
+<p class="small muted">3 of 4 slots used &middot; differences highlighted &middot; <span class="mono">share &middot; download PDF</span></p></div>
+<div class="pad" style="padding-top:0"><div class="tablewrap"><table>
+<thead><tr><th style="min-width:150px">Specification</th><th>Mahindra 575 DI XP Plus</th><th>Swaraj 744 FE</th><th>Sonalika DI 745 III</th><th style="min-width:90px">+ Add model</th></tr></thead>
+<tbody>
+<tr><td>Photo</td>${[1,2,3].map(()=>`<td><div class="thumb" style="width:100px;aspect-ratio:4/3;border-radius:6px;border:1px solid var(--line)">${TR}</div></td>`).join('')}<td><div class="field" style="text-align:center">Search&hellip;</div></td></tr>
+<tr class="diff"><td>Ex-showroom price</td><td class="num">&#8377;7,30,000</td><td class="num">&#8377;7,10,000</td><td class="num">&#8377;7,05,000</td><td></td></tr>
+<tr class="diff"><td>Engine HP</td><td class="num">47</td><td class="num">48</td><td class="num">50</td><td></td></tr>
+<tr class="diff"><td>PTO HP</td><td class="num">41.3</td><td class="num">40.8</td><td class="num">42.5</td><td></td></tr>
+<tr><td>Cylinders</td><td class="num">4</td><td class="num">3</td><td class="num">3</td><td></td></tr>
+<tr class="diff"><td>Engine capacity</td><td class="num">2979 cc</td><td class="num">3136 cc</td><td class="num">3065 cc</td><td></td></tr>
+<tr class="diff"><td>Lift capacity</td><td class="num">1600 kg</td><td class="num">1700 kg</td><td class="num">2000 kg</td><td></td></tr>
+<tr><td>Gearbox</td><td>8F + 2R</td><td>8F + 2R</td><td>8F + 2R</td><td></td></tr>
+<tr><td>Brakes</td><td>Oil immersed</td><td>Oil immersed</td><td>Oil immersed</td><td></td></tr>
+<tr class="diff"><td>Warranty</td><td>2000 hr / 2 yr</td><td>2000 hr / 2 yr</td><td>5000 hr / 5 yr</td><td></td></tr>
+<tr class="diff"><td>EMI @ 60 months</td><td class="num">&#8377;12,847</td><td class="num">&#8377;12,495</td><td class="num">&#8377;12,407</td><td></td></tr>
+<tr class="diff"><td>Owner rating</td><td class="num">4.4 &#9733;</td><td class="num">4.5 &#9733;</td><td class="num">4.2 &#9733;</td><td></td></tr>
+<tr><td>&nbsp;</td>${[1,2,3].map(()=>'<td><button class="btn sm">Get best price</button></td>').join('')}<td></td></tr>
+</tbody></table></div>
+<div class="legend" style="margin-top:10px"><span><i style="background:var(--harvest-soft)"></i>Rows where the models differ</span><span><i style="background:var(--field)"></i>Sticky first column and header on scroll</span></div>
+</div>`},
+
+used:{title:'Used marketplace',route:'/used/tractors/uttar-pradesh/sitapur',who:'guest',
+ desc:'Distance-aware grid. Verified listings carry an inspection grade and rank higher.',
+ html: sitebar('Used') + `
+<div class="pad"><div class="row between wrap">
+  <div><h2 style="font-size:19px">Second-hand tractors in Sitapur, Uttar Pradesh</h2><p class="small muted">486 live listings &middot; 112 inspected &middot; average price &#8377;4.2 L</p></div>
+  <div class="row"><span class="field">Sort: Nearest first</span><button class="btn amber">Sell yours</button></div>
+</div></div>
+<div class="pad" style="padding-top:0"><div class="grid" style="grid-template-columns:230px minmax(0,1fr)">
+  <div class="filterbox">
+    <h4>Filters</h4>
+    <div class="chips" style="margin-bottom:6px"><span class="chip on">Sitapur &times;</span><span class="chip on">Inspected only &times;</span></div>
+    <div class="fgroup"><span class="label">Distance</span><div class="chips">${['10 km','25 km','50 km','100 km'].map(d=>`<span class="chip ${d==='50 km'?'on':''}">${d}</span>`).join('')}</div></div>
+    <div class="fgroup"><span class="label">Budget</span><div class="slider"><i style="left:10%;right:40%"></i><b style="left:8%"></b><b style="right:38%"></b></div><div class="row between small mono muted"><span>&#8377;1 L</span><span>&#8377;10 L</span></div></div>
+    <div class="fgroup"><span class="label">Year of manufacture</span><div class="row"><span class="field" style="flex:1">2015</span><span class="field" style="flex:1">2024</span></div></div>
+    <div class="fgroup"><span class="label">Engine hours</span><label class="check"><i class="box on"></i>Under 2,000</label><label class="check"><i class="box"></i>2,000&ndash;4,000</label><label class="check"><i class="box"></i>Over 4,000</label></div>
+    <div class="fgroup"><span class="label">Seller</span><label class="check"><i class="box"></i>Owner</label><label class="check"><i class="box"></i>Dealer</label></div>
+  </div>
+  <div><div class="grid g3">
+    ${[['Mahindra 265 DI','2019','2,140 hrs','&#8377;3,85,000','Sitapur &middot; 6 km','ok','Inspected &middot; Grade B'],
+       ['Swaraj 744 FE','2021','980 hrs','&#8377;5,40,000','Hardoi &middot; 18 km','ok','Inspected &middot; Grade A'],
+       ['Sonalika DI 42','2017','3,600 hrs','&#8377;3,10,000','Lakhimpur &middot; 34 km','',''],
+       ['Farmtrac 60','2020','1,520 hrs','&#8377;5,95,000','Sitapur &middot; 9 km','ok','Inspected &middot; Grade A'],
+       ['Eicher 380','2016','4,200 hrs','&#8377;2,95,000','Sitapur &middot; 12 km','',''],
+       ['John Deere 5050 D','2022','620 hrs','&#8377;7,20,000','Barabanki &middot; 48 km','warn','Dealer listing']
+      ].map(([n,y,h,p,loc,cls,tag])=>`<div class="card"><div class="thumb">${TR}</div><div class="body">
+        <div class="row between"><span style="font-weight:600;font-size:13px">${n}</span><span class="pill">${y}</span></div>
+        <div class="small muted mono" style="margin:3px 0 6px">${h} &middot; ${loc}</div>
+        <div class="row between"><span class="price">${p}</span>${tag?`<span class="pill ${cls}">${tag}</span>`:'<span class="small muted">Negotiable</span>'}</div>
+      </div></div>`).join('')}
+  </div>
+  <div class="note" style="margin-top:14px">Seller phone numbers stay masked until a buyer verifies their own mobile by OTP. Every reveal creates a lead visible to both sides.</div>
+  </div>
+</div></div>`},
+
+uListing:{title:'Used listing detail',route:'/used/listing/mahindra-265-di-2019-sitapur-KJU000123',who:'guest',
+ desc:'Per-unit condition data, the inspection report, and a fair-price band computed from age, hours, grade and region.',
+ html: sitebar('Used') + `
+<div class="pad"><div class="grid" style="grid-template-columns:1.1fr .9fr">
+  <div>
+    <div class="thumb" style="border:1px solid var(--line);border-radius:var(--r);aspect-ratio:16/10">${TR}</div>
+    <div class="row" style="margin-top:8px">${['Front','Rear','Left','Engine','Meter','RC'].map(a=>`<div class="thumb" style="width:52px;aspect-ratio:4/3;border:1px solid var(--line);border-radius:6px;position:relative"><span class="mono" style="font-size:8px;position:absolute;bottom:2px;color:var(--ink-3)">${a}</span></div>`).join('')}</div>
+  </div>
+  <div>
+    <div class="row wrap" style="gap:6px"><span class="pill ok">Inspected &middot; Grade B</span><span class="pill">Owner listing</span><span class="pill info mono">KJ-U-000123</span></div>
+    <h2 style="font-size:21px;margin:8px 0 2px">Mahindra 265 DI &mdash; 2019</h2>
+    <p class="small muted">Sitapur, Uttar Pradesh &middot; listed 4 days ago &middot; 218 views</p>
+    <div style="margin-top:12px"><div class="eyebrow">Asking price</div><div class="price mono" style="font-size:24px">&#8377;3,85,000</div>
+      <p class="small muted">Fair-price band for this age, hours and grade: <b class="mono">&#8377;3.55 L &ndash; &#8377;4.05 L</b></p></div>
+    <div class="grid g2" style="margin-top:12px">
+      ${[['Year','2019'],['Engine hours','2,140'],['Engine HP','30 HP'],['Tyres (rear)','Good'],['RC available','Yes'],['Insurance','Valid to Mar 2026']].map(([k,v])=>`<div class="specrow"><span>${k}</span><b>${v}</b></div>`).join('')}
+    </div>
+    <div class="row wrap" style="margin-top:14px"><button class="btn">Show seller number</button><button class="btn ghost">Request callback</button><button class="btn ghost">Finance this tractor</button></div>
+    <p class="small muted" style="margin-top:7px">Verify your mobile by OTP to see the number. Report this listing.</p>
+  </div>
+</div></div>
+<div class="sec"><h3>Inspection report</h3><p class="sub">Completed 12 Aug 2026 by inspector R. Yadav &middot; overall 74/100 &middot; Grade B &middot; <span class="mono">download PDF</span></p>
+  <div class="grid g4">${[['Engine','8/10'],['Transmission','7/10'],['Hydraulics','8/10'],['Tyres','6/10'],['Body &amp; sheet','7/10'],['Electricals','7/10'],['Documents','9/10'],['Overall','74/100']].map(([k,v])=>`<div class="kpi"><div class="k">${k}</div><div class="v" style="font-size:18px">${v}</div></div>`).join('')}</div>
+</div>
+<div class="sec"><h3>Specifications</h3><p class="sub">Pulled from the catalogue model this listing was matched to</p>
+  <div class="grid g3">${[['Engine','2048 cc, 3 cyl'],['PTO HP','25.5 HP'],['Gearbox','8F + 2R'],['Lift capacity','1200 kg'],['Brakes','Dry disc'],['Fuel tank','50 L']].map(([k,v])=>`<div class="specrow"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
+</div>`},
+
+sell:{title:'Sell wizard',route:'/sell',who:'seller (OTP)',
+ desc:'Built for a phone in a field: six steps, autosaved as a draft, minimum four guided photos, OTP at the end.',
+ html:`<div class="pad" style="background:var(--surface-2)">
+ <div class="mobileframe">
+  <div class="mobiletop"><span>9:41</span><span>krishijunction.com/sell</span></div>
+  <div style="padding:14px">
+    <div class="steps" style="margin-bottom:14px">
+      <span class="step done"><i>&#10003;</i></span><span class="stepline"></span>
+      <span class="step done"><i>&#10003;</i></span><span class="stepline"></span>
+      <span class="step now"><i>3</i>Condition</span><span class="stepline"></span>
+      <span class="step"><i>4</i></span><span class="stepline"></span>
+      <span class="step"><i>5</i></span><span class="stepline"></span>
+      <span class="step"><i>6</i></span>
+    </div>
+    <div class="pill ok" style="margin-bottom:10px">Mahindra 265 DI &middot; 2019</div>
+    <h3 style="font-size:16px">How has it been used?</h3>
+    <p class="small muted" style="margin:4px 0 12px">Honest answers get better offers &mdash; buyers see the inspection anyway.</p>
+    <span class="label">Engine hours on the meter</span><div class="field mono" style="margin-bottom:12px">2,140</div>
+    <span class="label">Overall condition</span>
+    <div class="chips" style="margin-bottom:12px">${['Excellent','Good','Average','Needs repair'].map(c=>`<span class="chip ${c==='Good'?'on':''}">${c}</span>`).join('')}</div>
+    <span class="label">Rear tyre condition</span>
+    <div class="chips" style="margin-bottom:12px">${['New','Good','Worn'].map(c=>`<span class="chip ${c==='Good'?'on':''}">${c}</span>`).join('')}</div>
+    <label class="check" style="margin-bottom:4px"><i class="box on"></i>RC available</label>
+    <label class="check" style="margin-bottom:4px"><i class="box on"></i>Insurance valid</label>
+    <label class="check" style="margin-bottom:14px"><i class="box"></i>Loan still running on it</label>
+    <div class="row"><button class="btn ghost" style="flex:1">Back</button><button class="btn" style="flex:2">Continue to photos</button></div>
+    <p class="small muted" style="text-align:center;margin-top:9px">Saved as draft &middot; resume any time from the SMS link</p>
+  </div>
+ </div>
+ <div class="grid g3" style="max-width:760px;margin:18px auto 0">
+   ${[['Step 4 &mdash; Photos','Four guided angles required: front, rear, meter, engine. Up to 12. EXIF stripped, hashed for duplicate detection.'],
+      ['Step 6 &mdash; OTP','Number verified before submit. A duplicate live listing on the same mobile and model is blocked with a link to edit the original.'],
+      ['After submit','Status <span class="mono">pending</span>, SMS confirmation, fair-price hint shown, moderation SLA six working hours.']].map(([t,d])=>`<div class="card"><div class="body"><b style="font-size:12.5px">${t}</b><p class="small muted" style="margin-top:5px">${d}</p></div></div>`).join('')}
+ </div>
+</div>`},
+
+dealers:{title:'Dealer locator',route:'/dealers/uttar-pradesh/sitapur',who:'guest',
+ desc:'Drill-down by state, district and brand. Each dealer page emits LocalBusiness schema and routes enquiries straight into their inbox.',
+ html: sitebar('Dealers') + `
+<div class="pad"><div class="row between wrap">
+  <div><h2 style="font-size:19px">Tractor dealers in Sitapur, Uttar Pradesh</h2><p class="small muted">14 verified dealers &middot; 9 brands represented</p></div>
+  <div class="row"><span class="field">Brand: All</span><span class="field">Within 50 km</span></div>
+</div>
+<div class="chips" style="margin-top:10px">${['All','Mahindra','Swaraj','Sonalika','John Deere','Massey Ferguson','Eicher'].map(b=>`<span class="chip ${b==='All'?'on':''}">${b}</span>`).join('')}</div>
+</div>
+<div class="pad" style="padding-top:0"><div class="grid" style="grid-template-columns:minmax(0,1fr) 260px">
+ <div class="grid g2">
+  ${[['Krishi Motors','Mahindra authorised','Civil Lines, Sitapur','4.6','128','6 km','ok'],
+     ['Agro Tractors &amp; Spares','Swaraj &middot; Sonalika','Lal Bagh, Sitapur','4.2','86','9 km','ok'],
+     ['Kisan Tractor House','Multi-brand used','Sadar Bazar, Sitapur','3.9','41','11 km',''],
+     ['Bharat Agro Center','Massey Ferguson','Biswan Road, Sitapur','4.4','63','17 km','ok']
+    ].map(([n,b,a,r,c,d,v])=>`<div class="card"><div class="body">
+      <div class="row between"><b style="font-size:13.5px">${n}</b>${v?'<span class="pill ok">Verified</span>':'<span class="pill">Listed</span>'}</div>
+      <div class="small muted" style="margin:3px 0">${b}</div>
+      <div class="small muted">${a} &middot; <span class="mono">${d}</span></div>
+      <div class="row between" style="margin-top:9px"><span class="pill">${r} &#9733; &middot; ${c} reviews</span><button class="btn sm">Contact dealer</button></div>
+    </div></div>`).join('')}
+ </div>
+ <div>
+  <div class="card"><div class="thumb" style="aspect-ratio:1/1;background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 10px,var(--sunk) 10px,var(--sunk) 20px)"><span class="small muted mono">MAP VIEW</span></div><div class="body small muted">Pins clustered by district. Radius filter drives both the map and the list.</div></div>
+  <div class="card" style="margin-top:12px"><div class="body"><b style="font-size:12.5px">Are you a dealer?</b><p class="small muted" style="margin:5px 0 9px">Get verified and receive buyer enquiries from your district.</p><button class="btn amber sm">Become a dealer</button></div></div>
+ </div>
+</div></div>`},
+
+emi:{title:'EMI calculator',route:'/loan/emi-calculator/mahindra/575-di-xp-plus',who:'guest',
+ desc:'Per-model calculator pages, four repayment frequencies, full amortisation, and a share URL that carries the inputs.',
+ html: sitebar('Loan &amp; EMI') + `
+<div class="pad"><h2 style="font-size:19px">Mahindra 575 DI XP Plus &mdash; loan EMI calculator</h2><p class="small muted">Change any input; results update live and are logged for analytics.</p></div>
+<div class="pad" style="padding-top:0"><div class="grid" style="grid-template-columns:minmax(0,1fr) 330px">
+ <div class="card"><div class="body" style="padding:16px">
+  <span class="label">Tractor price</span><div class="field mono" style="margin-bottom:12px">&#8377; 7,30,000</div>
+  <span class="label">Down payment &mdash; 20%</span><div class="slider"><i style="left:0;right:70%"></i><b style="left:28%"></b></div>
+  <div class="row between small mono muted" style="margin-bottom:12px"><span>&#8377;1,46,000</span><span>&#8377;7,30,000</span></div>
+  <span class="label">Interest rate &mdash; 11.5% p.a.</span><div class="slider"><i style="left:0;right:55%"></i><b style="left:43%"></b></div>
+  <div class="row between small mono muted" style="margin-bottom:12px"><span>8%</span><span>20%</span></div>
+  <span class="label">Tenure</span><div class="chips" style="margin-bottom:12px">${['12','24','36','48','60','72','84'].map(t=>`<span class="chip ${t==='60'?'on':''}">${t} mo</span>`).join('')}</div>
+  <span class="label">Repayment frequency</span><div class="chips">${['Monthly','Quarterly','Half-yearly','Yearly'].map(f=>`<span class="chip ${f==='Monthly'?'on':''}">${f}</span>`).join('')}</div>
+  <p class="small muted" style="margin-top:12px">Quarterly and yearly options exist because farm income arrives at harvest, not monthly.</p>
+ </div></div>
+ <div>
+  <div class="card"><div class="body" style="text-align:center;padding:16px">
+    <div class="eyebrow">Your EMI</div><div class="price mono" style="font-size:30px">&#8377;12,847</div>
+    <div class="small muted">per month for 60 months</div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="kpi"><div class="k">Loan amount</div><div class="v" style="font-size:15px">&#8377;5,84,000</div></div>
+      <div class="kpi"><div class="k">Total interest</div><div class="v" style="font-size:15px">&#8377;1,86,820</div></div>
+      <div class="kpi"><div class="k">Total payable</div><div class="v" style="font-size:15px">&#8377;7,70,820</div></div>
+      <div class="kpi"><div class="k">Down payment</div><div class="v" style="font-size:15px">&#8377;1,46,000</div></div>
+    </div>
+    <button class="btn" style="margin-top:14px;width:100%">Apply for this loan</button>
+    <button class="btn ghost sm" style="margin-top:7px;width:100%">Share on WhatsApp</button>
+  </div></div>
+  <div class="card" style="margin-top:12px"><div class="body">
+    <b style="font-size:12.5px">Amortisation &mdash; year 1</b>
+    <div class="tablewrap" style="margin-top:8px"><table><thead><tr><th>Yr</th><th class="num">Principal</th><th class="num">Interest</th><th class="num">Balance</th></tr></thead><tbody>
+    <tr><td>2026</td><td class="num">92,410</td><td class="num">61,754</td><td class="num">4,91,590</td></tr>
+    <tr><td>2027</td><td class="num">1,03,620</td><td class="num">50,544</td><td class="num">3,87,970</td></tr>
+    <tr><td>2028</td><td class="num">1,16,190</td><td class="num">37,974</td><td class="num">2,71,780</td></tr>
+    </tbody></table></div>
+  </div></div>
+ </div>
+</div></div>`},
+
+loan:{title:'Loan application',route:'/loan/apply',who:'customer',
+ desc:'Four steps plus documents. Files land on a private disk; PAN and Aadhaar are stored masked and shown masked.',
+ html: sitebar('Loan &amp; EMI') + `
+<div class="pad">
+  <div class="steps" style="margin-bottom:16px">
+    <span class="step done"><i>&#10003;</i>Applicant</span><span class="stepline"></span>
+    <span class="step done"><i>&#10003;</i>Machinery &amp; loan</span><span class="stepline"></span>
+    <span class="step now"><i>3</i>Income &amp; land</span><span class="stepline"></span>
+    <span class="step"><i>4</i>Documents</span>
+  </div>
+  <div class="grid" style="grid-template-columns:minmax(0,1fr) 300px">
+    <div class="card"><div class="body" style="padding:16px">
+      <h3 style="font-size:15px">Income &amp; land holding</h3>
+      <p class="small muted" style="margin:4px 0 14px">Used for eligibility only. Nothing here is shared with dealers.</p>
+      <div class="grid g2">
+        <div><span class="label">Primary income source</span><div class="field">Farming</div></div>
+        <div><span class="label">Annual income</span><div class="field mono">&#8377; 4,20,000</div></div>
+        <div><span class="label">Land holding (acres)</span><div class="field mono">6.5</div></div>
+        <div><span class="label">Land ownership</span><div class="field">Self-owned</div></div>
+        <div><span class="label">Existing loans</span><div class="field">One &mdash; KCC</div></div>
+        <div><span class="label">District</span><div class="field">Sitapur, Uttar Pradesh</div></div>
+      </div>
+      <div class="note" style="margin-top:14px">Next step asks for Aadhaar, PAN, a land record, six months of bank statements and the dealer quotation. Each upload is checked for type and size, stored privately, and opened only through a five-minute signed link.</div>
+      <div class="row" style="margin-top:14px"><button class="btn ghost">Back</button><button class="btn">Continue to documents</button></div>
+    </div></div>
+    <div>
+      <div class="card"><div class="body">
+        <div class="eyebrow">Applying for</div>
+        <b style="font-size:13px">Mahindra 575 DI XP Plus</b>
+        ${[['Machinery price','&#8377;7,30,000'],['Down payment','&#8377;1,46,000'],['Loan amount','&#8377;5,84,000'],['Tenure','60 months'],['Indicative EMI','&#8377;12,847']].map(([k,v])=>`<div class="specrow"><span>${k}</span><b>${v}</b></div>`).join('')}
+      </div></div>
+      <div class="card" style="margin-top:12px"><div class="body">
+        <b style="font-size:12.5px">Matching lenders</b>
+        <p class="small muted" style="margin:4px 0 8px">Filtered by amount, tenure, state and LTV.</p>
+        ${[['State Bank &mdash; Agri','9.6&ndash;11.2%'],['HDFC Bank','10.5&ndash;12.4%'],['Mahindra Finance','11.0&ndash;14.0%'],['UP Gramin Bank','9.9&ndash;11.8%']].map(([n,r])=>`<div class="row between" style="padding:6px 0;border-bottom:1px solid var(--line)"><span class="small">${n}</span><span class="pill mono">${r}</span></div>`).join('')}
+      </div></div>
+    </div>
+  </div>
+</div>`},
+
+account:{title:'Customer dashboard',route:'/account/dashboard',who:'ramesh_k',
+ desc:'Where a seller tracks listings and leads, and an applicant tracks their loan.',
+ html:`<div class="sitebar"><b style="font-family:var(--display)">Krishi Junction</b><nav><b>Dashboard</b><span>My listings</span><span>Enquiries</span><span>Loans</span><span>Wishlist</span><span>Profile</span></nav><span class="searchbox">Search</span><span class="pill">Ramesh K &middot; Sitapur</span></div>
+<div class="pad">
+  <div class="grid g4">
+    <div class="kpi"><div class="k">Live listings</div><div class="v">2</div><div class="d">1 pending review</div></div>
+    <div class="kpi alert"><div class="k">New leads</div><div class="v">7</div><div class="d">3 not yet contacted</div></div>
+    <div class="kpi"><div class="k">Listing views</div><div class="v">431</div><div class="d">last 30 days</div></div>
+    <div class="kpi"><div class="k">Loan status</div><div class="v" style="font-size:15px">Under review</div><div class="d">KJ-LN-00789</div></div>
+  </div>
+</div>
+<div class="sec"><h3>My listings</h3><p class="sub">Renew before expiry to stay in search results</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Listing</th><th>Status</th><th class="num">Views</th><th class="num">Leads</th><th>Expires</th><th>Action</th></tr></thead><tbody>
+<tr><td><b>Mahindra 265 DI &middot; 2019</b><div class="small muted mono">KJ-U-000123 &middot; &#8377;3,85,000</div></td><td><span class="pill ok">Live &middot; inspected</span></td><td class="num">218</td><td class="num">5</td><td class="mono">in 56 days</td><td><button class="btn ghost sm">Mark sold</button></td></tr>
+<tr><td><b>Fieldking 9 Tyne Cultivator</b><div class="small muted mono">KJ-U-000138 &middot; &#8377;38,000</div></td><td><span class="pill ok">Live</span></td><td class="num">213</td><td class="num">2</td><td class="mono">in 41 days</td><td><button class="btn ghost sm">Boost</button></td></tr>
+<tr><td><b>Sonalika DI 35 &middot; 2015</b><div class="small muted mono">KJ-U-000141 &middot; &#8377;2,60,000</div></td><td><span class="pill warn">Pending review</span></td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="mono">&mdash;</td><td><button class="btn ghost sm">Edit</button></td></tr>
+</tbody></table></div></div>
+<div class="sec"><div class="grid g2">
+<div><h3>Leads on my listings</h3><p class="sub">Buyer numbers appear once they verify by OTP</p>
+<div class="tablewrap"><table><thead><tr><th>Buyer</th><th>Listing</th><th>When</th><th>Status</th></tr></thead><tbody>
+<tr><td><b>Vijay S.</b><div class="small muted mono">Hardoi &middot; 98XXXXXX41</div></td><td class="small">Mahindra 265 DI</td><td class="small mono">2 hrs ago</td><td><span class="pill warn">New</span></td></tr>
+<tr><td><b>Anil K.</b><div class="small muted mono">Sitapur &middot; 94XXXXXX07</div></td><td class="small">Mahindra 265 DI</td><td class="small mono">yesterday</td><td><span class="pill info">Contacted</span></td></tr>
+<tr><td><b>Ram Prasad</b><div class="small muted mono">Biswan &middot; 78XXXXXX22</div></td><td class="small">Cultivator</td><td class="small mono">3 days ago</td><td><span class="pill">Visit planned</span></td></tr>
+</tbody></table></div></div>
+<div><h3>Loan application</h3><p class="sub">KJ-LN-00789 &middot; &#8377;5,84,000 over 60 months</p>
+<div class="card"><div class="body"><div class="timeline">
+  <div class="tl on"><b>Submitted</b><span>12 Aug 2026, 4:12 pm</span></div>
+  <div class="tl on"><b>Documents verified</b><span>13 Aug 2026, 11:30 am</span></div>
+  <div class="tl on"><b>Under review &mdash; current stage</b><span>Assigned to finance desk, Lucknow</span></div>
+  <div class="tl"><b>Sent to lender</b><span>pending</span></div>
+  <div class="tl"><b>Sanctioned</b><span>pending</span></div>
+</div>
+<div class="note" style="margin-top:12px">One document still needed: <b>six-month bank statement</b>. Upload it to avoid delay.</div>
+</div></div></div>
+</div></div>`},
+
+dealerpanel:{title:'Dealer panel',route:'/dealer/leads',who:'krishi_motors',
+ desc:'A dealer lives in the leads inbox. The SLA countdown is visible because unanswered leads get reassigned.',
+ html:`<div class="sitebar"><b style="font-family:var(--display)">Krishi Junction <span class="pill">Dealer</span></b><nav><span>Dashboard</span><b>Leads</b><span>Inventory</span><span>Used listings</span><span>Branches</span><span>Reviews</span><span>Plan</span></nav><span class="searchbox">Search leads</span><span class="pill ok">Gold plan &middot; 42 / 120 leads</span></div>
+<div class="pad">
+ <div class="grid g5">
+  <div class="kpi alert"><div class="k">Unanswered</div><div class="v">3</div><div class="d">SLA 2 hrs</div></div>
+  <div class="kpi"><div class="k">Leads this month</div><div class="v">42</div><div class="d">+11 vs last</div></div>
+  <div class="kpi"><div class="k">Contacted</div><div class="v">31</div><div class="d">74% response</div></div>
+  <div class="kpi"><div class="k">Converted</div><div class="v">6</div><div class="d">14.3% rate</div></div>
+  <div class="kpi"><div class="k">Response score</div><div class="v">8.4</div><div class="d">affects routing</div></div>
+ </div>
+</div>
+<div class="pad" style="padding-top:0">
+ <div class="row wrap" style="margin-bottom:10px"><span class="chip on">All (42)</span><span class="chip">New (3)</span><span class="chip">Contacted (31)</span><span class="chip">Qualified (12)</span><span class="chip">Converted (6)</span><span class="chip">Lost (5)</span></div>
+ <div class="tablewrap"><table>
+ <thead><tr><th>Ref</th><th>Buyer</th><th>Interested in</th><th>Location</th><th>Age</th><th>Status</th><th>Next step</th></tr></thead><tbody>
+ <tr><td class="mono small">KJ-L-004512</td><td><b>Ramesh K.</b><div class="small muted mono">98XXXXXX12</div></td><td class="small">Mahindra 575 DI XP Plus<div class="small muted">Finance needed</div></td><td class="small">Sitapur</td><td><span class="pill bad mono">1h 42m left</span></td><td><span class="pill warn">New</span></td><td><button class="btn sm">Call now</button></td></tr>
+ <tr><td class="mono small">KJ-L-004508</td><td><b>Sunil Y.</b><div class="small muted mono">96XXXXXX88</div></td><td class="small">Mahindra Arjun Novo 605</td><td class="small">Biswan</td><td><span class="pill mono">4h</span></td><td><span class="pill info">Contacted</span></td><td class="small">Visit 14 Sep</td></tr>
+ <tr><td class="mono small">KJ-L-004491</td><td><b>Anil K.</b><div class="small muted mono">94XXXXXX07</div></td><td class="small">Used &mdash; Mahindra 265 DI</td><td class="small">Sitapur</td><td><span class="pill mono">1d</span></td><td><span class="pill ok">Qualified</span></td><td class="small">Quotation sent</td></tr>
+ <tr><td class="mono small">KJ-L-004480</td><td><b>Ram Prasad</b><div class="small muted mono">78XXXXXX22</div></td><td class="small">Massey Ferguson 241 DI</td><td class="small">Hardoi</td><td><span class="pill mono">2d</span></td><td><span class="pill">Converted</span></td><td class="small">Delivered 4 Sep</td></tr>
+ <tr><td class="mono small">KJ-L-004466</td><td><b>Devendra S.</b><div class="small muted mono">70XXXXXX53</div></td><td class="small">Swaraj 744 FE</td><td class="small">Sitapur</td><td><span class="pill mono">3d</span></td><td><span class="pill bad">Lost</span></td><td class="small">Bought elsewhere</td></tr>
+ </tbody></table></div>
+ <div class="note" style="margin-top:12px">A lead not accepted within two hours is reassigned to the next eligible dealer in the district and lowers the response score used for routing priority.</div>
+</div>`},
+
+admin:{title:'Admin dashboard',route:'/admin/dashboard',who:'admin: priya',
+ desc:'Numbers first, then the queues that need a human. Every tile is a link into a filtered list.',
+ html:`<div class="adminshell">
+<nav class="adminnav">
+ <a class="on">Dashboard</a>
+ <hr>
+ <a>Catalogue</a><a>Prices</a>
+ <a>Used listings <span class="badge">18</span></a><a>Inspections</a>
+ <a>Dealers <span class="badge">6</span></a>
+ <a>Leads <span class="badge">23</span></a>
+ <a>Loan applications <span class="badge">9</span></a>
+ <a>Reviews <span class="badge">12</span></a>
+ <hr>
+ <a>Content</a><a>SEO</a><a>Masters</a><a>Users &amp; roles</a><a>Notifications</a><a>Reports</a><a>Settings</a><a>Activity log</a>
+</nav>
+<div>
+ <div class="sitebar"><b style="font-family:var(--display);font-size:14px">Admin</b><nav><span>Today</span><b>Last 7 days</b><span>Last 30 days</span></nav><span class="searchbox">Search anything</span><span class="pill">Priya &middot; Admin</span></div>
+ <div class="pad">
+  <div class="grid g6">
+   ${[['Visitors','48,210','+12%'],['New leads','1,842','+9%'],['Converted','214','11.6%'],['New listings','386','+4%'],['Loan apps','96','+18%'],['New users','2,417','+7%']].map(([k,v,d])=>`<div class="kpi"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('')}
+  </div>
+ </div>
+ <div class="pad" style="padding-top:0"><div class="grid" style="grid-template-columns:minmax(0,1fr) 300px">
+  <div class="card"><div class="body" style="padding:16px">
+   <div class="row between"><b style="font-size:13px">Leads per day</b><span class="legend"><span><i style="background:var(--field)"></i>New machinery</span><span><i style="background:var(--harvest)"></i>Used &amp; finance</span></span></div>
+   <div class="bars">${[42,58,51,66,73,61,88,79,94,70,101,86,112,97].map(h=>`<div style="height:${h}%"></div>`).join('')}</div>
+   <div class="axis"><span>25 Aug</span><span>29 Aug</span><span>2 Sep</span><span>6 Sep</span></div>
+  </div></div>
+  <div class="card"><div class="body">
+   <b style="font-size:13px">Needs a human</b>
+   ${[['Listings pending review','18','bad'],['Unassigned leads','23','bad'],['Follow-ups due today','14','warn'],['Dealer verifications','6','warn'],['Loans with docs pending','9','warn'],['Reviews to moderate','12','warn'],['Reported listings','2','bad']].map(([k,v,c])=>`<div class="row between" style="padding:7px 0;border-bottom:1px solid var(--line)"><span class="small">${k}</span><span class="pill ${c}">${v}</span></div>`).join('')}
+  </div></div>
+ </div></div>
+ <div class="pad" style="padding-top:0"><div class="grid g3">
+  <div class="card"><div class="body"><b style="font-size:13px">Top districts by leads</b>
+   ${[['Sitapur, UP',186],['Hardoi, UP',142],['Nashik, MH',128],['Bathinda, PB',119],['Jaipur, RJ',97]].map(([d,n])=>`<div class="row between" style="padding:6px 0"><span class="small">${d}</span><span class="mono small">${n}</span></div>`).join('')}</div></div>
+  <div class="card"><div class="body"><b style="font-size:13px">Most viewed models</b>
+   ${[['Mahindra 575 DI XP Plus','18.2k'],['Swaraj 744 FE','14.9k'],['Sonalika DI 745 III','11.4k'],['MF 241 DI Maha Shakti','9.8k'],['John Deere 5050 D','8.1k']].map(([d,n])=>`<div class="row between" style="padding:6px 0"><span class="small">${d}</span><span class="mono small">${n}</span></div>`).join('')}</div></div>
+  <div class="card"><div class="body"><b style="font-size:13px">Recent activity</b>
+   ${[['priya approved listing KJ-U-000141','4 min'],['rahul assigned 12 leads to dealers','22 min'],['content updated Swaraj 744 FE prices','1 hr'],['system expired 34 listings','2 hrs'],['neha verified dealer KJ-D-00318','3 hrs']].map(([d,n])=>`<div class="row between" style="padding:6px 0"><span class="small">${d}</span><span class="mono small muted">${n}</span></div>`).join('')}</div></div>
+ </div></div>
+</div></div>`},
+
+moderation:{title:'Listing moderation',route:'/admin/used-listings/moderation',who:'moderator: rahul',
+ desc:'The highest-volume admin job. Photos, the price-vs-valuation flag and the checklist sit on one screen; A / R / arrow keys do the work.',
+ html:`<div class="adminshell">
+<nav class="adminnav"><a>Dashboard</a><hr><a>Catalogue</a><a>Prices</a><a class="on">Used listings <span class="badge">18</span></a><a>Inspections</a><a>Dealers <span class="badge">6</span></a><a>Leads <span class="badge">23</span></a><a>Loan applications <span class="badge">9</span></a><a>Reviews <span class="badge">12</span></a><hr><a>Content</a><a>SEO</a><a>Reports</a><a>Settings</a></nav>
+<div>
+ <div class="sitebar"><b style="font-family:var(--display);font-size:14px">Moderation queue</b><nav><b>Pending (18)</b><span>Reported (2)</span><span>Expiring (31)</span><span>All</span></nav><span class="pill warn mono">oldest waiting 4h 12m &middot; SLA 6h</span><span class="pill">Rahul &middot; Moderator</span></div>
+ <div class="pad"><div class="grid" style="grid-template-columns:minmax(0,1fr) 320px">
+  <div>
+   <div class="row between wrap" style="margin-bottom:10px">
+    <div><h3 style="font-size:15px">Sonalika DI 35 &middot; 2015 &mdash; Sitapur</h3><p class="small muted mono">KJ-U-000141 &middot; submitted 4h 12m ago &middot; seller Ramesh K. (98XXXXXX12, verified)</p></div>
+    <span class="pill mono">3 of 18</span>
+   </div>
+   <div class="grid g3">${['Front','Rear','Left','Right','Engine','Hour meter'].map(a=>`<div class="card"><div class="thumb">${TR}</div><div class="body small muted mono">${a}</div></div>`).join('')}</div>
+   <div class="grid g3" style="margin-top:12px">
+     ${[['Year','2015'],['Hours','5,120'],['HP','39 HP'],['Asking price','&#8377;2,60,000'],['Condition','Average'],['RC / insurance','Yes / expired']].map(([k,v])=>`<div class="specrow"><span>${k}</span><b>${v}</b></div>`).join('')}
+   </div>
+  </div>
+  <div>
+   <div class="card"><div class="body">
+    <b style="font-size:12.5px">Checks</b>
+    ${[['Photos show the stated machine','ok'],['Model, brand and year consistent','ok'],['No phone number or URL in text','ok'],['Not a duplicate of a live listing','ok'],['Price within valuation band','warn']].map(([c,s])=>`<div class="row between" style="padding:6px 0;border-bottom:1px solid var(--line)"><span class="small">${c}</span><span class="pill ${s}">${s==='ok'?'Pass':'Check'}</span></div>`).join('')}
+    <div class="note" style="margin-top:10px;border-left-color:var(--harvest);background:var(--harvest-soft)">Asking price is <b>18% above</b> the valuation band (&#8377;1.95&ndash;2.20 L) for a 2015 unit at 5,120 hours in Uttar Pradesh. Approve anyway, or ask the seller to revise.</div>
+   </div></div>
+   <div class="card" style="margin-top:12px"><div class="body">
+    <b style="font-size:12.5px">Decision</b>
+    <div class="grid" style="gap:8px;margin-top:9px">
+      <button class="btn">Approve &amp; publish <span class="mono small">(A)</span></button>
+      <button class="btn ghost">Request changes <span class="mono small">(C)</span></button>
+      <button class="btn ghost" style="color:var(--danger);border-color:var(--danger)">Reject <span class="mono small">(R)</span></button>
+      <span class="label" style="margin-top:4px">Reason shown to the seller</span>
+      <div class="field">Price is far above market for this age and hours</div>
+      <button class="btn ghost sm">Skip to next <span class="mono">(&rarr;)</span></button>
+    </div>
+   </div></div>
+   <div class="card" style="margin-top:12px"><div class="body"><b style="font-size:12.5px">Seller history</b>
+    <div class="specrow"><span>Listings posted</span><b>3</b></div><div class="specrow"><span>Approved</span><b>2</b></div><div class="specrow"><span>Rejected</span><b>0</b></div><div class="specrow"><span>Member since</span><b>Mar 2024</b></div>
+   </div></div>
+  </div>
+ </div></div>
+</div></div>`},
+
+leads:{title:'Leads board',route:'/admin/leads',who:'admin: priya',
+ desc:'Every enquiry type in one board. Contact numbers stay masked unless the role holds leads.view_contact.',
+ html:`<div class="adminshell">
+<nav class="adminnav"><a>Dashboard</a><hr><a>Catalogue</a><a>Prices</a><a>Used listings <span class="badge">18</span></a><a>Inspections</a><a>Dealers <span class="badge">6</span></a><a class="on">Leads <span class="badge">23</span></a><a>Loan applications <span class="badge">9</span></a><a>Reviews <span class="badge">12</span></a><hr><a>Content</a><a>SEO</a><a>Reports</a><a>Settings</a></nav>
+<div>
+ <div class="sitebar"><b style="font-family:var(--display);font-size:14px">Leads</b><nav><span>All (1,842)</span><b>Unassigned (23)</b><span>Due today (14)</span><span>Duplicates (7)</span></nav><span class="searchbox">Search by mobile, ref or model</span><button class="btn sm">Export CSV</button></div>
+ <div class="pad">
+  <div class="row wrap" style="margin-bottom:10px">
+   <span class="field">Type: All</span><span class="field">State: Uttar Pradesh</span><span class="field">Status: New</span><span class="field">Source: All</span><span class="field">6 Aug &ndash; 6 Sep</span>
+   <button class="btn ghost sm">Bulk assign (4 selected)</button>
+  </div>
+  <div class="tablewrap"><table>
+  <thead><tr><th style="width:26px"><i class="box on" style="display:block"></i></th><th>Ref</th><th>Type</th><th>Contact</th><th>Interested in</th><th>District</th><th>Source</th><th>Age</th><th>Assignee</th><th>Status</th></tr></thead>
+  <tbody>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004512</td><td><span class="pill">New machinery</span></td><td><b class="small">Ramesh K.</b><div class="small muted mono">98XXXXXX12</div></td><td class="small">Mahindra 575 DI XP Plus</td><td class="small">Sitapur</td><td class="small mono">organic</td><td class="small mono">12m</td><td class="small muted">&mdash;</td><td><span class="pill warn">New</span></td></tr>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004511</td><td><span class="pill info">Loan</span></td><td><b class="small">Sunil Y.</b><div class="small muted mono">96XXXXXX88</div></td><td class="small">Used &mdash; Swaraj 744 FE</td><td class="small">Hardoi</td><td class="small mono">google_ads</td><td class="small mono">28m</td><td class="small muted">&mdash;</td><td><span class="pill warn">New</span></td></tr>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004509</td><td><span class="pill">Used listing</span></td><td><b class="small">Vijay S.</b><div class="small muted mono">99XXXXXX41</div></td><td class="small">KJ-U-000123 &middot; Mahindra 265 DI</td><td class="small">Sitapur</td><td class="small mono">organic</td><td class="small mono">1h</td><td class="small">Seller (Ramesh K.)</td><td><span class="pill info">Assigned</span></td></tr>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004505</td><td><span class="pill">Dealer</span></td><td><b class="small">Anil K.</b><div class="small muted mono">94XXXXXX07</div></td><td class="small">Krishi Motors, Sitapur</td><td class="small">Sitapur</td><td class="small mono">direct</td><td class="small mono">2h</td><td class="small">Krishi Motors</td><td><span class="pill info">Contacted</span></td></tr>
+  <tr><td><i class="box" style="display:block"></i></td><td class="mono small">KJ-L-004498</td><td><span class="pill">Insurance</span></td><td><b class="small">Ram Prasad</b><div class="small muted mono">78XXXXXX22</div></td><td class="small">Renewal &mdash; MF 241 DI</td><td class="small">Biswan</td><td class="small mono">whatsapp</td><td class="small mono">5h</td><td class="small">Finance desk</td><td><span class="pill ok">Qualified</span></td></tr>
+  <tr><td><i class="box" style="display:block"></i></td><td class="mono small">KJ-L-004490</td><td><span class="pill">New machinery</span></td><td><b class="small">Devendra S.</b><div class="small muted mono">70XXXXXX53</div></td><td class="small">Sonalika DI 745 III</td><td class="small">Lakhimpur</td><td class="small mono">facebook</td><td class="small mono">1d</td><td class="small">Agro Tractors</td><td><span class="pill bad">Duplicate</span></td></tr>
+  </tbody></table></div>
+  <div class="grid g2" style="margin-top:14px">
+   <div class="card"><div class="body"><b style="font-size:12.5px">Routing rule that will fire on the selected leads</b>
+    <div class="specrow"><span>Priority</span><b>3</b></div><div class="specrow"><span>Scope</span><b>Uttar Pradesh &rarr; Sitapur</b></div><div class="specrow"><span>Brand / category</span><b>Any / Tractor</b></div><div class="specrow"><span>Assign to</span><b>Verified dealers, round-robin</b></div><div class="specrow"><span>Daily cap</span><b>Gold 12 &middot; Silver 6 &middot; Free 2</b></div>
+    <p class="small muted" style="margin-top:8px">Eligible right now: Krishi Motors (4 today), Agro Tractors (2), Bharat Agro (0).</p>
+   </div></div>
+   <div class="card"><div class="body"><b style="font-size:12.5px">Lead KJ-L-004509 &mdash; activity</b>
+    <div class="timeline" style="margin-top:9px">
+     <div class="tl on"><b>Created from used listing page</b><span>Today 08:14 &middot; organic &middot; mobile web</span></div>
+     <div class="tl on"><b>Mobile verified by OTP</b><span>Today 08:15</span></div>
+     <div class="tl on"><b>Assigned to seller Ramesh K.</b><span>Today 08:15 &middot; rule #7</span></div>
+     <div class="tl"><b>Awaiting first contact</b><span>escalates at 10:15</span></div>
+    </div>
+   </div></div>
+  </div>
+ </div>
+</div></div>`}
+};
+
+const canvas = document.getElementById('canvas');
+const buttons = [...document.querySelectorAll('.navbtn')];
+function show(key){
+  const s = SCREENS[key]; if(!s) return;
+  canvas.innerHTML = s.html;
+  document.getElementById('sTitle').textContent = s.title;
+  document.getElementById('sDesc').textContent = s.desc;
+  document.getElementById('sRoute').textContent = s.route;
+  document.getElementById('sUrl').textContent = 'krishijunction.com' + s.route;
+  document.getElementById('sWho').textContent = s.who;
+  buttons.forEach(b=>b.setAttribute('aria-current', String(b.dataset.s===key)));
+  if(location.hash.slice(1)!==key) history.replaceState(null,'','#'+key);
+}
+buttons.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.s);window.scrollTo({top:0,behavior:'smooth'});}));
+window.addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(SCREENS[k])show(k);});
+show(SCREENS[location.hash.slice(1)] ? location.hash.slice(1) : 'home');
+</script>
+
+</body>
+</html>
