@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Krishi Junction — brand layer over Bootstrap 5.3
+   White surfaces carry content; green carries the brand.
+   Tokens mirror docs/09-BRAND-GUIDE.md. Change them here, nowhere else.
+   ========================================================================== */
+
+:root {
+  --kj-green-900: #0B3D20;
+  --kj-green-800: #10552B;
+  --kj-green-700: #15703A;
+  --kj-green-600: #1B8C48;
+  --kj-green-400: #4FB273;
+  --kj-green-100: #E4F2E8;
+  --kj-green-50:  #F1F8F3;
+
+  --kj-surface:   #FFFFFF;
+  --kj-ground:    #F4F8F5;
+  --kj-sunk:      #E9F1EB;
+  --kj-ink:       #0E1B13;
+  --kj-ink-2:     #415447;
+  --kj-ink-3:     #6D8175;
+  --kj-line:      #DCE8E0;
+
+  --kj-danger:    #B42318;  --kj-danger-soft: #FDECEA;
+  --kj-warn:      #B54708;  --kj-warn-soft:   #FCF0E4;
+  --kj-info:      #175CD3;  --kj-info-soft:   #E8F0FD;
+
+  --kj-radius:    .625rem;
+  --kj-shadow:    0 1px 2px rgba(14,27,19,.05), 0 10px 26px -14px rgba(14,27,19,.22);
+
+  /* Bootstrap overrides */
+  --bs-primary: var(--kj-green-700);
+  --bs-primary-rgb: 21, 112, 58;
+  --bs-body-bg: var(--kj-ground);
+  --bs-body-color: var(--kj-ink);
+  --bs-border-color: var(--kj-line);
+  --bs-border-radius: var(--kj-radius);
+  --bs-link-color: var(--kj-green-700);
+  --bs-link-hover-color: var(--kj-green-900);
+  --bs-font-sans-serif: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--kj-ground);
+  color: var(--kj-ink);
+  font-family: var(--bs-font-sans-serif);
+  font-size: .9375rem;
+}
+
+h1, h2, h3, h4, h5, .display-font {
+  font-family: "Archivo", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+
+.mono, .kj-data { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- buttons ---------- */
+.btn-primary {
+  --bs-btn-bg: var(--kj-green-700);
+  --bs-btn-border-color: var(--kj-green-700);
+  --bs-btn-hover-bg: var(--kj-green-800);
+  --bs-btn-hover-border-color: var(--kj-green-800);
+  --bs-btn-active-bg: var(--kj-green-900);
+  --bs-btn-active-border-color: var(--kj-green-900);
+  --bs-btn-disabled-bg: var(--kj-green-400);
+  --bs-btn-disabled-border-color: var(--kj-green-400);
+  font-weight: 600;
+}
+.btn-deep {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--kj-green-900);
+  --bs-btn-border-color: var(--kj-green-900);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #082C17;
+  --bs-btn-hover-border-color: #082C17;
+  font-weight: 600;
+}
+.btn-outline-primary {
+  --bs-btn-color: var(--kj-green-700);
+  --bs-btn-border-color: var(--kj-line);
+  --bs-btn-hover-bg: var(--kj-green-700);
+  --bs-btn-hover-border-color: var(--kj-green-700);
+  --bs-btn-hover-color: #fff;
+  font-weight: 600;
+}
+
+/* ---------- surfaces ---------- */
+.card {
+  --bs-card-bg: var(--kj-surface);
+  --bs-card-border-color: var(--kj-line);
+  --bs-card-border-radius: var(--kj-radius);
+}
+.kj-panel { background: var(--kj-surface); border: 1px solid var(--kj-line); border-radius: var(--kj-radius); }
+.kj-tint   { background: var(--kj-green-100); }
+.kj-wash   { background: var(--kj-green-50); }
+
+/* ---------- stat tiles ---------- */
+.kj-stat { background: var(--kj-surface); border: 1px solid var(--kj-line); border-radius: var(--kj-radius); padding: 1rem; }
+.kj-stat .k { font-size: .6875rem; text-transform: uppercase; letter-spacing: .07em; color: var(--kj-ink-3); font-weight: 600; }
+.kj-stat .v { font-family: "Archivo", sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: -.03em; line-height: 1.15; margin-top: .15rem; font-variant-numeric: tabular-nums; }
+.kj-stat .d { font-size: .75rem; color: var(--kj-ink-3); }
+.kj-stat.is-alert { border-color: var(--kj-warn); background: var(--kj-warn-soft); }
+.kj-stat.is-alert .k, .kj-stat.is-alert .v, .kj-stat.is-alert .d { color: var(--kj-warn); }
+
+/* ---------- badges (state, never brand) ---------- */
+.badge-ok    { background: var(--kj-green-100); color: var(--kj-green-900); }
+.badge-warn  { background: var(--kj-warn-soft);  color: var(--kj-warn); }
+.badge-bad   { background: var(--kj-danger-soft);color: var(--kj-danger); }
+.badge-info  { background: var(--kj-info-soft);  color: var(--kj-info); }
+.badge-muted { background: var(--kj-sunk);       color: var(--kj-ink-2); }
+.badge[class*="badge-"] { font-weight: 600; font-size: .6875rem; padding: .25rem .5rem; border-radius: 999px; }
+
+/* ---------- labels & helpers ---------- */
+.kj-label { font-size: .6875rem; text-transform: uppercase; letter-spacing: .07em; color: var(--kj-ink-3); font-weight: 600; }
+.kj-eyebrow { font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase; color: var(--kj-ink-3); font-weight: 600; }
+.text-muted-2 { color: var(--kj-ink-3) !important; }
+
+/* ---------- public header ---------- */
+.kj-header { background: var(--kj-surface); border-bottom: 1px solid var(--kj-line); }
+.kj-header .nav-link { color: var(--kj-ink-2); font-size: .875rem; font-weight: 500; }
+.kj-header .nav-link:hover, .kj-header .nav-link.active { color: var(--kj-green-700); }
+.kj-logo { height: 38px; width: auto; }
+
+/* ---------- admin shell ---------- */
+.kj-admin { display: grid; grid-template-columns: 240px minmax(0, 1fr); min-height: 100vh; }
+.kj-sidebar { background: var(--kj-surface); border-right: 1px solid var(--kj-line); padding: .75rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.kj-sidebar .nav-link { color: var(--kj-ink-2); border-radius: .375rem; padding: .45rem .6rem; font-size: .875rem; display: flex; align-items: center; gap: .5rem; }
+.kj-sidebar .nav-link:hover { background: var(--kj-green-50); color: var(--kj-green-900); }
+.kj-sidebar .nav-link.active { background: var(--kj-green-700); color: #fff; font-weight: 600; }
+.kj-sidebar .nav-heading { font-size: .625rem; text-transform: uppercase; letter-spacing: .1em; color: var(--kj-ink-3); font-weight: 600; padding: .75rem .6rem .25rem; }
+.kj-topbar { background: var(--kj-surface); border-bottom: 1px solid var(--kj-line); padding: .6rem 1.25rem; display: flex; align-items: center; gap: 1rem; }
+.kj-content { padding: 1.25rem; }
+@media (max-width: 991.98px) {
+  .kj-admin { grid-template-columns: 1fr; }
+  .kj-sidebar { position: static; height: auto; }
+}
+
+/* ---------- tables ---------- */
+.table thead th {
+  background: var(--kj-green-50);
+  font-size: .6875rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--kj-ink-3);
+  font-weight: 600;
+  border-bottom-color: var(--kj-line);
+  white-space: nowrap;
+}
+.table > :not(caption) > * > * { border-bottom-color: var(--kj-line); }
+
+/* ---------- forms ---------- */
+.form-control, .form-select {
+  border-color: var(--kj-line);
+  border-radius: .375rem;
+  font-size: .875rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--kj-green-400);
+  box-shadow: 0 0 0 .2rem rgba(21, 112, 58, .12);
+}
+.form-label { font-size: .8125rem; font-weight: 600; color: var(--kj-ink-2); margin-bottom: .25rem; }
+
+/* OTP entry: one wide, spaced field beats six inputs on a low-end Android keyboard */
+.kj-otp-input {
+  letter-spacing: .6em;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+/* ---------- focus visibility ---------- */
+a:focus-visible, button:focus-visible, .form-control:focus-visible, .nav-link:focus-visible {
+  outline: 2px solid var(--kj-green-700);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* Sidebar brand lockup is not a link-coloured link */
+.kj-sidebar > a { color: var(--kj-ink); }
+.kj-sidebar > a:hover { color: var(--kj-green-900); }

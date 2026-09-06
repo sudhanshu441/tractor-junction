@@ -15,8 +15,8 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 
 | Phase | Deliverable | Days | Status |
 |---|---|---|---|
-| 0 | Discovery: PRD, ERD, flows, IA, admin spec, brand + logo, prototype | — | ✅ **Ready for review** |
-| 1 | Foundation, admin shell, masters, auth, RBAC | 8–10 | ⏸ Awaiting approval |
+| 0 | Discovery: PRD, ERD, flows, IA, admin spec, brand + logo, prototype | — | ✅ Approved |
+| 1 | Foundation, admin shell, masters, auth, RBAC | 8–10 | ✅ **Complete** — [notes](docs/10-PHASE-1-NOTES.md) |
 | 2 | Catalogue & public website (SEO engine) | 12–14 | ⏸ |
 | 3 | Used marketplace, leads, customer panel | 12–14 | ⏸ |
 | 4 | Dealers, finance, monetisation | 12–14 | ⏸ |
@@ -25,7 +25,18 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 Total ≈ **54–64 dev days** (11–13 weeks solo, 7–8 with two developers). Full breakdown in
 [docs/07-DEV-ROADMAP.md](docs/07-DEV-ROADMAP.md).
 
-**Nothing is coded yet — by design.** Documentation and prototype come first, as agreed.
+**Phase 1 is built and tested.** 24 feature tests passing, 106 tables, OTP auth, RBAC and
+the admin shell verified in a browser. Setup instructions are in
+[docs/10-PHASE-1-NOTES.md](docs/10-PHASE-1-NOTES.md).
+
+```bash
+composer install
+cp .env.example .env && php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
+
+Super admin: `admin@krishijunction.com` · mobile `9000000001` · local password `KrishiAdmin@2026`.
 
 ---
 
@@ -42,6 +53,7 @@ Total ≈ **54–64 dev days** (11–13 weeks solo, 7–8 with two developers). 
 | 07 | [Development Roadmap](docs/07-DEV-ROADMAP.md) | Phase/sprint plan, estimates, acceptance criteria, deliverables |
 | 08 | [Content & Media Plan](docs/08-CONTENT-MEDIA-PLAN.md) | Images, image sourcing, naming, sizes, seed data plan |
 | 09 | [Brand Guide](docs/09-BRAND-GUIDE.md) | Logo usage, white/green palette, type scale, Bootstrap mapping |
+| 10 | [Phase 1 Notes](docs/10-PHASE-1-NOTES.md) | What shipped, how to run it, deviations, known gaps |
 
 ## Prototype
 
@@ -95,9 +107,5 @@ Full rationale in [docs/06-TECH-ARCHITECTURE.md](docs/06-TECH-ARCHITECTURE.md).
 
 ## Approval gate
 
-Please review the documents above and the prototype, then reply with either:
-
-- ✅ **"Approved — start development"** (optionally naming the phase to start with), or
-- 📝 change requests on any document.
-
-Development begins only after that.
+Phase 1 is delivered. Review it, then either approve Phase 2 (catalogue and public
+website) or send change requests. Each phase is signed off before the next begins.

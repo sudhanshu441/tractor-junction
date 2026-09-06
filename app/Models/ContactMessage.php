@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ContactMessage extends Model
+{
+    use HasFactory;
+
+    protected $table = 'contact_messages';
+
+    protected $fillable = [
+        'name',
+        'mobile',
+        'email',
+        'subject',
+        'message',
+        'status',
+        'handled_by',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+
+        ];
+    }
+}
