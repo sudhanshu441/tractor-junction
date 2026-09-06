@@ -247,22 +247,25 @@ self-canonicalise with distinct titles.
 
 ---
 
-## 6. Design system (used by the prototype)
+## 6. Design system
+
+White surfaces, green brand — full detail in [09-BRAND-GUIDE.md](09-BRAND-GUIDE.md).
 
 | Token | Value |
 |---|---|
-| Primary (agri green) | `#1F7A3D` — dark `#155C2C`, light `#E8F5EC` |
-| Accent (harvest amber) | `#F2A900` |
-| Secondary (soil brown) | `#8B5E34` |
-| Text | `#1A1D1A` / muted `#5F6B62` |
-| Surface | `#FFFFFF` / page `#F6F8F6` / border `#E2E8E4` |
-| Success / Warning / Danger / Info | `#1F7A3D` / `#F2A900` / `#D64545` / `#2563EB` |
-| Radius | 10 px cards, 8 px inputs, 999 px chips |
-| Font | Inter / Noto Sans Devanagari (Hindi) |
-| Grid | 12-col, 1200 px max, 16 px gutters; breakpoints 360 / 640 / 1024 / 1280 |
-| Card | white, 1 px border, shadow on hover, 4:3 image |
+| Primary green | `#15703A` — dark `#0B3D20`, hover `#10552B` |
+| Support greens | `#1B8C48`, `#4FB273`, tint `#E4F2E8`, wash `#F1F8F3` |
+| Surface / page ground | `#FFFFFF` / `#F4F8F5` |
+| Text | `#0E1B13` · secondary `#415447` · muted `#6D8175` |
+| Border | `#DCE8E0` |
+| State only (never brand) | Danger `#B42318` · Warning `#B54708` · Info `#175CD3` · Success reuses the primary green |
+| Radius | 10 px cards, 6 px inputs, 999 px chips |
+| Fonts | Archivo (display) · IBM Plex Sans (body) · IBM Plex Mono (data) · Noto Sans Devanagari (Hindi) |
+| Grid | Bootstrap 5 12-column, 1200 px container; breakpoints 360 / 576 / 768 / 992 / 1200 |
 
-Components: button (4 variants), input, select, chip/filter pill, range slider, card
-(product/used/dealer/blog), badge, breadcrumb, tabs, accordion, modal, drawer (mobile
-filters), toast, pagination, empty state, skeleton loader, star rating, comparison bar,
-sticky CTA bar, OTP input, stepper, data table, stat tile.
+Built on **Bootstrap 5** with the brand applied through Sass variable overrides, not
+`!important` patches. Components: buttons (primary green, deep green, outline, ghost),
+inputs, filter chips, noUiSlider range, cards (product / used / dealer / blog), badges,
+breadcrumb, tabs, accordion, modal, offcanvas (mobile filters), toasts, pagination, empty
+state, skeleton, star rating, compare bar, sticky mobile CTA bar, OTP input, stepper,
+DataTable, stat tile.

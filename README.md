@@ -13,15 +13,17 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 
 ## Project status
 
-| Phase | Deliverable | Status |
-|---|---|---|
-| 0 | Discovery, PRD, ERD, Flows, IA, Prototype | ✅ **Ready for review** |
-| 1 | Laravel scaffold, auth, RBAC, master data | ⏸ Awaiting approval |
-| 2 | Catalog (new tractors/implements) + Website | ⏸ |
-| 3 | Used marketplace + Leads | ⏸ |
-| 4 | Dealer panel + Customer panel | ⏸ |
-| 5 | Finance (loan/EMI/insurance) | ⏸ |
-| 6 | CMS, SEO, Multilingual, Mobile API | ⏸ |
+| Phase | Deliverable | Days | Status |
+|---|---|---|---|
+| 0 | Discovery: PRD, ERD, flows, IA, admin spec, brand + logo, prototype | — | ✅ **Ready for review** |
+| 1 | Foundation, admin shell, masters, auth, RBAC | 8–10 | ⏸ Awaiting approval |
+| 2 | Catalogue & public website (SEO engine) | 12–14 | ⏸ |
+| 3 | Used marketplace, leads, customer panel | 12–14 | ⏸ |
+| 4 | Dealers, finance, monetisation | 12–14 | ⏸ |
+| 5 | Content, SEO, multilingual, API, launch | 10–12 | ⏸ |
+
+Total ≈ **54–64 dev days** (11–13 weeks solo, 7–8 with two developers). Full breakdown in
+[docs/07-DEV-ROADMAP.md](docs/07-DEV-ROADMAP.md).
 
 **Nothing is coded yet — by design.** Documentation and prototype come first, as agreed.
 
@@ -39,6 +41,7 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 | 06 | [Technical Architecture](docs/06-TECH-ARCHITECTURE.md) | Laravel stack, folder layout, packages, API design, infra, security |
 | 07 | [Development Roadmap](docs/07-DEV-ROADMAP.md) | Phase/sprint plan, estimates, acceptance criteria, deliverables |
 | 08 | [Content & Media Plan](docs/08-CONTENT-MEDIA-PLAN.md) | Images, image sourcing, naming, sizes, seed data plan |
+| 09 | [Brand Guide](docs/09-BRAND-GUIDE.md) | Logo usage, white/green palette, type scale, Bootstrap mapping |
 
 ## Prototype
 
@@ -57,11 +60,34 @@ Listing moderation · Leads board.
 
 ---
 
-## Tech stack (proposed)
+## Brand
 
-Laravel 11 · PHP 8.3 · MySQL 8 · Redis · Blade + Alpine.js + Tailwind (website) ·
-Livewire/Filament-style admin · Laravel Sanctum (mobile API) · Meilisearch/Scout ·
-Spatie Permission + Media Library + Sitemap · S3-compatible storage.
+Logo, palette and type live in [`assets/brand/`](assets/brand/) and
+[docs/09-BRAND-GUIDE.md](docs/09-BRAND-GUIDE.md).
+
+The mark is a **tractor wheel with a sprout at the hub** — machinery and farming meeting at
+a junction. White surfaces, green brand: primary `#15703A`, deep `#0B3D20`, tint `#E4F2E8`,
+page ground `#F4F8F5`. Red, amber and blue appear only as state signals (rejected, pending,
+assigned), never as brand colours.
+
+| File | Use |
+|---|---|
+| `logo-mark.svg` | App icon — white art on a green tile |
+| `logo-mark-green.svg` | Mark on white surfaces |
+| `logo-horizontal.svg` | Primary lockup for light backgrounds |
+| `logo-horizontal-white.svg` | Lockup for green backgrounds |
+| `favicon.svg` | Browser tab, 32 px and below |
+
+## Tech stack
+
+**Laravel 11 · PHP 8.2+ · MySQL 8 · Redis · Blade · Bootstrap 5.3 · jQuery 3.7 · AJAX ·
+HTML · CSS**, with DataTables (admin tables), Chart.js (dashboards), Select2, noUiSlider,
+Spatie Permission / Activity Log / Sitemap, Intervention Image, dompdf, and Laravel Sanctum
+for the future mobile API.
+
+Server-rendered Blade for everything indexable; AJAX enhances filters, wizards, admin
+tables and OTP without ever being required to see content. No SPA framework, no Node
+runtime needed in production.
 
 Full rationale in [docs/06-TECH-ARCHITECTURE.md](docs/06-TECH-ARCHITECTURE.md).
 

@@ -6,7 +6,7 @@
 | Version | 1.0 (Discovery / pre-development) |
 | Owner | sudhanshu441 |
 | Benchmark | tractorjunction.com |
-| Stack | Laravel 11, PHP 8.3, MySQL 8, Redis, Tailwind, Alpine/Livewire |
+| Stack | Laravel 11, PHP 8.2+, MySQL 8, Redis, Bootstrap 5, jQuery + AJAX, Blade |
 | Status | **For approval** |
 
 ---
@@ -354,13 +354,13 @@ Notation: **[MUST]** v1 · **[SHOULD]** v1 if time · **[LATER]** v2.
 
 | # | Question | Why it matters | Default if unanswered |
 |---|---|---|---|
-| Q1 | Admin panel: Filament v3 (fast, batteries-included) or fully custom Blade+Livewire (fully bespoke UI)? | Changes phase-1 effort significantly | **Filament v3** |
+| Q1 | Admin table library: DataTables (server-side, jQuery) or hand-rolled Blade tables? | Affects every admin list screen | **DataTables server-side** |
 | Q2 | Which SMS/WhatsApp provider (MSG91, Twilio, Gupshup)? | OTP + notifications | MSG91 (India-focused) |
 | Q3 | Do dealers pay from day one (subscription plans + payment gateway)? | Adds Razorpay + billing module | Free in v1, plans in phase 5 |
 | Q4 | Is the mobile app in scope after web, and on which stack? | Affects API shape | API built anyway; app out of scope |
 | Q5 | Do you already have catalogue data (models/specs/prices) in a sheet? | Saves weeks of data entry | We build seeders for ~60 demo models |
 | Q6 | Hosting preference — AWS / DigitalOcean / Hostinger VPS / shared? | Deployment scripting | Ubuntu VPS + Nginx + Cloudflare |
-| Q7 | Logo, brand colours and fonts for Krishi Junction? | Prototype currently uses a green/amber agri palette | Green #1F7A3D + Amber #F2A900 |
+| Q7 | Any change to the supplied logo or the white/green palette? | Brand is now defined in [09-BRAND-GUIDE.md](09-BRAND-GUIDE.md) | Logo as delivered, primary green #15703A on white |
 
 ---
 

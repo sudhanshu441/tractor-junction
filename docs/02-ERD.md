@@ -1170,8 +1170,10 @@ graph TD
 fragments (60 min), spec attribute definitions (24 h), geography (24 h). Cache tags
 invalidated by model observers.
 
-**Search:** Laravel Scout → Meilisearch indexes for `products`, `used_listings`,
-`dealers`, `blogs` with synonyms (mahindra/महिंद्रा) and typo tolerance.
+**Search (v1):** MySQL `FULLTEXT` indexes on `products(name)`, `used_listings(title)` and
+`dealers(business_name)`, with a `search_synonyms` table mapping Hindi and transliterated
+terms (महिंद्रा / mhindra → mahindra) applied before the query. A dedicated search server
+can replace this later behind the same `SearchService` interface.
 
 ---
 

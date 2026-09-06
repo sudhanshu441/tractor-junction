@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Krishi Junction Prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,46 +11,24 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
-  --ground:#F4F7F1; --surface:#FFFFFF; --surface-2:#EDF2EA; --sunk:#E4EBE0;
-  --ink:#12180F; --ink-2:#41503F; --ink-3:#6C7C68;
-  --line:#D8E2D4; --line-2:#C3D2BE;
-  --field:#1F6B3A; --field-soft:#E4F0E5; --field-ink:#14512B;
-  --harvest:#C97A02; --harvest-soft:#FBEEDA;
-  --soil:#7A5230;
-  --danger:#B3261E; --danger-soft:#FBE7E5;
-  --info:#1B5E9E; --info-soft:#E3EEF8;
-  --on-field:#FFFFFF; --on-accent:#FFFFFF;
-  --shadow:0 1px 2px rgba(18,24,15,.06), 0 8px 24px -12px rgba(18,24,15,.18);
+  color-scheme: light;
+  /* Krishi Junction — white + green. Surfaces are white; green carries the brand. */
+  --green-900:#0B3D20; --green-800:#10552B; --green-700:#15703A; --green-600:#1B8C48;
+  --green-400:#4FB273; --green-100:#E4F2E8; --green-50:#F1F8F3;
+  --ground:#F4F8F5; --surface:#FFFFFF; --surface-2:#F1F7F3; --sunk:#E9F1EB;
+  --ink:#0E1B13; --ink-2:#415447; --ink-3:#6D8175;
+  --line:#DCE8E0; --line-2:#BFD4C6;
+  --field:var(--green-700); --field-soft:var(--green-100); --field-ink:var(--green-900);
+  --on-field:#FFFFFF;
+  /* semantic state colours only — never used as brand accents */
+  --danger:#B42318; --danger-soft:#FDECEA;
+  --warn:#B54708;   --warn-soft:#FCF0E4;
+  --info:#175CD3;   --info-soft:#E8F0FD;
+  --shadow:0 1px 2px rgba(14,27,19,.05), 0 10px 26px -14px rgba(14,27,19,.22);
   --r:10px; --r-sm:6px;
-  --display:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --display:"Archivo", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ground:#0E120D; --surface:#161C15; --surface-2:#1D251C; --sunk:#131A13;
-    --ink:#E9EFE6; --ink-2:#B4C2B1; --ink-3:#84947F;
-    --line:#2A342A; --line-2:#3A473A;
-    --field:#5FB07A; --field-soft:#17301F; --field-ink:#8FD3A5;
-    --harvest:#E9A93C; --harvest-soft:#33260E;
-    --soil:#B08256;
-    --danger:#F0857C; --danger-soft:#331715;
-    --info:#7BB3E8; --info-soft:#12222F;
-    --on-field:#0B120C; --on-accent:#241A06;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#0E120D; --surface:#161C15; --surface-2:#1D251C; --sunk:#131A13;
-  --ink:#E9EFE6; --ink-2:#B4C2B1; --ink-3:#84947F;
-  --line:#2A342A; --line-2:#3A473A;
-  --field:#5FB07A; --field-soft:#17301F; --field-ink:#8FD3A5;
-  --harvest:#E9A93C; --harvest-soft:#33260E;
-  --soil:#B08256;
-  --danger:#F0857C; --danger-soft:#331715;
-  --info:#7BB3E8; --info-soft:#12222F;
-  --on-field:#0B120C; --on-accent:#241A06;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -99,7 +78,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .searchbox{flex:1;min-width:150px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;color:var(--ink-3)}
 .btn{border:1px solid var(--field);background:var(--field);color:var(--on-field);border-radius:var(--r-sm);padding:6px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}
 .btn.ghost{background:transparent;color:var(--field);border-color:var(--line-2)}
-.btn.amber{background:var(--harvest);border-color:var(--harvest);color:var(--on-accent)}
+.btn.deep{background:var(--green-900);border-color:var(--green-900);color:var(--on-field)}
 .btn.sm{padding:4px 9px;font-size:11.5px}
 .lang{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 8px;color:var(--ink-2)}
 
@@ -131,7 +110,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .price{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-.02em}
 .pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);white-space:nowrap}
 .pill.ok{background:var(--field-soft);color:var(--field-ink);border-color:transparent}
-.pill.warn{background:var(--harvest-soft);color:var(--harvest);border-color:transparent}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
 .pill.bad{background:var(--danger-soft);color:var(--danger);border-color:transparent}
 .pill.info{background:var(--info-soft);color:var(--info);border-color:transparent}
 
@@ -150,9 +129,8 @@ td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabu
 .kpi .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:600}
 .kpi .v{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.03em;margin-top:3px;font-variant-numeric:tabular-nums}
 .kpi .d{font-size:11px;color:var(--ink-3);margin-top:2px}
-.kpi.alert{border-color:var(--harvest);background:var(--harvest-soft)}
-.kpi.alert .k,.kpi.alert .d{color:var(--harvest)}
-.kpi.alert .v{color:var(--harvest)}
+.kpi.alert{border-color:var(--warn);background:var(--warn-soft)}
+.kpi.alert .k,.kpi.alert .d,.kpi.alert .v{color:var(--warn)}
 
 .field{border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 10px;font-size:12.5px;color:var(--ink-3);background:var(--surface)}
 .label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:600;margin-bottom:4px;display:block}
@@ -184,7 +162,7 @@ td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabu
 
 .bars{display:flex;align-items:flex-end;gap:6px;height:96px;padding-top:6px}
 .bars div{flex:1;background:var(--field);border-radius:3px 3px 0 0;min-height:4px;opacity:.85}
-.bars div:nth-child(even){background:var(--harvest)}
+.bars div:nth-child(even){background:var(--green-400)}
 .axis{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3);font-family:var(--mono);margin-top:5px}
 
 .adminshell{display:grid;grid-template-columns:190px minmax(0,1fr)}
@@ -204,7 +182,7 @@ td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabu
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-3)}
 .legend i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px}
 .note{background:var(--info-soft);border:1px solid transparent;border-left:3px solid var(--info);border-radius:var(--r-sm);padding:9px 11px;font-size:12px;color:var(--ink-2)}
-.diff{background:var(--harvest-soft)}
+.diff{background:var(--green-50)}
 .hidden{display:none}
 .footerbar{padding:12px 18px;border-top:1px solid var(--line);background:var(--surface-2);font-size:11px;color:var(--ink-3);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .mobileframe{max-width:330px;margin:0 auto;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface)}
@@ -217,9 +195,9 @@ td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabu
 <aside class="rail">
   <div class="brand">
     <span class="mark" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="var(--on-field)" stroke-width="1.7" stroke-linecap="round"><circle cx="7" cy="17" r="4"/><circle cx="18" cy="18" r="3"/><path d="M4 9h7l2 5"/><path d="M11 9V5h4l2 4v6"/></svg>
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="21" fill="none" stroke="var(--on-field)" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 5.247"/><circle cx="32" cy="32" r="16" fill="none" stroke="var(--on-field)" stroke-width="3.4"/><path d="M32 43.5V30.5" stroke="var(--on-field)" stroke-width="3" stroke-linecap="round"/><path d="M32 31.5c-5.6 0-8.7-3.6-8.7-9 5.6 0 8.7 3.6 8.7 9z" fill="var(--on-field)"/><path d="M32 31.5c5.6 0 8.7-3.6 8.7-9-5.6 0-8.7 3.6-8.7 9z" fill="var(--on-field)"/></svg>
     </span>
-    <span><b>Krishi Junction</b><span>PROTOTYPE v1 &middot; 15 screens</span></span>
+    <span><b>Krishi<span style="color:var(--green-700);font-family:var(--display);font-size:inherit"> Junction</span></b><span>PROTOTYPE v2 &middot; 15 screens</span></span>
   </div>
   <p class="railnote">Wireframe prototype for review. Every screen shows its real route from the sitemap. No live data &mdash; figures are illustrative samples.</p>
 
@@ -265,13 +243,13 @@ const IM = '<svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-wi
 
 const sitebar = (active) => `
 <div class="sitebar">
-  <span class="mark" style="width:26px;height:26px;border-radius:6px"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-field)" stroke-width="1.8" stroke-linecap="round" style="width:16px;height:16px"><circle cx="7" cy="17" r="4"/><circle cx="18" cy="18" r="3"/><path d="M4 9h7l2 5"/><path d="M11 9V5h4l2 4v6"/></svg></span>
+  <span class="mark" style="width:26px;height:26px;border-radius:6px"><svg viewBox="0 0 64 64" style="width:17px;height:17px"><circle cx="32" cy="32" r="16" fill="none" stroke="var(--on-field)" stroke-width="4"/><path d="M32 43V30" stroke="var(--on-field)" stroke-width="3.6" stroke-linecap="round"/><path d="M32 31.5c-5.6 0-8.7-3.6-8.7-9 5.6 0 8.7 3.6 8.7 9z" fill="var(--on-field)"/><path d="M32 31.5c5.6 0 8.7-3.6 8.7-9-5.6 0-8.7 3.6-8.7 9z" fill="var(--on-field)"/></svg></span>
   <nav>
     ${['New Tractors','Used','Implements','Compare','Dealers','Loan &amp; EMI','News'].map(x=>`<span>${x===active?`<b>${x}</b>`:x}</span>`).join('')}
   </nav>
   <span class="searchbox">Search &ldquo;Mahindra 575&rdquo; or &ldquo;रोटावेटर&rdquo;&hellip;</span>
   <span class="lang">EN / हिं</span>
-  <button class="btn amber">Sell your tractor</button>
+  <button class="btn deep">Sell your tractor</button>
   <button class="btn ghost">Login</button>
 </div>`;
 
@@ -290,7 +268,7 @@ const SCREENS = {
 home:{title:'Home',route:'/',who:'guest',
  desc:'Seventeen admin-managed blocks. Intent is captured in the first screen: buy new, buy used, sell, or finance.',
  html: sitebar('') + `
-<div class="pad" style="background:linear-gradient(150deg,var(--field-soft),transparent 60%)">
+<div class="pad" style="background:linear-gradient(150deg,var(--green-100),transparent 62%)">
   <div class="eyebrow">India&rsquo;s rural machinery marketplace</div>
   <h2 style="font-size:24px;margin:6px 0 4px;max-width:22ch">Find the right tractor, at the right price, near you.</h2>
   <p class="muted small" style="max-width:60ch">312 new models &middot; 41,800 used listings &middot; 2,140 verified dealers across 640 districts.</p>
@@ -334,7 +312,7 @@ home:{title:'Home',route:'/',who:'guest',
     <h3 style="font-size:14px">Sell your tractor in 3 minutes</h3>
     <p class="small muted" style="margin-top:6px">Six steps, OTP verified, reviewed by our team within 6 hours. Free.</p>
     <div class="row wrap" style="margin-top:10px"><span class="pill">4 photos minimum</span><span class="pill">Free listing</span><span class="pill">Optional inspection</span></div>
-    <button class="btn amber" style="margin-top:12px">Post your listing</button>
+    <button class="btn deep" style="margin-top:12px">Post your listing</button>
   </div></div>
 </div></div>
 <div class="sec"><h3>Implements &amp; harvesters</h3><p class="sub">Matched to your tractor&rsquo;s HP and hitch type</p>
@@ -449,7 +427,7 @@ compare:{title:'Compare',route:'/compare/mahindra-575-di-xp-plus-vs-swaraj-744-f
 <tr class="diff"><td>Owner rating</td><td class="num">4.4 &#9733;</td><td class="num">4.5 &#9733;</td><td class="num">4.2 &#9733;</td><td></td></tr>
 <tr><td>&nbsp;</td>${[1,2,3].map(()=>'<td><button class="btn sm">Get best price</button></td>').join('')}<td></td></tr>
 </tbody></table></div>
-<div class="legend" style="margin-top:10px"><span><i style="background:var(--harvest-soft)"></i>Rows where the models differ</span><span><i style="background:var(--field)"></i>Sticky first column and header on scroll</span></div>
+<div class="legend" style="margin-top:10px"><span><i style="background:var(--green-50);outline:1px solid var(--line)"></i>Rows where the models differ</span><span><i style="background:var(--field)"></i>Sticky first column and header on scroll</span></div>
 </div>`},
 
 used:{title:'Used marketplace',route:'/used/tractors/uttar-pradesh/sitapur',who:'guest',
@@ -457,7 +435,7 @@ used:{title:'Used marketplace',route:'/used/tractors/uttar-pradesh/sitapur',who:
  html: sitebar('Used') + `
 <div class="pad"><div class="row between wrap">
   <div><h2 style="font-size:19px">Second-hand tractors in Sitapur, Uttar Pradesh</h2><p class="small muted">486 live listings &middot; 112 inspected &middot; average price &#8377;4.2 L</p></div>
-  <div class="row"><span class="field">Sort: Nearest first</span><button class="btn amber">Sell yours</button></div>
+  <div class="row"><span class="field">Sort: Nearest first</span><button class="btn deep">Sell yours</button></div>
 </div></div>
 <div class="pad" style="padding-top:0"><div class="grid" style="grid-template-columns:230px minmax(0,1fr)">
   <div class="filterbox">
@@ -743,7 +721,7 @@ admin:{title:'Admin dashboard',route:'/admin/dashboard',who:'admin: priya',
  </div>
  <div class="pad" style="padding-top:0"><div class="grid" style="grid-template-columns:minmax(0,1fr) 300px">
   <div class="card"><div class="body" style="padding:16px">
-   <div class="row between"><b style="font-size:13px">Leads per day</b><span class="legend"><span><i style="background:var(--field)"></i>New machinery</span><span><i style="background:var(--harvest)"></i>Used &amp; finance</span></span></div>
+   <div class="row between"><b style="font-size:13px">Leads per day</b><span class="legend"><span><i style="background:var(--field)"></i>New machinery</span><span><i style="background:var(--green-400)"></i>Used &amp; finance</span></span></div>
    <div class="bars">${[42,58,51,66,73,61,88,79,94,70,101,86,112,97].map(h=>`<div style="height:${h}%"></div>`).join('')}</div>
    <div class="axis"><span>25 Aug</span><span>29 Aug</span><span>2 Sep</span><span>6 Sep</span></div>
   </div></div>
@@ -783,7 +761,7 @@ moderation:{title:'Listing moderation',route:'/admin/used-listings/moderation',w
    <div class="card"><div class="body">
     <b style="font-size:12.5px">Checks</b>
     ${[['Photos show the stated machine','ok'],['Model, brand and year consistent','ok'],['No phone number or URL in text','ok'],['Not a duplicate of a live listing','ok'],['Price within valuation band','warn']].map(([c,s])=>`<div class="row between" style="padding:6px 0;border-bottom:1px solid var(--line)"><span class="small">${c}</span><span class="pill ${s}">${s==='ok'?'Pass':'Check'}</span></div>`).join('')}
-    <div class="note" style="margin-top:10px;border-left-color:var(--harvest);background:var(--harvest-soft)">Asking price is <b>18% above</b> the valuation band (&#8377;1.95&ndash;2.20 L) for a 2015 unit at 5,120 hours in Uttar Pradesh. Approve anyway, or ask the seller to revise.</div>
+    <div class="note" style="margin-top:10px;border-left-color:var(--warn);background:var(--warn-soft)">Asking price is <b>18% above</b> the valuation band (&#8377;1.95&ndash;2.20 L) for a 2015 unit at 5,120 hours in Uttar Pradesh. Approve anyway, or ask the seller to revise.</div>
    </div></div>
    <div class="card" style="margin-top:12px"><div class="body">
     <b style="font-size:12.5px">Decision</b>

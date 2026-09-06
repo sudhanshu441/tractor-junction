@@ -1,220 +1,239 @@
 # Krishi Junction — Technical Architecture
 
+Stack fixed by the client: **Laravel · PHP · Bootstrap · jQuery · AJAX · HTML · CSS**.
+Everything below is built inside that constraint — no SPA framework, no Node-based
+front-end build required for the app to run.
+
 ## 1. Stack
 
 | Layer | Choice | Why |
 |---|---|---|
-| Framework | **Laravel 11** (PHP 8.3) | Your stack; mature ecosystem for exactly these modules |
-| DB | **MySQL 8.0** (InnoDB) | Relational fit, window functions, JSON columns, wide hosting support |
-| Cache / queue / session | **Redis 7** | Facet caching, queues, rate limiting, locks |
-| Search | **Meilisearch** via Laravel Scout | Typo tolerance + Hindi synonyms; falls back to MySQL FULLTEXT if unavailable |
-| Front-end (website) | **Blade + Tailwind CSS 3 + Alpine.js** | Server-rendered = SEO + fast on 4G; no SPA weight |
-| Interactive widgets | **Livewire 3** where state is complex (filters, compare, wizards) | Avoids a separate API+SPA for admin-ish interactivity |
-| Admin panel | **Filament v3** (recommended) or Blade+Livewire custom | Filament gives CRUD, tables, filters, RBAC hooks out of the box — see PRD Q1 |
-| Auth | Laravel session (web) + **Sanctum** (API) + custom OTP guard | Multi-panel guards: `web`, `dealer`, `staff`, `sanctum` |
-| Media | Spatie Media Library + Intervention Image → S3-compatible (Cloudflare R2 / AWS S3) | Conversions, WebP/AVIF, private disk for KYC |
-| Build | Vite | Laravel default |
-| Queue worker | Horizon (Redis) | Visibility into notification/indexing jobs |
-| Scheduler | Laravel Scheduler via cron | Expiry, sitemap, reminders, aggregates |
-| PDF | dompdf / Browsershot | Inspection reports, brochures, compare export |
-| Testing | Pest + PHPUnit, Laravel Dusk for critical flows | |
-| Static analysis | Larastan (PHPStan lvl 5), Pint (PSR-12) | |
-| Error tracking | Sentry | |
+| Framework | **Laravel 11** (PHP 8.2+) | Your stack; queues, auth, ORM, scheduler out of the box |
+| Templating | **Blade** → server-rendered HTML | Every page is crawlable without JS |
+| CSS | **Bootstrap 5.3** + one `custom.css` of brand overrides | Grid, components, responsive utilities; brand applied via Sass variables |
+| JS | **jQuery 3.7** + Bootstrap 5 JS bundle | Client requirement; enough for everything below |
+| Interactivity | **AJAX** (`$.ajax` / `fetch` wrappers) returning JSON or rendered Blade partials | Filters, pagination, compare, wizards, admin tables, OTP |
+| DB | **MySQL 8.0** (InnoDB, utf8mb4) | Relational fit; JSON columns; FULLTEXT for v1 search |
+| Cache / queue / session | **Redis 7** (file/database driver acceptable on shared hosting) | Facet caching, queues, rate limits |
+| Search | **MySQL FULLTEXT + indexed filter table** in v1; Meilisearch optional in phase 5 | Keeps v1 deployable on any LAMP host |
+| Admin panel | **Custom Blade + Bootstrap + DataTables** | Client stack; no Filament/Livewire |
+| Auth | Laravel session guards (`web`, `dealer`, `admin`) + custom OTP flow + **Sanctum** for the API | Multi-panel, one users table |
+| Media | Intervention Image + Laravel filesystem → local or S3-compatible | WebP conversions, private disk for KYC |
+| Assets | Laravel Vite **or** plain concatenated CSS/JS in `public/assets` | Deployable on hosts without Node |
+| Charts | Chart.js 4 (CDN or bundled) | Admin/dealer dashboards |
+| Tables | DataTables 1.13 with server-side processing | Admin list screens, exports |
+| Editor | TinyMCE / Summernote (jQuery) | CMS content |
+| Queue worker | `queue:work` under Supervisor | SMS, images, indexing, notifications |
+| PDF | dompdf | Inspection reports, compare export, invoices |
+| Testing | PHPUnit feature tests | Critical flows |
+| Style | PSR-12 via Laravel Pint | Consistency |
+| Errors | Sentry (or Laravel log + mail on exception) | Monitoring |
 
 ### Composer packages
 ```
-spatie/laravel-permission          RBAC
-spatie/laravel-medialibrary        media + conversions
-spatie/laravel-activitylog         audit trail
-spatie/laravel-sitemap             XML sitemaps
-spatie/laravel-sluggable           slugs
-spatie/laravel-translatable        per-locale content fields
-laravel/scout + meilisearch-php    search
-laravel/sanctum                    API tokens
-laravel/horizon                    queues
-intervention/image                 image processing
-maatwebsite/excel                  exports/imports
-barryvdh/laravel-dompdf            PDFs
-propaganistas/laravel-phone        Indian mobile validation
-stevebauman/purify                 HTML sanitising for CMS
-mews/captcha  or  google recaptcha v3
-razorpay/razorpay                  plans & boosts (phase 5)
+spatie/laravel-permission        roles & permissions
+spatie/laravel-activitylog       audit trail
+spatie/laravel-sitemap           XML sitemaps
+spatie/laravel-sluggable         slugs
+intervention/image               image conversions
+maatwebsite/excel                imports & exports
+barryvdh/laravel-dompdf          PDFs
+propaganistas/laravel-phone      Indian mobile validation
+mews/purifier                    sanitise CMS HTML
+laravel/sanctum                  API tokens for the mobile app
+razorpay/razorpay                dealer plans & listing boosts (phase 4)
+```
+
+### Front-end libraries (CDN-pinned or vendored into `public/assets/vendor`)
+```
+bootstrap 5.3        css + js bundle (popper included)
+jquery 3.7
+datatables 1.13      + bootstrap5 theme, server-side mode
+select2 4.1          searchable brand/model/district selects
+chart.js 4           dashboards
+sweetalert2          confirm dialogs for destructive admin actions
+dropzone / custom    multi-image upload with preview & reorder
+noUiSlider           price and HP range sliders
+lightbox2            listing photo gallery
+toastr               AJAX success/error toasts
 ```
 
 ---
 
-## 2. Application structure
+## 2. How AJAX is used (and where it is not)
 
-Domain-oriented modules inside a standard Laravel skeleton:
+**Server-rendered first.** Every indexable page — home, listings, model detail, used
+listings, dealer pages, blog — is a full Blade response. Search engines and low-end phones
+never depend on JS to see content.
+
+**AJAX enhances, never replaces:**
+
+| Interaction | Pattern |
+|---|---|
+| Listing filters & sort | `GET /tractors/filter` returns a rendered Blade partial of the result grid + facet counts; jQuery swaps `#result-grid` and pushes the SEO-friendly URL with `history.pushState`. Direct hits on that URL still render server-side. |
+| Infinite scroll / "load more" | Same endpoint, `?page=n`, appends rows |
+| Compare bar | `POST /compare/add` → JSON `{count, items}`; the compare page itself is a normal server-rendered route |
+| OTP send / verify | `POST /auth/otp/send` and `/verify` → JSON; throttled server-side |
+| Sell wizard | Each step `POST`s to `/sell/step/{n}` → JSON `{ok, draft_id, errors}`; the draft is saved server-side so a dropped connection loses nothing |
+| Image upload | `POST /sell/photo` multipart, one file per request, returns thumbnail URL |
+| EMI calculator | Calculated in JS for instant feedback, then re-computed server-side on submit — the server value is the one stored |
+| Dependent selects | state → district → city, brand → model: `GET /api/geo/districts/{state}` |
+| Admin tables | DataTables server-side: `POST /admin/{module}/data` returns `{draw, recordsTotal, recordsFiltered, data}` |
+| Admin inline actions | approve / reject / toggle / assign → JSON, row updated in place, toast confirmation |
+| Notifications bell | Polls `/account/notifications/unread` every 60 s |
+
+**Rules:** every AJAX route is CSRF-protected (`$.ajaxSetup` sends `X-CSRF-TOKEN`),
+authorised by the same policies as its non-AJAX equivalent, rate-limited, and returns a
+consistent envelope `{status, message, data, errors}`.
+
+---
+
+## 3. Application structure
 
 ```
 app/
-├── Console/Commands/            ExpireListings, GenerateSitemap, RecalculateAggregates,
-│                                SendFollowUpReminders, ReindexSearch, ImportGeography
+├── Console/Commands/       ExpireListings, GenerateSitemap, RecalculateAggregates,
+│                           SendFollowUpReminders, EscalateLeads, ImportGeography, ImportCatalog
 ├── Domain/
-│   ├── Catalog/                 Models, Services, Actions, DTOs, Filters
-│   ├── Marketplace/             UsedListing, Inspection, Valuation
+│   ├── Catalog/            Services, Actions, Filters, DTOs
+│   ├── Marketplace/        UsedListing, Inspection, Valuation
 │   ├── Dealer/
-│   ├── Lead/                    LeadService, RoutingEngine, AssignmentPolicy
-│   ├── Finance/                 EmiCalculator, LoanApplicationService, LenderMatcher
-│   ├── Content/
-│   ├── Seo/                     MetaResolver, SchemaBuilder, RedirectHandler
-│   ├── Notification/            Channels, TemplateRenderer
-│   └── Geo/
+│   ├── Lead/               LeadService, RoutingEngine
+│   ├── Finance/            EmiCalculator, LoanApplicationService, LenderMatcher
+│   ├── Content/  Seo/  Notification/  Geo/
 ├── Http/
 │   ├── Controllers/
-│   │   ├── Web/                 public site
-│   │   ├── Account/             customer panel
-│   │   ├── Dealer/              dealer panel
-│   │   ├── Admin/               admin (or Filament Resources)
-│   │   └── Api/V1/              REST API
-│   ├── Middleware/              SetLocale, DetectGeo, PanelGuard, MaintenanceMode, TrackPageView
-│   ├── Requests/                FormRequest per action
-│   ├── Resources/               API JSON resources
-│   └── ViewComposers/
-├── Jobs/                        SendSms, SendWhatsapp, ProcessListingImages, RouteLead,
-│                                GenerateInspectionPdf, IndexModel
-├── Listeners/  Events/  Observers/  Policies/  Notifications/
-├── Services/                    Sms, Whatsapp, Payment, Storage gateways (interface + driver)
-└── Support/                     Helpers, Enums, Traits
-database/
-├── migrations/                  ~94 tables, grouped by domain prefix
-├── seeders/                     Geography, Brands, Categories, SpecAttributes, DemoProducts,
-│                                Roles, Settings, NotificationTemplates
-└── factories/
-resources/
-├── views/{web,account,dealer,admin,components,emails,pdf}
-├── js/  css/
-└── lang/{en,hi}/
-routes/  web.php  account.php  dealer.php  admin.php  api.php  channels.php
-tests/{Feature,Unit,Browser}
+│   │   ├── Web/            public site (full page responses)
+│   │   ├── Ajax/           partial/JSON endpoints used by jQuery
+│   │   ├── Account/        customer panel
+│   │   ├── Dealer/         dealer panel
+│   │   ├── Admin/          admin panel
+│   │   └── Api/V1/         mobile API
+│   ├── Middleware/         SetLocale, DetectGeo, PanelGuard, TrackPageView, MaintenanceMode
+│   ├── Requests/           one FormRequest per action, reused by web + AJAX + API
+│   └── Resources/          API JSON resources
+├── Jobs/  Events/  Listeners/  Observers/  Policies/  Notifications/
+├── Models/
+└── Services/               Sms, Whatsapp, Payment, Storage — interface + driver
+resources/views/
+├── layouts/                app, admin, dealer, account, mail, pdf
+├── components/             card, badge, pagination, stepper, filter-panel, empty-state
+├── web/                    home, tractors, used, dealers, loan, content
+├── partials/ajax/          result-grid, facet-counts, compare-bar, lead-row  ← AJAX responses
+├── account/  dealer/  admin/
+public/assets/
+├── css/  bootstrap.min.css, custom.css
+├── js/   app.js, filters.js, wizard.js, admin.js
+└── vendor/ jquery, datatables, chartjs, select2, nouislider
+database/migrations|seeders|factories
+routes/  web.php  ajax.php  account.php  dealer.php  admin.php  api.php
 ```
 
-**Layering rule:** Controller → FormRequest → Action/Service → Model. No business logic in
-controllers or Blade. Query filtering goes through dedicated `Filters` classes so the same
-filter set serves web, API and admin.
+**Layering rule:** Controller → FormRequest → Action/Service → Model. A web controller and
+its AJAX counterpart call the *same* service; only the response format differs.
 
 ---
 
-## 3. Key engineering designs
+## 4. Key engineering designs
 
-### 3.1 Spec/EAV query strategy
-Filtering on EAV can be slow. Mitigations:
-- `product_spec_values.value_number` indexed with `(spec_attribute_id, value_number)`.
-- Only `is_filterable` attributes participate in facets (~15 of 120).
-- A denormalised `product_filter_cache` table (product_id, hp, wheel_drive, cylinders,
-  fuel, price_min, lift_capacity, …) rebuilt by an observer on save — filters read this
-  single flat table; the EAV stays the source of truth for display.
-- Facet counts cached in Redis per filter combination for 15 minutes.
+### 4.1 Spec/EAV query strategy
+Specs live in an EAV structure (see the ERD) so admins can add attributes without a
+migration. Filtering does **not** query EAV directly: a denormalised `product_filter_cache`
+table (product_id, hp, wheel_drive, cylinders, fuel, price, lift_capacity, …) is rebuilt by
+a model observer on every save, and all facet queries hit that single flat, indexed table.
+Facet counts are cached in Redis for 15 minutes.
 
-### 3.2 Lead routing engine
-`RoutingEngine::route(Lead $lead)` evaluates ordered `routing_rules`; the first match wins.
-Each rule: scope (state/district), brand, category, lead type, assignee type, daily cap.
-Eligible dealers are ranked by (plan tier, response-time score, leads-today ascending) →
-round-robin. All decisions written to `lead_assignments` with the rule id, so routing is
+### 4.2 Search without a search server
+v1 uses MySQL `FULLTEXT` on `products(name)`, `used_listings(title)`, `dealers(business_name)`
+plus a `search_synonyms` table mapping Hindi/transliterated terms ("महिंद्रा", "mhindra" →
+"mahindra") applied before the query. Type-ahead is an AJAX endpoint returning the top 8
+matches per type. Meilisearch can be dropped in later behind the same `SearchService`
+interface without touching controllers.
+
+### 4.3 Lead routing engine
+`RoutingEngine::route(Lead $lead)` walks ordered `routing_rules`; first match wins. Eligible
+dealers are ranked by (plan tier, response-time score, leads-today ascending) and picked
+round-robin. Every decision is written to `lead_assignments` with the rule id, so routing is
 explainable. Unrouted leads fall back to the state's sales executive and raise an alert.
 
-### 3.3 Search
-Scout indexes: `products` (name, brand, category, specs summary, hp, price),
-`used_listings` (title, brand, model, year, city, price), `dealers` (name, city, brands),
-`blogs`. Hindi synonyms and transliteration pairs configured in Meilisearch settings.
-Indexing happens on queue via model observers; a nightly `search:reindex` reconciles.
-
-### 3.4 Caching & invalidation
+### 4.4 Caching
 | Layer | TTL | Invalidated by |
 |---|---|---|
-| Full-page cache (guest, static pages) | 1 h | content save |
 | Home blocks | 30 min | banner/product/offer observers |
 | Product detail fragments | 60 min | product observer |
 | Facet counts | 15 min | product save |
 | Geography, spec attributes, settings | 24 h | master save |
-Cache tags per entity; observers flush precisely, never the whole store.
+Blade fragments cached with `Cache::remember`, tagged per entity, flushed precisely by observers.
 
-### 3.5 Images
-Upload → queue job → generate `thumb (300px)`, `card (600px)`, `detail (1200px)` in WebP +
-JPEG fallback → store on S3 → CDN. `<img loading="lazy" srcset sizes>` everywhere, explicit
-width/height to protect CLS. Used-listing photos get an EXIF strip + perceptual hash for
-duplicate detection.
+### 4.5 Images
+Upload → queue job → `thumb 300w`, `card 600w`, `detail 1200w` in WebP + JPEG fallback →
+local disk or S3 → served through the CDN. `loading="lazy"`, `srcset`, explicit
+width/height to protect CLS. Used-listing photos get EXIF stripped and a perceptual hash
+stored for duplicate detection.
 
-### 3.6 Localisation
-UI strings in `lang/{en,hi}`; content fields via `spatie/laravel-translatable` JSON columns
-(`{"en": "...", "hi": "..."}`). `SetLocale` middleware resolves locale from the URL prefix →
-user preference → cookie → `Accept-Language`. Every route is registered twice (root and
-`/hi`) through a route macro.
+### 4.6 Localisation
+UI strings in `lang/{en,hi}`; translatable content fields stored as JSON
+(`{"en": "...", "hi": "..."}`) with an accessor. `SetLocale` middleware resolves from the
+URL prefix → user preference → cookie → `Accept-Language`. Routes registered twice (root and
+`/hi`) through a route macro; `hreflang` pairs emitted on every mirrored page.
 
-### 3.7 API
-`/api/v1`, JSON envelope `{data, meta, links, errors}`, Sanctum bearer tokens,
-`throttle:api` (60/min guest, 120/min authed), API Resources for serialisation,
-OpenAPI spec generated with `scribe` and served at `/docs/api`.
-
-### 3.8 Security
-- Bcrypt/Argon2 passwords; OTP stored hashed, single-use, TTL 10 min.
-- Rate limits: OTP 5/hr/mobile & 20/hr/IP; enquiry 10/hr/mobile; login 5/min/IP.
-- All forms CSRF-protected; CMS HTML sanitised on save; uploads validated by MIME + extension + size, stored outside the webroot, never executed.
-- KYC/loan documents on a **private** disk; access only through signed, 5-minute URLs and a policy check; downloads logged.
-- PAN/Aadhaar stored masked (`XXXXXX1234`) — full values never persisted in v1.
-- Security headers: CSP, HSTS, X-Content-Type-Options, Referrer-Policy, X-Frame-Options.
-- Admin: session timeout 30 min, IP allowlist option, 2FA (TOTP) for super-admin.
-- No PII in application logs; log scrubbing configured in Sentry.
+### 4.7 Security
+- OTP hashed, single-use, 10-minute TTL. Rate limits: OTP 5/hr/mobile and 20/hr/IP, enquiry 10/hr/mobile, login 5/min/IP.
+- CSRF on every form and every AJAX request; CMS HTML sanitised on save; uploads validated by MIME + extension + size and stored outside the webroot.
+- KYC and loan documents on a **private** disk, reachable only through 5-minute signed URLs behind a policy check; every download logged.
+- PAN/Aadhaar stored masked (`XXXXXX1234`) — full values are never persisted in v1.
+- Headers: CSP, HSTS, X-Content-Type-Options, Referrer-Policy, X-Frame-Options.
+- Admin: 30-minute session timeout, optional IP allowlist, 2FA for super-admin.
+- No PII in application logs.
 
 ---
 
-## 4. Environments & deployment
+## 5. Environments & deployment
 
-| Env | Purpose | Notes |
-|---|---|---|
-| local | Development | Laravel Sail / Herd, MySQL, Redis, Meilisearch in Docker |
-| staging | Client review + UAT | Same infra shape as prod, seeded demo data, `noindex` |
-| production | Live | India-region VM |
-
-**Production topology (v1):** Cloudflare (DNS, CDN, WAF) → Nginx → PHP-FPM 8.3 →
-MySQL 8 (same host or managed) + Redis + Meilisearch; S3/R2 for media; Supervisor running
-Horizon workers; cron for the scheduler. Vertical scale first; the app is stateless apart
-from Redis/DB so a second web node behind a load balancer is a drop-in step.
-
-**Deploy:** GitHub Actions → tests + Pint + Larastan → build assets → zero-downtime deploy
-(Deployer/Envoyer style symlink release) → `migrate --force` → `optimize` → queue restart.
-
-**Scheduled jobs:**
-| Command | Schedule |
+| Env | Notes |
 |---|---|
-| `listings:expire` | hourly |
-| `listings:expiry-reminders` | daily 09:00 |
-| `leads:followup-reminders` | daily 09:30 |
-| `leads:escalate-unresponded` | every 30 min |
-| `sitemap:generate` | daily 02:00 |
-| `search:reindex` | daily 03:00 |
-| `aggregates:recalculate` (ratings, counts) | hourly |
-| `reports:daily-digest` (email to admin) | daily 08:00 |
-| `backup:run` | daily 01:00 |
-| `logs:archive` (page_views, activity_logs) | monthly |
+| local | Laravel Sail or XAMPP/Herd — MySQL + Redis |
+| staging | Same shape as production, seeded demo data, `noindex` |
+| production | India-region VPS |
+
+**Topology:** Cloudflare (DNS, CDN, WAF) → Nginx or Apache → PHP-FPM 8.2 → MySQL 8 + Redis;
+media on local disk or S3; Supervisor for queue workers; cron for the scheduler. The app is
+stateless apart from DB/Redis, so a second web node behind a load balancer is a drop-in step.
+
+**Deploy:** git pull → `composer install --no-dev -o` → `migrate --force` →
+`config:cache route:cache view:cache` → `queue:restart`. GitHub Actions runs Pint and the
+test suite on every push.
+
+**Scheduled jobs:** `listings:expire` hourly · `listings:expiry-reminders` daily 09:00 ·
+`leads:followup-reminders` daily 09:30 · `leads:escalate-unresponded` every 30 min ·
+`sitemap:generate` daily 02:00 · `aggregates:recalculate` hourly · `reports:daily-digest`
+daily 08:00 · `backup:run` daily 01:00.
 
 ---
 
-## 5. Third-party integrations
+## 6. Third-party integrations
 
 | Service | Purpose | Phase |
 |---|---|---|
 | MSG91 / Twilio | Transactional SMS + OTP | 1 |
-| Amazon SES / SMTP | Email | 1 |
-| Cloudflare R2 / AWS S3 | Media + private documents | 1 |
-| Meilisearch | Search | 2 |
-| Google Maps / Mapbox | Dealer locator map, geocoding | 4 |
+| SMTP / Amazon SES | Email | 1 |
+| S3-compatible storage | Media + private documents | 1 |
 | Google reCAPTCHA v3 | Spam control | 2 |
-| GA4 + GTM + Meta Pixel | Analytics | 2 |
-| Firebase Cloud Messaging | Web push / app push | 6 |
-| WhatsApp Business (Gupshup/Interakt) | Lead + status alerts | 5 |
-| Razorpay | Dealer plans, listing boosts | 5 |
-| Exotel / Knowlarity | Masked calling, call logs | 5 |
-| Sentry | Error tracking | 1 |
+| GA4 + GTM | Analytics | 2 |
+| Google Maps | Dealer locator, geocoding | 3 |
+| Razorpay | Dealer plans, listing boosts | 4 |
+| WhatsApp Business (Gupshup/Interakt) | Lead and status alerts | 4 |
+| Exotel / Knowlarity | Masked calling, call logs | 4 |
+| Firebase Cloud Messaging | Web/app push | 5 |
+| Meilisearch (optional) | Upgrade from FULLTEXT search | 5 |
 
 ---
 
-## 6. Quality gates
+## 7. Quality gates
 
-- PR must pass: Pint, Larastan level 5, Pest suite, no `dd()`/`dump()`.
-- Feature tests required for: OTP auth, listing create→approve→live, lead create→route,
-  loan submit→status change, EMI math, permission enforcement per role, price resolution
-  by state, sitemap generation.
-- Seeded staging data for every demo.
-- Lighthouse budget checked on home, listing and detail templates before each release.
+- Every PR passes Pint and the PHPUnit suite; no `dd()` or `dump()`.
+- Feature tests required for: OTP auth, listing create → approve → live, lead create →
+  route, loan submit → status change, EMI maths, per-role permission enforcement,
+  state-wise price resolution, sitemap generation.
+- Every AJAX endpoint has a test asserting its JSON envelope and its authorisation.
+- Lighthouse checked on home, listing and detail templates before each release.

@@ -184,7 +184,7 @@ flowchart TD
     D -->|Reject| G[status=rejected + reason<br/>seller notified, can edit & resubmit]
     D -->|Block| H[status=blocked, user flagged]
 
-    E --> I[Indexed in Meilisearch + sitemap]
+    E --> I[Search index + sitemap updated]
     E --> J[Alert users with matching saved searches]
     F --> K[Seller edits → back to PENDING]
     G --> K

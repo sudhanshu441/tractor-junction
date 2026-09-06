@@ -33,8 +33,12 @@ Deep-link to any screen with its hash, e.g. `index.html#moderation`.
 
 ## What this is and isn't
 
-- **Is:** layout, hierarchy, states, real routes, realistic Indian agri-machinery data
-  (HP, engine hours, ex-showroom vs on-road, ₹ lakh pricing, reference numbers).
+- **Is:** layout, hierarchy, states, real routes, the white/green brand theme and logo,
+  and realistic Indian agri-machinery data (HP, engine hours, ex-showroom vs on-road,
+  ₹ lakh pricing, reference numbers).
 - **Isn't:** final visual design, real photography, or working logic. All figures are
   illustrative samples. No third-party imagery is used — the machinery graphics are
   inline SVG drawn for this prototype.
+
+Colours, type and the Bootstrap 5 component mapping are specified in
+[../docs/09-BRAND-GUIDE.md](../docs/09-BRAND-GUIDE.md).
