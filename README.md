@@ -17,7 +17,7 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 |---|---|---|---|
 | 0 | Discovery: PRD, ERD, flows, IA, admin spec, brand + logo, prototype | — | ✅ Approved |
 | 1 | Foundation, admin shell, masters, auth, RBAC | 8–10 | ✅ **Complete** — [notes](docs/10-PHASE-1-NOTES.md) |
-| 2 | Catalogue & public website (SEO engine) | 12–14 | ⏸ |
+| 2 | Catalogue & public website (SEO engine) | 12–14 | ✅ **Complete** — [notes](docs/11-PHASE-2-NOTES.md) |
 | 3 | Used marketplace, leads, customer panel | 12–14 | ⏸ |
 | 4 | Dealers, finance, monetisation | 12–14 | ⏸ |
 | 5 | Content, SEO, multilingual, API, launch | 10–12 | ⏸ |
@@ -25,8 +25,8 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 Total ≈ **54–64 dev days** (11–13 weeks solo, 7–8 with two developers). Full breakdown in
 [docs/07-DEV-ROADMAP.md](docs/07-DEV-ROADMAP.md).
 
-**Phase 1 is built and tested.** 24 feature tests passing, 106 tables, OTP auth, RBAC and
-the admin shell verified in a browser. Setup instructions are in
+**Phases 1 and 2 are built and tested.** 57 feature tests passing, 106 tables, OTP auth,
+RBAC, and a working catalogue: 58 demo products with live filters, comparison and search. Setup instructions are in
 [docs/10-PHASE-1-NOTES.md](docs/10-PHASE-1-NOTES.md).
 
 ```bash
@@ -54,6 +54,7 @@ Super admin: `admin@krishijunction.com` · mobile `9000000001` · local password
 | 08 | [Content & Media Plan](docs/08-CONTENT-MEDIA-PLAN.md) | Images, image sourcing, naming, sizes, seed data plan |
 | 09 | [Brand Guide](docs/09-BRAND-GUIDE.md) | Logo usage, white/green palette, type scale, Bootstrap mapping |
 | 10 | [Phase 1 Notes](docs/10-PHASE-1-NOTES.md) | What shipped, how to run it, deviations, known gaps |
+| 11 | [Phase 2 Notes](docs/11-PHASE-2-NOTES.md) | Catalogue, listing, detail, compare, search — and the bugs caught |
 
 ## Prototype
 

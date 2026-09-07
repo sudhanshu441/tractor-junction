@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Product;
+use App\Models\ProductSpecValue;
+use App\Observers\ProductObserver;
+use App\Observers\ProductSpecValueObserver;
 use App\Services\Sms\LogSmsGateway;
 use App\Services\Sms\Msg91SmsGateway;
 use App\Services\Sms\SmsGateway;
@@ -27,6 +31,8 @@ class KrishiJunctionServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        // Keeps the denormalised filter cache in step with the EAV.
+        Product::observe(ProductObserver::class);
+        ProductSpecValue::observe(ProductSpecValueObserver::class);
     }
 }

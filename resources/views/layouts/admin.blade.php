@@ -17,9 +17,18 @@
             <li><a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a></li>
 
             <li class="nav-heading">{{ __('Catalogue') }}</li>
-            @foreach ([__('Brands'), __('Categories'), __('Products'), __('Specifications'), __('Prices')] as $item)
-                <li><a class="nav-link disabled text-muted-2" href="#" aria-disabled="true">{{ $item }} <span class="badge badge-muted ms-auto">{{ __('Phase 2') }}</span></a></li>
-            @endforeach
+            @can('brands.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.brands.*') ? 'active' : '' }}" href="{{ route('admin.brands.index') }}">{{ __('Brands') }}</a></li>
+            @endcan
+            @can('categories.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">{{ __('Categories') }}</a></li>
+            @endcan
+            @can('products.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">{{ __('Products') }}</a></li>
+            @endcan
+            @can('specs.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.specs.*') ? 'active' : '' }}" href="{{ route('admin.specs.index') }}">{{ __('Specifications') }}</a></li>
+            @endcan
 
             <li class="nav-heading">{{ __('Marketplace') }}</li>
             @foreach ([__('Used listings'), __('Moderation'), __('Inspections')] as $item)

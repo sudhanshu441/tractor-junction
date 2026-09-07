@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             NotificationTemplateSeeder::class,
             AdminUserSeeder::class,
+            CatalogMasterSeeder::class,
+            DemoProductSeeder::class,
         ]);
     }
 }

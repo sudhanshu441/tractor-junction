@@ -93,7 +93,9 @@ return new class extends Migration
             $table->foreignId('brand_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('slug')->unique();
+            // Unique per brand, not globally: the public URL is /tractors/{brand}/{slug},
+            // so two makers may both sell a "242" without one becoming "242-2".
+            $table->string('slug');
             $table->string('model_code', 60)->nullable();
             $table->enum('status', ['available', 'upcoming', 'discontinued'])->default('available');
             $table->decimal('hp_min', 6, 2)->nullable();
@@ -117,6 +119,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['brand_id', 'slug']);
             $table->index(['brand_id', 'status']);
             $table->index(['category_id', 'status', 'is_active']);
             $table->index(['is_popular', 'popularity_score']);
