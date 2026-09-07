@@ -17,6 +17,16 @@ class UsedListing extends Model
 
     protected $table = 'used_listings';
 
+    protected $attributes = [
+        'status' => 'draft',
+        'seller_type' => 'owner',
+        'view_count' => 0,
+        'lead_count' => 0,
+        'is_verified' => false,
+        'is_featured' => false,
+        'is_price_negotiable' => true,
+    ];
+
     protected $fillable = [
         'reference_no',
         'user_id',

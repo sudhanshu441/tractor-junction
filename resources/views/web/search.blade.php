@@ -52,7 +52,7 @@
             <h2 class="h6 mb-2">{{ __('Trending searches') }}</h2>
             <div class="d-flex gap-2 flex-wrap">
                 @foreach ($trending as $row)
-                    <a href="{{ route('search', ['q' => $row->term]) }}" class="btn btn-sm btn-outline-primary">{{ $row->term }}</a>
+                    <a href="{{ route('search', ['q' => $row['term']]) }}" class="btn btn-sm btn-outline-primary">{{ $row['term'] }}</a>
                 @endforeach
             </div>
         </section>

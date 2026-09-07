@@ -124,13 +124,19 @@ class SearchService
         ]);
     }
 
+    /** @return Collection<int, array{term: string, hits: int}> */
     public function trending(int $limit = 8): Collection
     {
-        return Cache::remember('catalog.trending_searches', now()->addHour(),
+        $rows = Cache::remember('catalog.trending_searches', now()->addHour(),
             fn () => SearchLog::query()
                 ->select('term', DB::raw('count(*) as hits'))
                 ->where('created_at', '>=', now()->subDays(30))
                 ->where('results_count', '>', 0)
-                ->groupBy('term')->orderByDesc('hits')->limit($limit)->get());
+                ->groupBy('term')->orderByDesc('hits')->limit($limit)
+                ->get()
+                ->map(fn ($row) => ['term' => (string) $row->term, 'hits' => (int) $row->hits])
+                ->all());
+
+        return collect($rows);
     }
 }

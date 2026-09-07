@@ -227,3 +227,28 @@ a:focus-visible, button:focus-visible, .form-control:focus-visible, .nav-link:fo
 .kj-image-tile { position: relative; border: 1px solid var(--kj-line); border-radius: .5rem; overflow: hidden; }
 .kj-image-tile img { width: 100%; height: 110px; object-fit: cover; display: block; }
 .kj-image-tile .actions { position: absolute; inset: auto 0 0 0; display: flex; gap: .25rem; padding: .25rem; background: rgba(255,255,255,.92); }
+
+/* ---------- sell wizard ---------- */
+.kj-steps { display: flex; gap: .25rem; align-items: center; }
+.kj-step { display: flex; flex-direction: column; align-items: center; gap: .25rem; flex: 1; text-align: center; }
+.kj-step-dot {
+  width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+  border: 1.5px solid var(--kj-line-2, var(--kj-line)); color: var(--kj-ink-3);
+  font-family: "IBM Plex Mono", monospace; font-size: .75rem; background: var(--kj-surface);
+}
+.kj-step-label { font-size: .6875rem; color: var(--kj-ink-3); }
+.kj-step.is-current .kj-step-dot { border-color: var(--kj-green-700); color: var(--kj-green-700); font-weight: 600; }
+.kj-step.is-current .kj-step-label { color: var(--kj-ink); font-weight: 600; }
+.kj-step.is-done .kj-step-dot { background: var(--kj-green-700); border-color: var(--kj-green-700); color: #fff; }
+
+/* ---------- moderation queue ---------- */
+.kj-moderation-photo { border: 1px solid var(--kj-line); border-radius: .5rem; overflow: hidden; background: var(--kj-sunk); }
+.kj-moderation-photo img { width: 100%; height: 150px; object-fit: cover; display: block; }
+.kj-moderation-photo .angle {
+  font-size: .625rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--kj-ink-3); padding: .25rem .4rem;
+}
+kbd {
+  background: var(--kj-ink); color: var(--kj-surface); border-radius: 3px;
+  padding: .1rem .3rem; font-size: .6875rem; font-family: "IBM Plex Mono", monospace;
+}

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\Admin\ModerationController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
@@ -83,6 +85,37 @@ Route::prefix('admin')->name('admin.')
             Route::delete('/products/{product}/prices/{price}', [PriceController::class, 'destroy'])->name('prices.destroy');
             Route::post('/prices/import', [PriceController::class, 'import'])->name('prices.import');
         });
+
+        // ----- Used marketplace moderation -----
+        Route::middleware('permission:listings.view')->group(function () {
+            Route::get('/used-listings', [ModerationController::class, 'index'])->name('listings.index');
+            Route::post('/used-listings/data', [ModerationController::class, 'data'])->name('listings.data');
+            Route::get('/used-listings/moderation', [ModerationController::class, 'queue'])->name('listings.queue');
+            Route::get('/used-listings/reports', [ModerationController::class, 'reports'])->name('listings.reports');
+        });
+        Route::middleware('permission:listings.approve')->group(function () {
+            Route::post('/used-listings/{listing}/decide', [ModerationController::class, 'decide'])->name('listings.decide');
+            Route::post('/used-listings/bulk-approve', [ModerationController::class, 'bulkApprove'])->name('listings.bulk-approve');
+            Route::post('/reports/{report}/resolve', [ModerationController::class, 'resolveReport'])->name('listings.reports.resolve');
+        });
+
+        // ----- Leads -----
+        Route::middleware('permission:leads.view')->group(function () {
+            Route::get('/leads', [LeadController::class, 'index'])->name('leads.index');
+            Route::post('/leads/data', [LeadController::class, 'data'])->name('leads.data');
+            Route::get('/leads/{lead}', [LeadController::class, 'show'])->name('leads.show');
+        });
+        Route::middleware('permission:leads.edit')->group(function () {
+            Route::post('/leads/{lead}/status', [LeadController::class, 'changeStatus'])->name('leads.status');
+            Route::post('/leads/{lead}/note', [LeadController::class, 'addNote'])->name('leads.note');
+        });
+        Route::middleware('permission:leads.assign')->group(function () {
+            Route::post('/leads/{lead}/assign', [LeadController::class, 'assign'])->name('leads.assign');
+            Route::post('/leads/{lead}/merge', [LeadController::class, 'merge'])->name('leads.merge');
+            Route::post('/leads/bulk-route', [LeadController::class, 'bulkRoute'])->name('leads.bulk-route');
+        });
+        Route::middleware('permission:leads.export')
+            ->get('/leads-export', [LeadController::class, 'export'])->name('leads.export');
 
         // Staff users
         Route::middleware('permission:users.view')->group(function () {

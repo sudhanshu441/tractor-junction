@@ -102,6 +102,16 @@ class User extends Authenticatable
         return $this->hasMany(Wishlist::class);
     }
 
+    public function leadAssignments(): HasMany
+    {
+        return $this->hasMany(LeadAssignment::class);
+    }
+
+    public function leadActivities(): HasMany
+    {
+        return $this->hasMany(LeadActivity::class);
+    }
+
     /** Dealer memberships — a user can be owner of one dealer and staff at another. */
     public function dealerLinks(): HasMany
     {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UsedListingStatusLog extends Model
 {
@@ -24,5 +25,15 @@ class UsedListingStatusLog extends Model
         return [
 
         ];
+    }
+
+    public function listing(): BelongsTo
+    {
+        return $this->belongsTo(UsedListing::class, 'used_listing_id');
+    }
+
+    public function changedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'changed_by');
     }
 }

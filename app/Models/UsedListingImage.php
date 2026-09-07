@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UsedListingImage extends Model
 {
@@ -26,5 +27,20 @@ class UsedListingImage extends Model
         return [
             'is_primary' => 'boolean',
         ];
+    }
+
+    public function listing(): BelongsTo
+    {
+        return $this->belongsTo(UsedListing::class, 'used_listing_id');
+    }
+
+    public function url(): string
+    {
+        return asset('storage/'.ltrim($this->path, '/'));
+    }
+
+    public function thumbnailUrl(): string
+    {
+        return asset('storage/'.ltrim($this->thumbnail_path ?: $this->path, '/'));
     }
 }

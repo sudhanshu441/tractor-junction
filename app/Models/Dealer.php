@@ -18,6 +18,21 @@ class Dealer extends Model
 
     protected $table = 'dealers';
 
+    /**
+     * Defaults that must exist on an unsaved instance too: the routing engine
+     * reads response_score straight after create(), where a database default
+     * would not yet be populated.
+     */
+    protected $attributes = [
+        'verification_status' => 'pending',
+        'response_score' => 5,
+        'rating_avg' => 0,
+        'rating_count' => 0,
+        'lead_count' => 0,
+        'is_active' => true,
+        'is_featured' => false,
+    ];
+
     protected $fillable = [
         'code',
         'owner_user_id',

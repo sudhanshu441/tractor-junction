@@ -31,12 +31,36 @@
             @endcan
 
             <li class="nav-heading">{{ __('Marketplace') }}</li>
-            @foreach ([__('Used listings'), __('Moderation'), __('Inspections')] as $item)
-                <li><a class="nav-link disabled text-muted-2" href="#" aria-disabled="true">{{ $item }} <span class="badge badge-muted ms-auto">{{ __('Phase 3') }}</span></a></li>
-            @endforeach
+            @can('listings.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.listings.index') ? 'active' : '' }}" href="{{ route('admin.listings.index') }}">{{ __('Used listings') }}</a></li>
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.listings.queue') ? 'active' : '' }}" href="{{ route('admin.listings.queue') }}">
+                        {{ __('Moderation') }}
+                        @php $pending = \App\Models\UsedListing::pendingReview()->count(); @endphp
+                        @if ($pending)<span class="badge badge-bad ms-auto">{{ $pending }}</span>@endif
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.listings.reports') ? 'active' : '' }}" href="{{ route('admin.listings.reports') }}">
+                        {{ __('Reports') }}
+                        @php $reports = \App\Models\ListingReport::open()->count(); @endphp
+                        @if ($reports)<span class="badge badge-bad ms-auto">{{ $reports }}</span>@endif
+                    </a>
+                </li>
+            @endcan
+            <li><a class="nav-link disabled text-muted-2" href="#" aria-disabled="true">{{ __('Inspections') }} <span class="badge badge-muted ms-auto">{{ __('Phase 4') }}</span></a></li>
 
             <li class="nav-heading">{{ __('Network & demand') }}</li>
-            @foreach ([__('Dealers') => 4, __('Leads') => 3, __('Loan applications') => 4] as $item => $phase)
+            @can('leads.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.leads.*') ? 'active' : '' }}" href="{{ route('admin.leads.index') }}">
+                        {{ __('Leads') }}
+                        @php $unassigned = \App\Models\Lead::unassigned()->count(); @endphp
+                        @if ($unassigned)<span class="badge badge-bad ms-auto">{{ $unassigned }}</span>@endif
+                    </a>
+                </li>
+            @endcan
+            @foreach ([__('Dealers') => 4, __('Loan applications') => 4] as $item => $phase)
                 <li><a class="nav-link disabled text-muted-2" href="#" aria-disabled="true">{{ $item }} <span class="badge badge-muted ms-auto">{{ __('Phase :n', ['n' => $phase]) }}</span></a></li>
             @endforeach
 

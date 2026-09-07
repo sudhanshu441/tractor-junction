@@ -15,13 +15,15 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('dealer_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('seller_type', ['owner', 'dealer', 'broker'])->default('owner');
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('brand_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('brand_id')->nullable()->constrained()->cascadeOnDelete();
             // matched catalogue model — specs and images are inherited from it
             $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->year('manufacturing_year');
+            // Nullable because a draft exists before the seller has told us what the
+            // machine is; both are set when the listing is submitted for review.
+            $table->string('title')->nullable();
+            $table->string('slug')->nullable()->unique();
+            $table->year('manufacturing_year')->nullable();
             $table->unsignedInteger('engine_hours')->nullable();
             $table->decimal('hp', 6, 2)->nullable();
             $table->enum('condition', ['excellent', 'good', 'average', 'needs_repair'])->default('good');
@@ -32,7 +34,7 @@ return new class extends Migration
             $table->date('insurance_valid_till')->nullable();
             $table->boolean('is_financed')->default(false);
             $table->string('registration_number', 20)->nullable(); // masked in public views
-            $table->decimal('expected_price', 12, 2);
+            $table->decimal('expected_price', 12, 2)->nullable();
             $table->decimal('negotiable_to', 12, 2)->nullable();
             $table->boolean('is_price_negotiable')->default(true);
             $table->text('description')->nullable();

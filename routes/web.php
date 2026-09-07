@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\CompareController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\SearchController;
+use App\Http\Controllers\Web\SellController;
+use App\Http\Controllers\Web\UsedListingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +23,22 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 // ----- comparison (before the catalogue routes so /compare is not eaten by a slug) -----
 Route::get('/compare', [CompareController::class, 'index'])->name('compare.index');
 Route::get('/compare/{slug}', [CompareController::class, 'show'])->name('compare.show');
+
+/*
+| Used marketplace. Geo segments come before the slug route so /used/listing/x
+| is never eaten by a state lookup.
+*/
+Route::prefix('used')->name('used.')->group(function () {
+    Route::get('/', [UsedListingController::class, 'index'])->name('index');
+    Route::get('/listing/{slug}', [UsedListingController::class, 'show'])->name('show');
+    Route::get('/tractors', [UsedListingController::class, 'index'])->name('tractors');
+    Route::get('/tractors/{state}', [UsedListingController::class, 'index'])->name('state');
+    Route::get('/tractors/{state}/{district}', [UsedListingController::class, 'index'])->name('district');
+});
+
+// ----- sell wizard -----
+Route::get('/sell', [SellController::class, 'start'])->name('sell.start');
+Route::get('/sell/submitted/{reference}', [SellController::class, 'submitted'])->name('sell.submitted');
 
 // ----- state price lists -----
 Route::get('/tractors/price-list/{state}', [ProductController::class, 'priceList'])->name('products.price-list');

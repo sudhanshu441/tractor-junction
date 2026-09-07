@@ -1,8 +1,12 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+/*
+| Scheduled work. Everything here is idempotent and safe to re-run.
+*/
+
+Schedule::command('listings:expire')->hourly()->withoutOverlapping();
+Schedule::command('listings:expiry-reminders')->dailyAt('09:00');
+Schedule::command('leads:escalate')->everyThirtyMinutes()->withoutOverlapping();
+Schedule::command('leads:followup-reminders')->dailyAt('09:30');
