@@ -9,7 +9,7 @@ been run start to finish; the output quoted is what you should actually see.
 
 | Software | Version | Check with |
 |---|---|---|
-| PHP | **8.3 or newer** | `php -v` |
+| PHP | **8.2 or newer** | `php -v` |
 | Composer | 2.x | `composer -V` |
 | MySQL | 8.0+ (or MariaDB 10.6+) | `mysql --version` |
 | Git | any | `git --version` |
@@ -26,13 +26,14 @@ php -m | grep -Ei "pdo_mysql|mbstring|openssl|tokenizer|xml|ctype|json|bcmath|fi
 <summary><b>Installing the prerequisites</b></summary>
 
 **Windows** — the simplest route is [Laragon](https://laragon.org/) (bundles PHP,
-MySQL, Composer). Otherwise install PHP 8.3 from [windows.php.net](https://windows.php.net/download/),
-then enable the extensions above in `php.ini` by removing the leading `;`.
+MySQL, Composer). Otherwise install PHP 8.2 or newer from
+[windows.php.net](https://windows.php.net/download/), then enable the extensions
+above in `php.ini` by removing the leading `;`.
 
 **macOS**
 
 ```bash
-brew install php@8.3 composer mysql
+brew install php@8.2 composer mysql
 brew services start mysql
 ```
 
@@ -40,10 +41,17 @@ brew services start mysql
 
 ```bash
 sudo apt update
-sudo apt install -y php8.3 php8.3-{cli,mysql,mbstring,xml,curl,gd,zip,bcmath} \
+sudo apt install -y php8.2 php8.2-{cli,mysql,mbstring,xml,curl,gd,zip,bcmath} \
                     mysql-server composer git
 sudo systemctl start mysql
 ```
+
+Anything from 8.2 up works, including 8.3 and 8.4 — 8.2 is the floor, not a pin.
+
+`composer.json` sets `config.platform.php` to `8.2.0`, so Composer resolves
+packages for 8.2 even when you run a newer PHP. That is deliberate: it means the
+committed `composer.lock` is guaranteed to install on the lowest version the
+project supports, rather than quietly picking a package that needs 8.3.
 </details>
 
 ---
@@ -316,7 +324,7 @@ Run the test suite to confirm the install is sound (about 10 minutes):
 php artisan test
 ```
 
-226 tests should pass.
+236 tests should pass.
 
 ---
 

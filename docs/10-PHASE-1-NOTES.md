@@ -28,7 +28,7 @@ Mobile OTP login works without an SMS account: with `SMS_DRIVER=log` and
 
 | # | Deliverable | Detail |
 |---|---|---|
-| 1.1 | Laravel install, structure, tooling | Laravel 13.30, PHP 8.2+, Pint, PHPUnit, `config/kj.php` for business rules |
+| 1.1 | Laravel install, structure, tooling | Laravel 12.69, PHP 8.2+, Pint, PHPUnit, `config/kj.php` for business rules |
 | 1.2 | Bootstrap 5 brand theme | `public/assets/css/custom.css` — white/green tokens over Bootstrap variables, Archivo + IBM Plex, logo and favicons wired in |
 | 1.3 | Layouts & components | `base`, `app` (public), `admin`, `panel` (customer/dealer) + header, footer, stat tiles, badges, toasts |
 | 1.4 | Database | 15 migrations → **106 tables** (94 domain + Laravel/vendor), 86 Eloquent models, relationships on every core model, `UserFactory` |
@@ -62,7 +62,7 @@ Each of these is a deliberate call, not drift. Say the word and any can be chang
 
 | # | Document said | Built | Why |
 |---|---|---|---|
-| D1 | Laravel 11 | **Laravel 13.30** | Laravel 11 is past its security-patch window and `composer audit` reported 3 open advisories against it, one rated high. Same Blade/Eloquent APIs; nothing in the design changes. |
+| D1 | Laravel 11 | **Laravel 12.69** | Laravel 11 is past its security-patch window and `composer audit` reported 3 open advisories against it, one rated high. Laravel 12 is current, still receiving security patches, and is the newest release that runs on PHP 8.2 — Laravel 13 requires 8.3. Same Blade/Eloquent APIs; nothing in the design changes. |
 | D2 | Four auth guards (`web`, `dealer`, `staff`, `sanctum`) | One session guard + `user.type` middleware + Spatie roles | One `users` table backs every panel, so separate guards would duplicate auth config without adding a boundary. The panel gate is enforced in middleware and covered by tests. Sanctum still arrives with the API in phase 5. |
 | D3 | ~180 permissions | **134 permissions** | That is what the real module × action matrix yields. The estimate was approximate; the matrix is the source of truth. |
 | D4 | ~780 districts, ~4 000 cities | 310 districts / 310 cities across 8 states | Fabricating a national district list risks wrong data in a production dropdown. The 8 highest-volume agri states are seeded (UP, MP, RJ, MH, PB, HR, GJ, BR) and `php artisan geo:import <csv>` loads the authoritative dataset without a code change. **This needs the real dataset before launch.** |

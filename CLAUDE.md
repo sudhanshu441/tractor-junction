@@ -5,7 +5,7 @@ Read `docs/` before changing anything structural — the PRD, ERD and flows are 
 
 ## Stack (fixed by the client)
 
-Laravel 13 · PHP 8.2+ · MySQL 8 · Blade · **Bootstrap 5 · jQuery · AJAX** · HTML · CSS.
+Laravel 12 · PHP 8.2+ · MySQL 8 · Blade · **Bootstrap 5 · jQuery · AJAX** · HTML · CSS.
 No SPA framework, no Livewire, no admin framework, no Node runtime in production.
 
 ## Rules

@@ -25,7 +25,7 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 Total ≈ **54–64 dev days** (11–13 weeks solo, 7–8 with two developers). Full breakdown in
 [docs/07-DEV-ROADMAP.md](docs/07-DEV-ROADMAP.md).
 
-**All five phases are built and tested.** 226 tests passing: OTP auth and RBAC, a
+**All five phases are built and tested.** 236 tests passing: OTP auth and RBAC, a
 catalogue with live filters and comparison, a used marketplace with a sell wizard,
 moderation queue and lead routing engine, a dealer network with plans, loans,
 insurance, inspections and reviews, and a bilingual content and SEO layer with a
