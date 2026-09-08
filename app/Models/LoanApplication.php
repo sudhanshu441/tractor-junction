@@ -98,6 +98,21 @@ class LoanApplication extends Model
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
     public function scopeOpen(Builder $query): Builder
     {
         return $query->whereNotIn('status', ['sanctioned', 'rejected', 'disbursed', 'cancelled']);

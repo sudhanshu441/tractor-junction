@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DealerInventory extends Model
 {
@@ -29,5 +30,20 @@ class DealerInventory extends Model
             'offer_price' => 'decimal:2',
             'is_active' => 'boolean',
         ];
+    }
+
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(Dealer::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(DealerBranch::class, 'dealer_branch_id');
     }
 }

@@ -30,6 +30,18 @@ return [
 
     'disks' => [
 
+        /*
+         | KYC, loan and dealer documents. Never web-readable: files are served
+         | only through a signed, short-lived route behind a policy check.
+         */
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private-documents'),
+            'serve' => false,
+            'throw' => false,
+            'visibility' => 'private',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),

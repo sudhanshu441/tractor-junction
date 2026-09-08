@@ -6,6 +6,7 @@ use App\Domain\Catalog\Filters\ProductFilter;
 use App\Domain\Catalog\Services\CompareService;
 use App\Domain\Catalog\Services\FacetService;
 use App\Domain\Catalog\Services\PriceService;
+use App\Domain\Engagement\Services\ReviewService;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
@@ -26,6 +27,7 @@ class ProductController extends Controller
         private readonly FacetService $facets,
         private readonly PriceService $prices,
         private readonly CompareService $compare,
+        private readonly ReviewService $reviews,
     ) {}
 
     /** Listing for a machinery type: /tractors, /implements, /harvesters… */
@@ -81,6 +83,8 @@ class ProductController extends Controller
             'competitors' => $product->competitors->pluck('competitorProduct')->filter(),
             'similar' => $this->similar($product),
             'compareIds' => $this->compare->ids(),
+            'reviewSummary' => $this->reviews->summary($product),
+            'reviews' => $product->reviews()->with('user')->approved()->latest()->limit(20)->get(),
         ]);
     }
 

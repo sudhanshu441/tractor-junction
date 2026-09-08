@@ -50,5 +50,27 @@ return [
         'duplicate_window_days' => 7,
     ],
 
+    'documents' => [
+        'audit_channel' => env('KJ_DOCUMENT_AUDIT_CHANNEL', 'stack'),
+        'max_size_kb' => (int) env('KJ_DOCUMENT_MAX_KB', 5120),
+        'link_ttl_minutes' => 5,
+    ],
+
+    'finance' => [
+        'default_interest_rate' => (float) env('KJ_DEFAULT_INTEREST_RATE', 11.5),
+        'default_down_payment_percent' => (int) env('KJ_DEFAULT_DOWN_PAYMENT', 20),
+        'min_tenure_months' => 12,
+        'max_tenure_months' => 84,
+    ],
+
+    'payments' => [
+        'driver' => env('PAYMENT_DRIVER', 'log'),
+        'currency' => 'INR',
+        'razorpay' => [
+            'key_id' => env('RAZORPAY_KEY_ID'),
+            'key_secret' => env('RAZORPAY_KEY_SECRET'),
+        ],
+    ],
+
     'locales' => ['en' => 'English', 'hi' => 'हिन्दी'],
 ];

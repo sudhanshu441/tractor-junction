@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Lender extends Model
 {
@@ -42,5 +43,12 @@ class Lender extends Model
             'states_served' => 'array',
             'is_active' => 'boolean',
         ];
+    }
+
+    public function applications(): BelongsToMany
+    {
+        return $this->belongsToMany(LoanApplication::class, 'loan_application_lenders')
+            ->withPivot(['status', 'sanctioned_amount', 'offered_rate', 'sent_at', 'remarks'])
+            ->withTimestamps();
     }
 }

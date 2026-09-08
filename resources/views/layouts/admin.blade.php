@@ -48,7 +48,24 @@
                     </a>
                 </li>
             @endcan
-            <li><a class="nav-link disabled text-muted-2" href="#" aria-disabled="true">{{ __('Inspections') }} <span class="badge badge-muted ms-auto">{{ __('Phase 4') }}</span></a></li>
+            @can('inspections.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.inspections.*') ? 'active' : '' }}" href="{{ route('admin.inspections.index') }}">
+                        {{ __('Inspections') }}
+                        @php $openInspections = \App\Models\Inspection::open()->count(); @endphp
+                        @if ($openInspections)<span class="badge badge-warn ms-auto">{{ $openInspections }}</span>@endif
+                    </a>
+                </li>
+            @endcan
+            @can('reviews.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}" href="{{ route('admin.reviews.index') }}">
+                        {{ __('Reviews') }}
+                        @php $pendingReviews = \App\Models\Review::where('status', 'pending')->count(); @endphp
+                        @if ($pendingReviews)<span class="badge badge-bad ms-auto">{{ $pendingReviews }}</span>@endif
+                    </a>
+                </li>
+            @endcan
 
             <li class="nav-heading">{{ __('Network & demand') }}</li>
             @can('leads.view')
@@ -60,9 +77,24 @@
                     </a>
                 </li>
             @endcan
-            @foreach ([__('Dealers') => 4, __('Loan applications') => 4] as $item => $phase)
-                <li><a class="nav-link disabled text-muted-2" href="#" aria-disabled="true">{{ $item }} <span class="badge badge-muted ms-auto">{{ __('Phase :n', ['n' => $phase]) }}</span></a></li>
-            @endforeach
+            @can('dealers.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.dealers.*') ? 'active' : '' }}" href="{{ route('admin.dealers.index') }}">
+                        {{ __('Dealers') }}
+                        @php $pendingDealers = \App\Models\Dealer::where('verification_status', 'pending')->count(); @endphp
+                        @if ($pendingDealers)<span class="badge badge-warn ms-auto">{{ $pendingDealers }}</span>@endif
+                    </a>
+                </li>
+            @endcan
+            @can('loans.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.loans.*') ? 'active' : '' }}" href="{{ route('admin.loans.index') }}">
+                        {{ __('Loan applications') }}
+                        @php $openLoans = \App\Models\LoanApplication::whereIn('status', ['submitted', 'docs_pending'])->count(); @endphp
+                        @if ($openLoans)<span class="badge badge-warn ms-auto">{{ $openLoans }}</span>@endif
+                    </a>
+                </li>
+            @endcan
 
             <li class="nav-heading">{{ __('Access') }}</li>
             @can('users.view')

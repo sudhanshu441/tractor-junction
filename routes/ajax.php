@@ -6,6 +6,10 @@ use App\Http\Controllers\Ajax\ListingReportController;
 use App\Http\Controllers\Ajax\ProductFilterController;
 use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Web\CompareController;
+use App\Http\Controllers\Web\EmiController;
+use App\Http\Controllers\Web\InsuranceController;
+use App\Http\Controllers\Web\LoanController;
+use App\Http\Controllers\Web\ReviewController;
 use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\SellController;
 use App\Http\Controllers\Web\UsedListingController;
@@ -53,6 +57,29 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
         ->middleware('throttle:20,60')->name('leads.store');
     Route::post('/used/{listing}/reveal', [LeadController::class, 'revealContact'])
         ->middleware('throttle:20,60')->name('used.reveal');
+
+    // Finance
+    Route::post('/emi/calculate', [EmiController::class, 'calculate'])
+        ->middleware('throttle:60,1')->name('emi.calculate');
+    Route::post('/loan/eligibility', [LoanController::class, 'eligibility'])
+        ->middleware('throttle:30,1')->name('loan.eligibility');
+    Route::post('/loan/step/{step}', [LoanController::class, 'saveStep'])
+        ->whereNumber('step')->middleware('throttle:60,1')->name('loan.step');
+    Route::post('/loan/document', [LoanController::class, 'uploadDocument'])
+        ->middleware('throttle:30,1')->name('loan.document');
+    Route::post('/loan/submit', [LoanController::class, 'submit'])
+        ->middleware('throttle:10,1')->name('loan.submit');
+
+    Route::post('/insurance', [InsuranceController::class, 'store'])
+        ->middleware('throttle:10,60')->name('insurance.store');
+
+    // Reviews — signed in, because a review carries a name on a public page
+    Route::middleware('auth')->group(function () {
+        Route::post('/reviews', [ReviewController::class, 'store'])
+            ->middleware('throttle:5,60')->name('reviews.store');
+        Route::post('/reviews/{review}/vote', [ReviewController::class, 'vote'])
+            ->middleware('throttle:60,1')->name('reviews.vote');
+    });
 
     // Comparison
     Route::post('/compare/add', [CompareController::class, 'add'])->name('compare.add');

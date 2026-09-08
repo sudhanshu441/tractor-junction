@@ -119,9 +119,18 @@ class Dealer extends Model
         return $this->hasMany(DealerSubscription::class);
     }
 
+    /**
+     * The constraint has to live inside the aggregate subquery, not outside it:
+     * `->where(...)->latestOfMany()` picks the newest row of any status and only
+     * then filters, so an abandoned pending_payment checkout would hide the plan
+     * the dealer is actually on.
+     */
     public function activeSubscription(): HasOne
     {
-        return $this->hasOne(DealerSubscription::class)->where('status', 'active')->latestOfMany();
+        return $this->hasOne(DealerSubscription::class)->ofMany(
+            ['id' => 'max'],
+            fn ($query) => $query->where('status', 'active'),
+        );
     }
 
     public function usedListings(): HasMany

@@ -16,7 +16,15 @@
             <h1 class="h5 mb-1">{{ $listing->title ?: __('Draft listing') }}</h1>
             <p class="small text-muted-2 mb-0 mono">{{ $listing->reference_no }}</p>
         </div>
-        <span class="badge {{ $listing->status === 'live' ? 'badge-ok' : 'badge-muted' }}">{{ ucfirst($listing->status) }}</span>
+        <div class="d-flex align-items-center gap-2">
+            @if ($listing->is_featured)
+                <span class="badge badge-ok">{{ __('Promoted') }}</span>
+            @endif
+            <span class="badge {{ $listing->status === 'live' ? 'badge-ok' : 'badge-muted' }}">{{ ucfirst($listing->status) }}</span>
+            @if ($listing->status === 'live')
+                <a href="{{ route('account.boost.show', $listing) }}" class="btn btn-sm btn-outline-primary">{{ __('Promote') }}</a>
+            @endif
+        </div>
     </div>
 
     <div class="row g-3 mt-2">

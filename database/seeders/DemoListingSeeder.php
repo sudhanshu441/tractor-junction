@@ -32,6 +32,9 @@ class DemoListingSeeder extends Seeder
                 ['mobile' => $row[1]],
                 [
                     'name' => $row[0],
+                    // An email as well, so the seller panel can be opened with the
+                    // password login while exploring the demo data.
+                    'email' => str($row[0])->slug().'@example.com',
                     'mobile_verified_at' => now(),
                     'password' => Hash::make('KrishiDemo@2026'),
                     'user_type' => 'customer',

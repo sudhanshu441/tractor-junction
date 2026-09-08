@@ -3,10 +3,14 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DealerController;
+use App\Http\Controllers\Admin\InspectionController;
 use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\ModerationController;
 use App\Http\Controllers\Admin\PriceController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SpecController;
 use App\Http\Controllers\Admin\StaffController;
@@ -116,6 +120,47 @@ Route::prefix('admin')->name('admin.')
         });
         Route::middleware('permission:leads.export')
             ->get('/leads-export', [LeadController::class, 'export'])->name('leads.export');
+
+        // ----- Dealers -----
+        Route::middleware('permission:dealers.view')->group(function () {
+            Route::get('/dealers', [DealerController::class, 'index'])->name('dealers.index');
+            Route::post('/dealers/data', [DealerController::class, 'data'])->name('dealers.data');
+            Route::get('/dealers/{dealer}', [DealerController::class, 'show'])->name('dealers.show');
+        });
+        Route::middleware('permission:dealers.approve')
+            ->post('/dealers/{dealer}/verify', [DealerController::class, 'verify'])->name('dealers.verify');
+
+        // ----- Loan applications -----
+        Route::middleware('permission:loans.view')->group(function () {
+            Route::get('/loans', [LoanController::class, 'index'])->name('loans.index');
+            Route::post('/loans/data', [LoanController::class, 'data'])->name('loans.data');
+            Route::get('/loans/{application}', [LoanController::class, 'show'])->name('loans.show');
+        });
+        Route::middleware('permission:loans.edit')->group(function () {
+            Route::post('/loans/{application}/status', [LoanController::class, 'changeStatus'])->name('loans.status');
+            Route::post('/loans/{application}/lenders', [LoanController::class, 'sendToLenders'])->name('loans.lenders');
+            Route::post('/loans/{application}/lender-decision', [LoanController::class, 'lenderDecision'])->name('loans.lender-decision');
+            Route::post('/loan-documents/{document}/verify', [LoanController::class, 'verifyDocument'])->name('loans.documents.verify');
+        });
+
+        // ----- Inspections -----
+        Route::middleware('permission:inspections.view')->group(function () {
+            Route::get('/inspections', [InspectionController::class, 'index'])->name('inspections.index');
+            Route::get('/inspections/{inspection}/report', [InspectionController::class, 'form'])->name('inspections.form');
+            Route::post('/inspections/{inspection}/complete', [InspectionController::class, 'complete'])->name('inspections.complete');
+        });
+        Route::middleware('permission:inspections.create')
+            ->post('/used-listings/{listing}/inspect', [InspectionController::class, 'request'])->name('inspections.request');
+        Route::middleware('permission:inspections.assign')
+            ->post('/inspections/{inspection}/schedule', [InspectionController::class, 'schedule'])->name('inspections.schedule');
+        Route::middleware('permission:inspections.approve')
+            ->post('/inspections/{inspection}/approve', [InspectionController::class, 'approve'])->name('inspections.approve');
+
+        // ----- Reviews -----
+        Route::middleware('permission:reviews.view')
+            ->get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+        Route::middleware('permission:reviews.approve')
+            ->post('/reviews/{review}/moderate', [ReviewController::class, 'moderate'])->name('reviews.moderate');
 
         // Staff users
         Route::middleware('permission:users.view')->group(function () {

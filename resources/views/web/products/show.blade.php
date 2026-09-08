@@ -251,6 +251,12 @@
         </div>
     </div>
 
+    @include('partials.reviews', [
+        'subject' => $product,
+        'subjectType' => 'product',
+        'reviewAspects' => \App\Domain\Engagement\Services\ReviewService::ASPECTS['product'],
+    ])
+
     @if ($competitors->isNotEmpty() || $similar->isNotEmpty())
         <section class="mt-5">
             <h2 class="h5 mb-3">{{ $competitors->isNotEmpty() ? __('Compare with similar tractors') : __('Similar tractors') }}</h2>

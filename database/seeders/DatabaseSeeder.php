@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
             CatalogMasterSeeder::class,
             DemoProductSeeder::class,
             MarketplaceMasterSeeder::class,
+            FinanceMasterSeeder::class,
             DemoListingSeeder::class,
+            DemoDealerSeeder::class,
+            DemoFinanceSeeder::class,
         ]);
     }
 }

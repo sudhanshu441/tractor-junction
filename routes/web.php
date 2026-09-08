@@ -3,7 +3,12 @@
 use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Auth\PasswordLoginController;
 use App\Http\Controllers\Web\CompareController;
+use App\Http\Controllers\Web\DealerDirectoryController;
+use App\Http\Controllers\Web\DocumentController;
+use App\Http\Controllers\Web\EmiController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\InsuranceController;
+use App\Http\Controllers\Web\LoanController;
 use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\SellController;
@@ -34,6 +39,38 @@ Route::prefix('used')->name('used.')->group(function () {
     Route::get('/tractors', [UsedListingController::class, 'index'])->name('tractors');
     Route::get('/tractors/{state}', [UsedListingController::class, 'index'])->name('state');
     Route::get('/tractors/{state}/{district}', [UsedListingController::class, 'index'])->name('district');
+});
+
+/*
+| Dealer directory. Geo segments sit under a prefix so /dealers/become is not
+| mistaken for a state.
+*/
+Route::get('/dealers/become-a-dealer', [DealerDirectoryController::class, 'joinForm'])->name('dealers.join');
+Route::post('/dealers/become-a-dealer', [DealerDirectoryController::class, 'join'])->name('dealers.join.store');
+Route::get('/dealers/registered/{code}', [DealerDirectoryController::class, 'joined'])->name('dealers.joined');
+Route::get('/dealers', [DealerDirectoryController::class, 'index'])->name('dealers.index');
+Route::get('/dealers/profile/{slug}', [DealerDirectoryController::class, 'show'])->name('dealers.show');
+Route::get('/dealers/{state}', [DealerDirectoryController::class, 'index'])->name('dealers.state');
+Route::get('/dealers/{state}/{district}', [DealerDirectoryController::class, 'index'])->name('dealers.district');
+
+// ----- finance -----
+Route::prefix('loan')->group(function () {
+    Route::get('/', [LoanController::class, 'hub'])->name('loan.hub');
+    Route::get('/apply', [LoanController::class, 'apply'])->name('loan.apply');
+    Route::get('/submitted/{reference}', [LoanController::class, 'submitted'])->name('loan.submitted');
+    Route::get('/emi-calculator', [EmiController::class, 'index'])->name('emi.index');
+    Route::get('/emi-calculator/{brandSlug}/{productSlug}', [EmiController::class, 'index'])->name('emi.product');
+});
+
+Route::get('/tractor-insurance', [InsuranceController::class, 'index'])->name('insurance.index');
+
+/*
+| Private documents: signed, short-lived, and still policy-checked inside the
+| controller. Never served from public storage.
+*/
+Route::middleware(['auth', 'signed'])->group(function () {
+    Route::get('/documents/loan/{document}', [DocumentController::class, 'loanDocument'])->name('documents.loan');
+    Route::get('/documents/dealer/{document}', [DocumentController::class, 'dealerDocument'])->name('documents.dealer');
 });
 
 // ----- sell wizard -----

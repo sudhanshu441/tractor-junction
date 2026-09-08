@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LoanDocument extends Model
 {
@@ -26,5 +27,15 @@ class LoanDocument extends Model
         return [
 
         ];
+    }
+
+    public function application(): BelongsTo
+    {
+        return $this->belongsTo(LoanApplication::class, 'loan_application_id');
+    }
+
+    public function verifiedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'verified_by');
     }
 }

@@ -225,6 +225,54 @@
         updatePhotoCount();
     };
 
+    // ---------------- dealer enquiry ----------------
+    KJ.initDealerEnquiry = function (opts) {
+        $('#dealer-send-otp').on('click', function () {
+            var mobile = $('#lead-mobile').val();
+
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+                return KJ.toast('Enter a valid 10-digit mobile number.', 'warning');
+            }
+            if (!$('#lead-name').val()) {
+                return KJ.toast('Tell the dealer your name.', 'warning');
+            }
+
+            KJ.request({ url: opts.otpUrl, method: 'POST', data: { mobile: mobile } }).then(function (res) {
+                if (res.status !== 'ok') { return KJ.toast(res.message, 'danger'); }
+                $('#lead-otp-wrap').removeClass('d-none');
+                $('#dealer-send-otp').addClass('d-none');
+                $('#dealer-submit').removeClass('d-none');
+                $('#lead-otp').trigger('focus');
+                KJ.toast(res.message, 'success');
+            });
+        });
+
+        $('#dealer-submit').on('click', function () {
+            var $btn = $(this).prop('disabled', true);
+
+            KJ.request({
+                url: opts.leadUrl, method: 'POST',
+                data: {
+                    type: 'dealer',
+                    about_type: 'dealer',
+                    about_id: opts.dealerId,
+                    name: $('#lead-name').val(),
+                    mobile: $('#lead-mobile').val(),
+                    otp: $('#lead-otp').val(),
+                    message: $('#lead-message').val(),
+                },
+            }).then(function (res) {
+                $btn.prop('disabled', false);
+
+                if (res.status !== 'ok') { return KJ.toast(res.message, 'danger'); }
+
+                $('#dealer-lead-form').addClass('d-none');
+                $('#dealer-lead-message').text(res.message);
+                $('#dealer-lead-done').removeClass('d-none');
+            });
+        });
+    };
+
     // ---------------- listing detail ----------------
     KJ.initListingDetail = function (opts) {
         $('.js-listing-thumb').on('click', function () {

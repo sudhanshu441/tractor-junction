@@ -13,8 +13,13 @@
             <div class="collapse navbar-collapse" id="kjNav">
                 <ul class="navbar-nav me-auto ms-lg-3">
                     @foreach ([
-                        __('New Tractors') => '#', __('Used') => '#', __('Implements') => '#',
-                        __('Compare') => '#', __('Dealers') => '#', __('Loan & EMI') => '#', __('News') => '#',
+                        __('New Tractors') => route('catalog.tractors.index'),
+                        __('Used') => route('used.index'),
+                        __('Implements') => route('catalog.implements.index'),
+                        __('Compare') => route('compare.index'),
+                        __('Dealers') => route('dealers.index'),
+                        __('Loan & EMI') => route('loan.hub'),
+                        __('Insurance') => route('insurance.index'),
                     ] as $label => $url)
                         <li class="nav-item"><a class="nav-link" href="{{ $url }}">{{ $label }}</a></li>
                     @endforeach
@@ -22,7 +27,7 @@
 
                 <div class="d-flex align-items-center gap-2">
                     <span class="badge badge-muted mono">{{ strtoupper(app()->getLocale()) }}</span>
-                    <a href="#" class="btn btn-deep btn-sm">{{ __('Sell your tractor') }}</a>
+                    <a href="{{ route('sell.start') }}" class="btn btn-deep btn-sm">{{ __('Sell your tractor') }}</a>
 
                     @auth
                         <div class="dropdown">

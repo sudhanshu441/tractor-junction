@@ -39,5 +39,14 @@ php artisan geo:import <csv>      # load the authoritative district dataset
 
 ## Phases
 
-Phase 1 (foundation) is complete — see `docs/10-PHASE-1-NOTES.md`.
-Phases 2–5 are specified in `docs/07-DEV-ROADMAP.md`. Do not start a phase before sign-off.
+Phases 1–4 are complete — see `docs/10-` through `docs/13-PHASE-4-NOTES.md`.
+Phase 5 is specified in `docs/07-DEV-ROADMAP.md`. Do not start a phase before sign-off.
+
+Phase 4 rules that are easy to break:
+- **Nothing is granted at checkout.** A plan or boost starts only when `BillingService::settle()`
+  accepts a verified callback. Never set `is_featured` or activate a subscription from a
+  checkout handler.
+- **Never persist a full PAN or Aadhaar.** `DocumentVault::mask()` runs before the write.
+- **Private documents are never served from a URL alone.** Signed route *and* a policy check
+  inside the controller.
+- **An inspector cannot publish their own report.** `approve()` is a separate permission.

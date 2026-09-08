@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InsuranceEnquiry extends Model
 {
@@ -35,5 +36,20 @@ class InsuranceEnquiry extends Model
             'has_claim_history' => 'boolean',
             'idv_expected' => 'decimal:2',
         ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(InsurancePartner::class, 'insurance_partner_id');
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 }
