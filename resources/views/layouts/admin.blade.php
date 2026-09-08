@@ -42,7 +42,7 @@
                 </li>
                 <li>
                     <a class="nav-link {{ request()->routeIs('admin.listings.reports') ? 'active' : '' }}" href="{{ route('admin.listings.reports') }}">
-                        {{ __('Reports') }}
+                        {{ __('Reported listings') }}
                         @php $reports = \App\Models\ListingReport::open()->count(); @endphp
                         @if ($reports)<span class="badge badge-bad ms-auto">{{ $reports }}</span>@endif
                     </a>
@@ -94,6 +94,70 @@
                         @if ($openLoans)<span class="badge badge-warn ms-auto">{{ $openLoans }}</span>@endif
                     </a>
                 </li>
+            @endcan
+
+            <li class="nav-heading">{{ __('Content') }}</li>
+            @can('blogs.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}" href="{{ route('admin.blogs.index') }}">{{ __('News & guides') }}</a>
+                </li>
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}" href="{{ route('admin.comments.index') }}">
+                        {{ __('Comments') }}
+                        @php $pendingComments = \App\Models\BlogComment::where('status', 'pending')->count(); @endphp
+                        @if ($pendingComments)<span class="badge badge-bad ms-auto">{{ $pendingComments }}</span>@endif
+                    </a>
+                </li>
+            @endcan
+            @can('pages.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" href="{{ route('admin.pages.index') }}">{{ __('Pages') }}</a></li>
+            @endcan
+            @can('offers.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.offers.*') ? 'active' : '' }}" href="{{ route('admin.offers.index') }}">{{ __('Offers') }}</a></li>
+            @endcan
+            @can('faqs.view')
+                @foreach ([
+                    'videos' => __('Videos'),
+                    'banners' => __('Banners'),
+                    'faqs' => __('FAQs'),
+                    'testimonials' => __('Testimonials'),
+                    'blog-categories' => __('Blog categories'),
+                ] as $resource => $label)
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('admin.content.*') && request()->route('resource') === $resource ? 'active' : '' }}"
+                           href="{{ route('admin.content.index', $resource) }}">{{ $label }}</a>
+                    </li>
+                @endforeach
+            @endcan
+            @can('menus.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" href="{{ route('admin.menus.index') }}">{{ __('Menus') }}</a></li>
+            @endcan
+            @can('contact.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.messages.*') ? 'active' : '' }}" href="{{ route('admin.messages.index') }}">
+                        {{ __('Messages') }}
+                        @php $newMessages = \App\Models\ContactMessage::where('status', 'new')->count(); @endphp
+                        @if ($newMessages)<span class="badge badge-bad ms-auto">{{ $newMessages }}</span>@endif
+                    </a>
+                </li>
+                <li><a class="nav-link {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}" href="{{ route('admin.subscribers.index') }}">{{ __('Newsletter') }}</a></li>
+            @endcan
+
+            <li class="nav-heading">{{ __('Insight') }}</li>
+            @can('reports.view')
+                <li><a class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">{{ __('Reports') }}</a></li>
+            @endcan
+
+            <li class="nav-heading">{{ __('Search & language') }}</li>
+            @can('seo.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.seo.redirects') ? 'active' : '' }}" href="{{ route('admin.seo.redirects') }}">
+                        {{ __('Redirects & 404s') }}
+                        @php $broken = \App\Models\NotFoundLog::count(); @endphp
+                        @if ($broken)<span class="badge badge-warn ms-auto">{{ $broken }}</span>@endif
+                    </a>
+                </li>
+                <li><a class="nav-link {{ request()->routeIs('admin.seo.translations') ? 'active' : '' }}" href="{{ route('admin.seo.translations') }}">{{ __('Interface language') }}</a></li>
             @endcan
 
             <li class="nav-heading">{{ __('Access') }}</li>

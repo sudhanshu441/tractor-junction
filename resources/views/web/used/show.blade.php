@@ -1,13 +1,5 @@
 @extends('layouts.app')
 
-@section('title', $listing->title.' — ₹'.number_format((float) $listing->expected_price).' | Krishi Junction')
-@section('meta_description', __('Used :title in :city — :hours hours, :condition condition. Photos, specifications and verified seller contact.', [
-    'title' => $listing->title,
-    'city' => $listing->city?->name ?? $listing->district?->name,
-    'hours' => number_format((int) $listing->engine_hours),
-    'condition' => $listing->condition,
-]))
-
 @section('content')
 <div class="container-xl py-4">
     <nav aria-label="breadcrumb">
@@ -228,4 +220,9 @@ $(function () {
     });
 });
 </script>
+@endpush
+
+@push('schema')
+@php $subjectSchema = app(\App\Domain\Seo\Services\JsonLd::class)->usedListing($listing); @endphp
+<script type="application/ld+json">@json($subjectSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)</script>
 @endpush

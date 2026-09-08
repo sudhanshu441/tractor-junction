@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\MasksMobile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dealer extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, MasksMobile, SoftDeletes;
 
     protected $table = 'dealers';
 

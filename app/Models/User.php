@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\MasksMobile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,11 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, HasRoles, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasRoles, MasksMobile, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'name', 'mobile', 'mobile_verified_at', 'email', 'email_verified_at', 'password',
@@ -160,14 +162,6 @@ class User extends Authenticatable
     public function hasVerifiedMobile(): bool
     {
         return $this->mobile_verified_at !== null;
-    }
-
-    /** 98XXXXXX12 — what non-privileged roles see in lead and listing screens. */
-    public function getMaskedMobileAttribute(): string
-    {
-        $m = $this->mobile;
-
-        return strlen($m) < 10 ? $m : substr($m, 0, 2).str_repeat('X', strlen($m) - 4).substr($m, -2);
     }
 
     public function getInitialsAttribute(): string

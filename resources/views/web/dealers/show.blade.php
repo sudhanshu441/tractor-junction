@@ -1,35 +1,5 @@
 @extends('layouts.app')
 
-@section('title', $dealer->display_name.' — '.__(':brand tractor dealer in :city | Krishi Junction', [
-    'brand' => $dealer->brands->first()?->name ?? '',
-    'city' => $dealer->city?->name ?? $dealer->state?->name,
-]))
-@section('meta_description', \Illuminate\Support\Str::limit($dealer->about
-    ?: __(':name is a verified tractor dealer in :city.', ['name' => $dealer->display_name, 'city' => $dealer->city?->name]), 160))
-
-@push('styles')
-<script type="application/ld+json">
-{!! json_encode([
-    '@context' => 'https://schema.org',
-    '@type' => 'LocalBusiness',
-    'name' => $dealer->display_name,
-    'telephone' => $dealer->mobile,
-    'address' => [
-        '@type' => 'PostalAddress',
-        'streetAddress' => $dealer->address,
-        'addressLocality' => $dealer->city?->name,
-        'addressRegion' => $dealer->state?->name,
-        'postalCode' => $dealer->pincode,
-        'addressCountry' => 'IN',
-    ],
-    'aggregateRating' => $dealer->rating_count > 0 ? [
-        '@type' => 'AggregateRating',
-        'ratingValue' => (float) $dealer->rating_avg,
-        'reviewCount' => $dealer->rating_count,
-    ] : null,
-], JSON_UNESCAPED_SLASHES) !!}
-</script>
-@endpush
 
 @section('content')
 <div class="container-xl py-4">
@@ -184,4 +154,9 @@ $(function () {
     });
 });
 </script>
+@endpush
+
+@push('schema')
+@php $subjectSchema = app(\App\Domain\Seo\Services\JsonLd::class)->dealer($dealer); @endphp
+<script type="application/ld+json">@json($subjectSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)</script>
 @endpush

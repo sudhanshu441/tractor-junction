@@ -5,10 +5,12 @@ use App\Http\Controllers\Ajax\LeadController;
 use App\Http\Controllers\Ajax\ListingReportController;
 use App\Http\Controllers\Ajax\ProductFilterController;
 use App\Http\Controllers\Auth\OtpLoginController;
+use App\Http\Controllers\Web\BlogController;
 use App\Http\Controllers\Web\CompareController;
 use App\Http\Controllers\Web\EmiController;
 use App\Http\Controllers\Web\InsuranceController;
 use App\Http\Controllers\Web\LoanController;
+use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\ReviewController;
 use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\SellController;
@@ -80,6 +82,14 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
         Route::post('/reviews/{review}/vote', [ReviewController::class, 'vote'])
             ->middleware('throttle:60,1')->name('reviews.vote');
     });
+
+    // Content
+    Route::post('/contact', [PageController::class, 'storeContact'])
+        ->middleware('throttle:5,60')->name('contact.store');
+    Route::post('/newsletter', [PageController::class, 'subscribe'])
+        ->middleware('throttle:5,60')->name('newsletter.store');
+    Route::post('/news/{post}/comment', [BlogController::class, 'comment'])
+        ->middleware(['auth', 'throttle:10,60'])->name('blogs.comment');
 
     // Comparison
     Route::post('/compare/add', [CompareController::class, 'add'])->name('compare.add');

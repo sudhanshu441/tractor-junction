@@ -37,7 +37,9 @@
   --bs-border-radius: var(--kj-radius);
   --bs-link-color: var(--kj-green-700);
   --bs-link-hover-color: var(--kj-green-900);
-  --bs-font-sans-serif: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Devanagari sits in the stack for every element, not only Hindi pages: a
+     model name or a place name in Hindi appears inside English copy too. */
+  --bs-font-sans-serif: "IBM Plex Sans", "IBM Plex Sans Devanagari", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 body {
@@ -48,7 +50,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, .display-font {
-  font-family: "Archivo", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Archivo", "IBM Plex Sans Devanagari", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   font-weight: 700;
   letter-spacing: -.015em;
   text-wrap: balance;
@@ -251,4 +253,37 @@ a:focus-visible, button:focus-visible, .form-control:focus-visible, .nav-link:fo
 kbd {
   background: var(--kj-ink); color: var(--kj-surface); border-radius: 3px;
   padding: .1rem .3rem; font-size: .6875rem; font-family: "IBM Plex Mono", monospace;
+}
+
+/* ---------- editorial content ----------
+   Styles the HTML an editor pastes in. Scoped to .kj-prose so a stray <h2> in
+   a blog post can never restyle the rest of the page. */
+.kj-prose { max-width: 68ch; line-height: 1.7; }
+.kj-prose > * + * { margin-top: 1rem; }
+.kj-prose h2 { font-size: 1.25rem; margin-top: 2rem; }
+.kj-prose h3 { font-size: 1.0625rem; margin-top: 1.5rem; }
+.kj-prose p { margin-bottom: 0; }
+.kj-prose img { max-width: 100%; height: auto; border-radius: .5rem; }
+.kj-prose ul, .kj-prose ol { padding-left: 1.25rem; }
+.kj-prose li + li { margin-top: .35rem; }
+.kj-prose a { color: var(--kj-green-700); }
+.kj-prose blockquote {
+  border-left: 3px solid var(--kj-green-700); padding: .25rem 0 .25rem 1rem;
+  margin-left: 0; color: var(--kj-ink-2); font-style: italic;
+}
+.kj-prose table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+.kj-prose th, .kj-prose td { border: 1px solid var(--kj-line); padding: .5rem .625rem; text-align: left; }
+.kj-prose th { background: var(--kj-ground); font-weight: 600; }
+.kj-prose code {
+  font-family: "IBM Plex Mono", monospace; font-size: .875em;
+  background: var(--kj-ground); padding: .1rem .3rem; border-radius: .25rem;
+}
+/* Wide tables scroll inside the article instead of stretching the page. */
+.kj-prose .table-wrap { overflow-x: auto; }
+
+/* ---------- consent banner ---------- */
+.kj-consent {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1040;
+  background: var(--kj-surface); border-top: 1px solid var(--kj-line);
+  box-shadow: 0 -4px 24px rgba(14, 27, 19, .08);
 }

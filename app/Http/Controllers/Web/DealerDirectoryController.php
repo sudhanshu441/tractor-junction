@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Domain\Dealer\Services\DealerService;
 use App\Domain\Engagement\Services\ReviewService;
+use App\Domain\Seo\Services\SeoService;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Dealer;
@@ -68,6 +69,10 @@ class DealerDirectoryController extends Controller
             'dealer' => $dealer,
             'reviews' => $dealer->reviews()->with('user')->approved()->latest()->limit(20)->get(),
             'reviewSummary' => $this->reviews->summary($dealer),
+            'seo' => app(SeoService::class)->for($dealer, 'dealer', [], [
+                ':name' => $dealer->display_name,
+                ':city' => $dealer->city?->name ?? $dealer->district?->name,
+            ]),
             'liveListings' => $dealer->usedListings()->live()->with('images')->limit(8)->get(),
         ]);
     }

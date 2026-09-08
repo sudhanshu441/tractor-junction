@@ -7,6 +7,7 @@ use App\Domain\Catalog\Services\CompareService;
 use App\Domain\Catalog\Services\FacetService;
 use App\Domain\Catalog\Services\PriceService;
 use App\Domain\Engagement\Services\ReviewService;
+use App\Domain\Seo\Services\SeoService;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
@@ -28,6 +29,7 @@ class ProductController extends Controller
         private readonly PriceService $prices,
         private readonly CompareService $compare,
         private readonly ReviewService $reviews,
+        private readonly SeoService $seo,
     ) {}
 
     /** Listing for a machinery type: /tractors, /implements, /harvesters… */
@@ -85,6 +87,11 @@ class ProductController extends Controller
             'compareIds' => $this->compare->ids(),
             'reviewSummary' => $this->reviews->summary($product),
             'reviews' => $product->reviews()->with('user')->approved()->latest()->limit(20)->get(),
+            'seo' => $this->seo->for($product, 'product', [], [
+                ':name' => $product->full_name,
+                ':price' => PriceService::inLakh($product->price_min),
+                ':hp' => $product->hp_min ? (int) $product->hp_min : null,
+            ]),
         ]);
     }
 

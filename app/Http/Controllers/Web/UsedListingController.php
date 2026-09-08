@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Web;
 
 use App\Domain\Marketplace\Filters\UsedListingFilter;
 use App\Domain\Marketplace\Services\ValuationService;
+use App\Domain\Seo\Services\SeoService;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\TrackPageView;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\District;
@@ -56,9 +58,17 @@ class UsedListingController extends Controller
         abort_unless($listing->status === 'live', 404);
 
         $listing->incrementQuietly('view_count');
+        TrackPageView::attribute($listing);
 
         return view('web.used.show', [
             'listing' => $listing,
+            'seo' => app(SeoService::class)->for($listing, 'used_listing', [], [
+                ':title' => $listing->title,
+                ':city' => $listing->city?->name,
+                ':price' => number_format((float) $listing->expected_price),
+                ':year' => $listing->manufacturing_year,
+                ':hours' => $listing->engine_hours ? number_format($listing->engine_hours) : null,
+            ]),
             'valuation' => $this->valuation->estimate($listing),
             'similar' => $this->similar($listing),
             'keySpecs' => $listing->product?->specValues

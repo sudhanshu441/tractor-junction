@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\MasksMobile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lead extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, MasksMobile, SoftDeletes;
 
     protected $table = 'leads';
 
@@ -133,13 +134,6 @@ class Lead extends Model
     }
 
     // ----- helpers -----
-
-    public function getMaskedMobileAttribute(): string
-    {
-        $m = $this->mobile;
-
-        return strlen($m) < 10 ? $m : substr($m, 0, 2).str_repeat('X', strlen($m) - 4).substr($m, -2);
-    }
 
     public function getAgeInMinutesAttribute(): int
     {

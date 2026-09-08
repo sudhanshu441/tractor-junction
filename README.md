@@ -20,16 +20,18 @@ tools — plus a full dealer network, content/news hub and a role-based admin pa
 | 2 | Catalogue & public website (SEO engine) | 12–14 | ✅ **Complete** — [notes](docs/11-PHASE-2-NOTES.md) |
 | 3 | Used marketplace, leads, customer panel | 12–14 | ✅ **Complete** — [notes](docs/12-PHASE-3-NOTES.md) |
 | 4 | Dealers, finance, monetisation | 12–14 | ✅ **Complete** — [notes](docs/13-PHASE-4-NOTES.md) |
-| 5 | Content, SEO, multilingual, API, launch | 10–12 | ⏸ |
+| 5 | Content, SEO, multilingual, API, launch | 10–12 | ✅ **Complete** — [notes](docs/17-PHASE-5-NOTES.md) |
 
 Total ≈ **54–64 dev days** (11–13 weeks solo, 7–8 with two developers). Full breakdown in
 [docs/07-DEV-ROADMAP.md](docs/07-DEV-ROADMAP.md).
 
-**Phases 1–4 are built and tested.** 172 tests passing: OTP auth and RBAC, a catalogue of
-58 products with live filters and comparison, a used marketplace with a six-step sell
-wizard, moderation queue and lead routing engine, and a dealer network with plans,
-loan applications, insurance enquiries, physical inspections and owner reviews.
-Setup instructions are in [docs/10-PHASE-1-NOTES.md](docs/10-PHASE-1-NOTES.md).
+**All five phases are built and tested.** 226 tests passing: OTP auth and RBAC, a
+catalogue with live filters and comparison, a used marketplace with a sell wizard,
+moderation queue and lead routing engine, a dealer network with plans, loans,
+insurance, inspections and reviews, and a bilingual content and SEO layer with a
+REST API for the mobile app. Setup instructions are in
+[docs/10-PHASE-1-NOTES.md](docs/10-PHASE-1-NOTES.md);
+**read [docs/15-LAUNCH-CHECKLIST.md](docs/15-LAUNCH-CHECKLIST.md) before going live.**
 
 ```bash
 composer install
@@ -59,6 +61,10 @@ Super admin: `admin@krishijunction.com` · mobile `9000000001` · local password
 | 11 | [Phase 2 Notes](docs/11-PHASE-2-NOTES.md) | Catalogue, listing, detail, compare, search — and the bugs caught |
 | 12 | [Phase 3 Notes](docs/12-PHASE-3-NOTES.md) | Sell wizard, moderation, lead engine, customer panel |
 | 13 | [Phase 4 Notes](docs/13-PHASE-4-NOTES.md) | Dealers, plans and payments, loans, insurance, inspections, reviews |
+| 14 | [API Reference](docs/14-API-REFERENCE.md) | REST API v1 for the mobile app |
+| 15 | [Launch Checklist](docs/15-LAUNCH-CHECKLIST.md) | What must be true before go-live, and the known gaps |
+| 16 | [Runbooks](docs/16-RUNBOOKS.md) | Deploy, backup, restore, and what to do when things break |
+| 17 | [Phase 5 Notes](docs/17-PHASE-5-NOTES.md) | CMS, SEO engine, Hindi, reports, API |
 
 ## Prototype
 
@@ -110,7 +116,8 @@ Full rationale in [docs/06-TECH-ARCHITECTURE.md](docs/06-TECH-ARCHITECTURE.md).
 
 ---
 
-## Approval gate
+## Where this stands
 
-Phase 4 is delivered. Review it, then either approve Phase 5 (content, SEO, multilingual,
-API and launch) or send change requests. Each phase is signed off before the next begins.
+All five phases are delivered. The remaining work before go-live is content loading,
+legal review and the environment configuration listed in
+[docs/15-LAUNCH-CHECKLIST.md](docs/15-LAUNCH-CHECKLIST.md) — none of it is code.

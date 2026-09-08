@@ -12,21 +12,50 @@
 
             <div class="collapse navbar-collapse" id="kjNav">
                 <ul class="navbar-nav me-auto ms-lg-3">
-                    @foreach ([
-                        __('New Tractors') => route('catalog.tractors.index'),
-                        __('Used') => route('used.index'),
-                        __('Implements') => route('catalog.implements.index'),
-                        __('Compare') => route('compare.index'),
-                        __('Dealers') => route('dealers.index'),
-                        __('Loan & EMI') => route('loan.hub'),
-                        __('Insurance') => route('insurance.index'),
-                    ] as $label => $url)
-                        <li class="nav-item"><a class="nav-link" href="{{ $url }}">{{ $label }}</a></li>
+                    {{-- Editor-managed; falls back to the built-in set if the menu is empty. --}}
+                    @php
+                        $headerMenu = app(\App\Domain\Content\Services\ContentService::class)->menu('header') ?: [
+                            ['label' => 'New Tractors', 'url' => '/tractors', 'children' => []],
+                            ['label' => 'Used', 'url' => '/used', 'children' => []],
+                            ['label' => 'Dealers', 'url' => '/dealers', 'children' => []],
+                            ['label' => 'Loan & EMI', 'url' => '/loan', 'children' => []],
+                        ];
+                    @endphp
+                    @foreach ($headerMenu as $item)
+                        @if (count($item['children']))
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="{{ \App\Support\Locale::urlFor(app()->getLocale(), $item['url']) }}"
+                                   data-bs-toggle="dropdown" aria-expanded="false">{{ __($item['label']) }}</a>
+                                <ul class="dropdown-menu">
+                                    @foreach ($item['children'] as $child)
+                                        <li><a class="dropdown-item" href="{{ \App\Support\Locale::urlFor(app()->getLocale(), $child['url']) }}">{{ __($child['label']) }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ \App\Support\Locale::urlFor(app()->getLocale(), $item['url']) }}">{{ __($item['label']) }}</a>
+                            </li>
+                        @endif
                     @endforeach
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
-                    <span class="badge badge-muted mono">{{ strtoupper(app()->getLocale()) }}</span>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false" aria-label="{{ __('Change language') }}">
+                            {{ \App\Support\Locale::supported()[app()->getLocale()] ?? 'English' }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @foreach (\App\Support\Locale::supported() as $code => $label)
+                                <li>
+                                    <a class="dropdown-item {{ app()->getLocale() === $code ? 'active' : '' }}"
+                                       href="{{ \App\Support\Locale::urlFor($code) }}" hreflang="{{ $code }}"
+                                       rel="alternate">{{ $label }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                     <a href="{{ route('sell.start') }}" class="btn btn-deep btn-sm">{{ __('Sell your tractor') }}</a>
 
                     @auth

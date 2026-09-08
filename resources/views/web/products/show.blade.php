@@ -5,35 +5,26 @@
     $image = $product->primary_image;
 @endphp
 
-@section('title', $product->full_name.' '.__('Price 2026, Specifications, Mileage').' | Krishi Junction')
-@section('meta_description', $product->short_description
-    ?: __(':name price starts at :price. Check specifications, mileage, on-road price in your city, EMI and dealers.', [
-        'name' => $product->full_name,
-        'price' => \App\Domain\Catalog\Services\PriceService::inLakh($product->price_min),
-    ]))
 
-@push('styles')
-<script type="application/ld+json">
-{!! json_encode([
-    '@context' => 'https://schema.org',
-    '@type' => 'Product',
-    'name' => $product->full_name,
-    'brand' => ['@type' => 'Brand', 'name' => $product->brand->name],
-    'description' => $product->short_description,
-    'offers' => $product->price_min ? [
-        '@type' => 'AggregateOffer',
-        'priceCurrency' => 'INR',
-        'lowPrice' => (float) $product->price_min,
-        'highPrice' => (float) ($product->price_max ?: $product->price_min),
-        'availability' => $product->status === 'available' ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
-    ] : null,
-    'aggregateRating' => $product->rating_count > 0 ? [
-        '@type' => 'AggregateRating',
-        'ratingValue' => (float) $product->rating_avg,
-        'reviewCount' => $product->rating_count,
-    ] : null,
-], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
-</script>
+@push('schema')
+@php
+    $jsonLd = app(\App\Domain\Seo\Services\JsonLd::class);
+    $productSchema = $jsonLd->product($product, $product->price_min ? (float) $product->price_min : null);
+    $reviewSchema = $reviews->isNotEmpty() ? $jsonLd->reviews($reviews) : null;
+
+    if ($reviewSchema) {
+        $productSchema['review'] = $reviewSchema;
+    }
+
+    $breadcrumbSchema = $jsonLd->breadcrumbs([
+        ['name' => __('Home'), 'url' => route('home')],
+        ['name' => __('Tractors'), 'url' => route('catalog.tractors.index')],
+        ['name' => $product->brand->name, 'url' => route('catalog.tractors.brand', $product->brand->slug)],
+        ['name' => $product->name, 'url' => null],
+    ]);
+@endphp
+<script type="application/ld+json">@json($productSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)</script>
+<script type="application/ld+json">@json($breadcrumbSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)</script>
 @endpush
 
 @section('content')

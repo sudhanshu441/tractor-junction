@@ -39,8 +39,8 @@ php artisan geo:import <csv>      # load the authoritative district dataset
 
 ## Phases
 
-Phases 1–4 are complete — see `docs/10-` through `docs/13-PHASE-4-NOTES.md`.
-Phase 5 is specified in `docs/07-DEV-ROADMAP.md`. Do not start a phase before sign-off.
+All five phases are complete — see `docs/10-` through `docs/13-` and `docs/17-PHASE-5-NOTES.md`.
+Before go-live, work `docs/15-LAUNCH-CHECKLIST.md`; operations live in `docs/16-RUNBOOKS.md`.
 
 Phase 4 rules that are easy to break:
 - **Nothing is granted at checkout.** A plan or boost starts only when `BillingService::settle()`
@@ -50,3 +50,14 @@ Phase 4 rules that are easy to break:
 - **Private documents are never served from a URL alone.** Signed route *and* a policy check
   inside the controller.
 - **An inspector cannot publish their own report.** `approve()` is a separate permission.
+
+Phase 5 rules that are easy to break:
+- **Never reintroduce a font or script CDN.** Fonts are vendored in
+  `public/assets/vendor/fonts/`; a third-party host costs a round-trip before text paints.
+- **Analytics is denied until the visitor consents**, and never loads in the admin panel.
+- **Never claim a price or rating in JSON-LD that the page does not show.**
+- **Public routes are registered twice** (bare and `/hi`). Add new public routes to
+  `routes/public.php`, never `routes/web.php`, or they will exist in English only.
+- **`route()` is locale-aware** via `LocalizedUrlGenerator` — do not hard-code `/hi`.
+- **Keep pages inside their query budget.** `PerformanceBudgetTest` fails on an N+1;
+  raising a ceiling should be a decision, not a reflex.
