@@ -34,13 +34,25 @@ REST API for the mobile app. Setup instructions are in
 **read [docs/15-LAUNCH-CHECKLIST.md](docs/15-LAUNCH-CHECKLIST.md) before going live.**
 
 ```bash
+git clone https://github.com/sudhanshu441/tractor-junction.git
+cd tractor-junction && git checkout claude/krishi-junction-setup-pmlgom
+
 composer install
 cp .env.example .env && php artisan key:generate
+# create the database, then set DB_* in .env
 php artisan migrate --seed
+php artisan storage:link
 php artisan serve
 ```
 
-Super admin: `admin@krishijunction.com` · mobile `9000000001` · local password `KrishiAdmin@2026`.
+Open <http://localhost:8000>. Sign in to the admin panel at `/login/password` with
+`admin@krishijunction.com` / `KrishiAdmin@2026`.
+
+Full walkthrough, every seeded login, mail and SMS configuration, and a
+troubleshooting table: **[docs/18-LOCAL-SETUP.md](docs/18-LOCAL-SETUP.md)**.
+
+> Local sign-in sends no SMS. The OTP is written to `storage/logs/laravel.log` —
+> `tail -f storage/logs/laravel.log | grep "OTP DEBUG"`.
 
 ---
 
@@ -65,6 +77,7 @@ Super admin: `admin@krishijunction.com` · mobile `9000000001` · local password
 | 15 | [Launch Checklist](docs/15-LAUNCH-CHECKLIST.md) | What must be true before go-live, and the known gaps |
 | 16 | [Runbooks](docs/16-RUNBOOKS.md) | Deploy, backup, restore, and what to do when things break |
 | 17 | [Phase 5 Notes](docs/17-PHASE-5-NOTES.md) | CMS, SEO engine, Hindi, reports, API |
+| 18 | [Local Setup](docs/18-LOCAL-SETUP.md) | **Start here** — clone to running in a browser, with every login |
 
 ## Prototype
 
