@@ -119,8 +119,12 @@ return new class extends Migration
             $table->foreignId('plan_id')->nullable()->constrained()->nullOnDelete();
             $table->decimal('amount', 10, 2)->default(0);
             $table->foreignId('payment_id')->nullable()->constrained()->nullOnDelete();
-            $table->timestamp('starts_at');
-            $table->timestamp('ends_at');
+            // datetime, not timestamp: MySQL gives the first TIMESTAMP NOT NULL
+            // column an implicit CURRENT_TIMESTAMP default and every later one a
+            // zero-date default, which NO_ZERO_DATE then rejects outright. These
+            // are business moments, not row metadata, so datetime is also correct.
+            $table->dateTime('starts_at');
+            $table->dateTime('ends_at');
             $table->enum('status', ['active', 'expired', 'cancelled'])->default('active');
             $table->timestamps();
 

@@ -68,7 +68,10 @@ return new class extends Migration
             $table->foreignId('assigned_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('routing_rule_id')->nullable();  // explains why this assignee was picked
             $table->enum('status', ['pending', 'accepted', 'rejected', 'expired'])->default('pending');
-            $table->timestamp('assigned_at');
+            // datetime, not timestamp: as TIMESTAMP NOT NULL this would silently
+            // gain ON UPDATE CURRENT_TIMESTAMP on MySQL and every status change
+            // would reset the assignment time the SLA is measured from.
+            $table->dateTime('assigned_at');
             $table->timestamp('responded_at')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();

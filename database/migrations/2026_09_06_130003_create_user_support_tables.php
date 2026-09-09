@@ -42,7 +42,10 @@ return new class extends Migration
             $table->string('otp_hash');
             $table->enum('purpose', ['login', 'register', 'listing', 'lead', 'loan', 'profile'])->default('login');
             $table->unsignedTinyInteger('attempts')->default(0);
-            $table->timestamp('expires_at');
+            // datetime, not timestamp — a TIMESTAMP NOT NULL column silently gains
+            // ON UPDATE CURRENT_TIMESTAMP on MySQL, which would move an OTP's expiry
+            // every time the row was touched.
+            $table->dateTime('expires_at');
             $table->timestamp('verified_at')->nullable();
             $table->string('ip', 45)->nullable();
             $table->timestamps();

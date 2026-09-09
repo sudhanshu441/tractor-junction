@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->text('description')->nullable();
             $table->string('country', 60)->nullable();
-            $table->year('founded_year')->nullable();
+            // Not year(): MySQL's YEAR type only spans 1901-2155, and the oldest
+            // brands here predate it — John Deere is 1837, Massey Ferguson 1847.
+            $table->unsignedSmallInteger('founded_year')->nullable();
             $table->string('website')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
             $table->boolean('is_popular')->default(false);
