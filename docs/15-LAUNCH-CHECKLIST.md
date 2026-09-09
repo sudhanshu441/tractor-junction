@@ -40,7 +40,10 @@ loud, not a task to skip quietly.
       when requested directly. Verify by URL, not by reading the config.
 - [ ] The super admin password from the seeder has been changed.
 - [ ] Demo data removed: `DemoProductSeeder`, `DemoListingSeeder`,
-      `DemoDealerSeeder`, `DemoFinanceSeeder` and their placeholder photos.
+      `DemoDealerSeeder`, `DemoFinanceSeeder`, `DemoStaffSeeder` and their
+      placeholder photos. **`DemoStaffSeeder` creates a staff login for every
+      role with a password published in this repository** — leaving it in place
+      hands anyone an admin account.
 - [ ] HTTPS enforced at the edge; HSTS header confirmed present.
 - [ ] Rate limits reviewed for the real traffic shape (OTP: 5/hour per mobile).
 

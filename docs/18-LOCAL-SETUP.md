@@ -219,6 +219,22 @@ Lands on **http://localhost:8000/admin**.
 > On a production install (`APP_ENV=production`) the seeder generates a random
 > 16-character password instead and prints it once. It is never `KrishiAdmin@2026`.
 
+### Staff, one per role
+
+All use password **`KrishiStaff@2026`**, all sign in at `/login/password`.
+They exist so the permission system can be exercised — a moderator genuinely
+cannot open the finance desk.
+
+| Role | Email | Can do | Cannot do |
+|---|---|---|---|
+| admin | `staff.admin@krishijunction.com` | Everything operational | Edit roles and permissions |
+| catalog-manager | `staff.catalog-manager@krishijunction.com` | Brands, models, specs, prices | Loans, leads |
+| content-editor | `staff.content-editor@krishijunction.com` | Posts, pages, SEO, translations | See contact numbers |
+| moderator | `staff.moderator@krishijunction.com` | Approve listings, inspections, reviews | Finance |
+| sales-executive | `staff.sales-executive@krishijunction.com` | Work leads, **see full contact numbers** | Change roles |
+| finance-executive | `staff.finance-executive@krishijunction.com` | Loans, lenders, insurance | Approve listings |
+| inspector | `staff.inspector@krishijunction.com` | Fill inspection reports | Approve their own report |
+
 ### Demo dealers
 
 All use password **`KrishiDemo@2026`**. Dealer panel: **http://localhost:8000/dealer**
@@ -229,6 +245,9 @@ All use password **`KrishiDemo@2026`**. Dealer panel: **http://localhost:8000/de
 | Kisan Agro Motors | `kisan-agro-motors@example.com` | verified |
 | Punjab Tractor House | `punjab-tractor-house@example.com` | verified |
 | Godavari Farm Equipment | `godavari-farm-equipment@example.com` | **pending** — so the verification queue is not empty |
+
+A dealer employee who is not the owner: `dealer-staff@example.com` /
+**`KrishiStaff@2026`**, attached to Shri Balaji Tractors.
 
 ### Demo sellers (customers)
 
