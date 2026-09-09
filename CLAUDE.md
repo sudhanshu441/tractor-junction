@@ -37,6 +37,13 @@ php artisan test                  # feature suite
 php artisan geo:import <csv>      # load the authoritative district dataset
 ```
 
+**Test a migration against MySQL before pushing it, not only SQLite.** SQLite
+accepts DDL that MySQL rejects: `TIMESTAMP NOT NULL` picks up implicit defaults,
+`YEAR` cannot hold a value before 1901, and `ONLY_FULL_GROUP_BY` refuses some
+`groupBy` queries. Three migration bugs reached a client machine this way. CI now
+runs the whole suite against MySQL 8 with the strictest realistic settings —
+if you change a migration, watch that job.
+
 ## Phases
 
 All five phases are complete — see `docs/10-` through `docs/13-` and `docs/17-PHASE-5-NOTES.md`.

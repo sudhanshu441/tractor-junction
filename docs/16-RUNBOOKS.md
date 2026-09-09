@@ -107,6 +107,32 @@ count matches roughly what the dashboard showed before the incident.
 
 ---
 
+## 4a. A migration fails on the client's server but passed locally
+
+Almost always MySQL rejecting DDL that SQLite accepted. The three that have
+actually bitten:
+
+| Symptom | Cause |
+|---|---|
+| `Invalid default value for '<col>'` | A second `TIMESTAMP NOT NULL` column in the same table. MySQL gives the first an implicit `CURRENT_TIMESTAMP` default and later ones a zero-date, which `NO_ZERO_DATE` rejects. Use `dateTime()` for business moments. |
+| `Out of range value for column '<col>'` on a year | MySQL's `YEAR` type spans 1901-2155 only. Use `unsignedSmallInteger`. |
+| `... isn't in GROUP BY` | `ONLY_FULL_GROUP_BY`. Every selected column must be grouped or aggregated. |
+
+A `TIMESTAMP NOT NULL` column that does *not* fail is worse: it silently gains
+`ON UPDATE CURRENT_TIMESTAMP` and rewrites itself whenever the row is touched.
+
+Reproduce locally before guessing:
+
+```bash
+mysql -e "SET GLOBAL sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+          SET GLOBAL explicit_defaults_for_timestamp=OFF;"
+DB_CONNECTION=mysql php artisan migrate:fresh --seed
+```
+
+The CI `mysql` job runs exactly this on every push.
+
+---
+
 ## 5. The site is slow
 
 1. `php artisan queue:monitor` — a backed-up queue delays notifications, not pages.
