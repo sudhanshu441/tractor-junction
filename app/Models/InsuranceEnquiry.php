@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\MasksMobile;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InsuranceEnquiry extends Model
 {
-    use HasFactory;
+    use HasFactory, MasksMobile;
 
     protected $table = 'insurance_enquiries';
 
@@ -51,5 +53,16 @@ class InsuranceEnquiry extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function assignee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    /** Still needs someone to call it back. */
+    public function scopeOpen(Builder $query): Builder
+    {
+        return $query->whereIn('status', ['new', 'contacted', 'quoted']);
     }
 }

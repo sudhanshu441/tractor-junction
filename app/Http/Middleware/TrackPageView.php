@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Domain\Analytics\Services\VisitorJourney;
 use App\Models\PageView;
 use Closure;
 use Illuminate\Http\Request;
@@ -55,6 +56,9 @@ class TrackPageView
                 'viewable_type' => self::$subject['type'] ?? null,
                 'viewable_id' => self::$subject['id'] ?? null,
                 'user_id' => $request->user()?->id,
+                'visitor_id' => VisitorJourney::idFrom($request),
+                'url' => mb_substr($request->getRequestUri(), 0, 500),
+                'intent' => app(VisitorJourney::class)->intentFor($request->path()),
                 'session_id' => $request->hasSession() ? $request->session()->getId() : null,
                 'ip' => $request->ip(),
                 'referer' => mb_substr((string) $request->headers->get('referer'), 0, 255) ?: null,

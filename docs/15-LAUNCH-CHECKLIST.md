@@ -50,6 +50,11 @@ loud, not a task to skip quietly.
 ### Data
 - [ ] The authoritative district dataset imported: `php artisan geo:import <csv>`.
 - [ ] Real brands, categories and specification attributes loaded.
+- [ ] **Product photographs loaded.** The site ships with original artwork where
+      a photo is missing, which is legally safe but converts badly. Get the
+      manufacturer dealer pack with written permission, then
+      `php artisan catalog:import-images`. See `docs/19-IMAGE-SOURCING.md`.
+      Never use images taken from brand sites or other marketplaces.
 - [ ] At least one routing rule with `lead_type` NULL exists — without a
       catch-all, some leads route to nobody.
 - [ ] Plans priced as the business intends, in both the `plans` table and any

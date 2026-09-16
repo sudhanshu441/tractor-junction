@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Domain\Analytics\Services\ReportService;
+use App\Domain\Reporting\Services\ReportCatalogue;
+use App\Domain\Reporting\Services\ReportExporter;
 use App\Http\Controllers\Controller;
-use App\Models\Lead;
-use App\Models\UsedListing;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
 {
-    public function __construct(private readonly ReportService $reports) {}
+    public function __construct(
+        private readonly ReportService $reports,
+        private readonly ReportExporter $exporter,
+    ) {}
 
     public function index(Request $request): View
     {
@@ -28,71 +29,32 @@ class ReportController extends Controller
             'funnel' => $this->reports->funnel($days),
             'topPages' => $this->reports->topPages($days),
             'emptySearches' => $this->reports->emptySearches($days),
+            'downloads' => ReportCatalogue::index(),
         ]);
     }
 
     /**
-     * Streamed rather than built in memory: a year of leads is a large export
-     * and a report should never be the thing that exhausts a worker.
+     * Every report, in CSV, Excel or PDF.
+     *
+     * One definition drives all three formats, so a column can never appear in
+     * the spreadsheet and go missing from the PDF. The permission is checked
+     * here rather than only on the route, because an export takes data out of
+     * the building.
      */
-    public function export(Request $request, string $dataset): StreamedResponse
+    public function download(Request $request, string $report, string $format, ReportCatalogue $catalogue)
     {
-        abort_unless(in_array($dataset, ['leads', 'listings'], true), 404);
+        abort_unless(in_array($format, ['csv', 'xlsx', 'pdf'], true), 404);
 
-        $from = $request->query('from') ? today()->parse($request->query('from')) : today()->subDays(30);
-        $to = $request->query('to') ? today()->parse($request->query('to')) : today();
-        $showContact = $request->user()->can('leads.view_contact');
+        $available = ReportCatalogue::index();
+        abort_unless(isset($available[$report]), 404);
+        abort_unless($request->user()->can($available[$report]['permission']), 403);
 
-        $filename = 'krishi-junction-'.$dataset.'-'.$from->toDateString().'-to-'.$to->toDateString().'.csv';
+        $definition = $catalogue->make($report);
 
-        return Response::streamDownload(function () use ($dataset, $from, $to, $showContact) {
-            $out = fopen('php://output', 'w');
+        activity()->causedBy($request->user())
+            ->withProperties(['report' => $report, 'format' => $format])
+            ->log('Downloaded a report');
 
-            if ($dataset === 'leads') {
-                fputcsv($out, ['Reference', 'Type', 'Name', 'Mobile', 'District', 'Status', 'Created']);
-
-                Lead::with('district')
-                    ->whereBetween('created_at', [$from->startOfDay(), $to->endOfDay()])
-                    ->orderBy('id')
-                    ->chunk(500, function ($batch) use ($out, $showContact) {
-                        foreach ($batch as $lead) {
-                            fputcsv($out, [
-                                $lead->reference_no,
-                                $lead->type,
-                                $lead->name,
-                                // Contact numbers leave the system only for roles
-                                // that are allowed to see them on screen.
-                                $showContact ? $lead->mobile : $lead->masked_mobile,
-                                $lead->district?->name,
-                                $lead->status,
-                                $lead->created_at?->toDateTimeString(),
-                            ]);
-                        }
-                    });
-            } else {
-                fputcsv($out, ['Reference', 'Title', 'Brand', 'City', 'Price', 'Status', 'Views', 'Leads', 'Created']);
-
-                UsedListing::with('brand', 'city')
-                    ->whereBetween('created_at', [$from->startOfDay(), $to->endOfDay()])
-                    ->orderBy('id')
-                    ->chunk(500, function ($batch) use ($out) {
-                        foreach ($batch as $listing) {
-                            fputcsv($out, [
-                                $listing->reference_no,
-                                $listing->title,
-                                $listing->brand?->name,
-                                $listing->city?->name,
-                                $listing->expected_price,
-                                $listing->status,
-                                $listing->view_count,
-                                $listing->lead_count,
-                                $listing->created_at?->toDateTimeString(),
-                            ]);
-                        }
-                    });
-            }
-
-            fclose($out);
-        }, $filename, ['Content-Type' => 'text/csv']);
+        return $this->exporter->download($definition, $format);
     }
 }

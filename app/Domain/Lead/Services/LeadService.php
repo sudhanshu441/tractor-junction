@@ -2,6 +2,7 @@
 
 namespace App\Domain\Lead\Services;
 
+use App\Domain\Analytics\Services\VisitorJourney;
 use App\Domain\Notification\NotificationDispatcher;
 use App\Models\Lead;
 use App\Models\LeadActivity;
@@ -35,6 +36,7 @@ class LeadService
     ];
 
     public function __construct(
+        private readonly VisitorJourney $journey,
         private readonly RoutingEngine $routing,
         private readonly NotificationDispatcher $notifications,
     ) {}
@@ -56,12 +58,19 @@ class LeadService
         return DB::transaction(function () use ($type, $data, $about, $user) {
             $duplicate = $this->findDuplicate($data['mobile'], $about);
 
+            // Whatever this person read before leaving their number travels with
+            // the lead, so the first sentence of the callback is about the right
+            // machine rather than "how can I help you".
+            $visitorId = $data['visitor_id'] ?? null;
+            $journey = $visitorId ? $this->journey->summarise($visitorId) : [];
+
             $lead = Lead::create([
                 'reference_no' => $this->nextReference(),
                 'type' => $type,
                 'leadable_type' => $about?->getMorphClass(),
                 'leadable_id' => $about?->getKey(),
                 'user_id' => $user?->id,
+                'visitor_id' => $visitorId,
                 'name' => $data['name'],
                 'mobile' => $data['mobile'],
                 'mobile_verified' => $data['mobile_verified'] ?? false,
@@ -70,7 +79,10 @@ class LeadService
                 'district_id' => $data['district_id'] ?? $user?->district_id,
                 'city_id' => $data['city_id'] ?? $user?->city_id,
                 'message' => $data['message'] ?? null,
-                'meta' => $data['meta'] ?? null,
+                'meta' => array_filter([
+                    ...($data['meta'] ?? []),
+                    'journey' => $journey ?: null,
+                ], fn ($value) => $value !== null) ?: null,
                 'lead_source_id' => $this->sourceId($data['utm_source'] ?? null),
                 'channel' => $data['channel'] ?? 'web',
                 'status' => $duplicate ? 'duplicate' : 'new',

@@ -62,6 +62,55 @@
             @endif
         </div></div>
 
+        @php $journey = $lead->meta['journey'] ?? null; @endphp
+        @if ($journey)
+            <div class="card mb-3"><div class="card-body">
+                <h2 class="h6 mb-1">{{ __('What they looked at before calling') }}</h2>
+                <p class="small text-muted-2">
+                    {{ __('Browsing history from this person\'s own device, linked when they left their number. Open the call with the right machine rather than a blank question.') }}
+                </p>
+
+                <div class="row g-3 mb-3">
+                    @foreach (array_filter([
+                        __('Looking to') => $journey['primary_intent'] ?? null,
+                        __('Pages viewed') => $journey['pages_viewed'] ?? null,
+                        __('First seen') => ($journey['first_seen'] ?? null)
+                            ? \Illuminate\Support\Carbon::parse($journey['first_seen'])->diffForHumans() : null,
+                        __('Came from') => $journey['utm_source'] ?? null,
+                    ]) as $label => $value)
+                        <div class="col-6 col-md-3">
+                            <div class="kj-stat">
+                                <div class="k">{{ $label }}</div>
+                                <div class="v" style="font-size:.95rem;">{{ ucfirst((string) $value) }}</div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                @if ($journey['machines_viewed'] ?? [])
+                    <div class="kj-label mb-1">{{ __('Machines viewed') }}</div>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        @foreach ($journey['machines_viewed'] as $machine)
+                            <span class="badge badge-muted">{{ $machine }}</span>
+                        @endforeach
+                    </div>
+                @endif
+
+                @if ($journey['recent_pages'] ?? [])
+                    <details>
+                        <summary class="small text-muted-2" style="cursor:pointer;">
+                            {{ __('Full page history') }}
+                        </summary>
+                        <ul class="small mono text-muted-2 mt-2 mb-0 ps-3">
+                            @foreach ($journey['recent_pages'] as $page)
+                                <li>{{ $page }}</li>
+                            @endforeach
+                        </ul>
+                    </details>
+                @endif
+            </div></div>
+        @endif
+
         <div class="card"><div class="card-body">
             <h2 class="h6 mb-3">{{ __('Activity') }}</h2>
 

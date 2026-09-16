@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Content\PageController as AdminPageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DealerController;
 use App\Http\Controllers\Admin\InspectionController;
+use App\Http\Controllers\Admin\InsuranceController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\ModerationController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\Seo\SeoController;
 use App\Http\Controllers\Admin\SpecController;
 use App\Http\Controllers\Admin\StaffController;
+use App\Http\Controllers\Admin\VisitorController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')
@@ -108,7 +110,11 @@ Route::prefix('admin')->name('admin.')
         Route::middleware('permission:listings.approve')->group(function () {
             Route::post('/used-listings/{listing}/decide', [ModerationController::class, 'decide'])->name('listings.decide');
             Route::post('/used-listings/bulk-approve', [ModerationController::class, 'bulkApprove'])->name('listings.bulk-approve');
-            Route::post('/reports/{report}/resolve', [ModerationController::class, 'resolveReport'])->name('listings.reports.resolve');
+            // Namespaced under used-listings like its sibling routes: /reports
+            // now belongs to the data exports, and two different things sharing
+            // that prefix is a trap worth removing.
+            Route::post('/used-listings/reports/{report}/resolve', [ModerationController::class, 'resolveReport'])
+                ->name('listings.reports.resolve');
         });
 
         // ----- Leads -----
@@ -165,6 +171,12 @@ Route::prefix('admin')->name('admin.')
             ->post('/inspections/{inspection}/approve', [InspectionController::class, 'approve'])->name('inspections.approve');
 
         // ----- Reviews -----
+        // Insurance desk
+        Route::middleware('permission:insurance.view')
+            ->get('/insurance', [InsuranceController::class, 'index'])->name('insurance.index');
+        Route::middleware('permission:insurance.edit')
+            ->post('/insurance/{enquiry}', [InsuranceController::class, 'update'])->name('insurance.update');
+
         Route::middleware('permission:reviews.view')
             ->get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
         Route::middleware('permission:reviews.approve')
@@ -263,12 +275,20 @@ Route::prefix('admin')->name('admin.')
             Route::post('/seo/translations', [SeoController::class, 'saveTranslation'])->name('seo.translations.save');
         });
 
+        // Anonymous visitors and what they were looking for
+        Route::middleware('permission:reports.view')
+            ->get('/visitors', [VisitorController::class, 'index'])->name('visitors.index');
+
         // Reports
         Route::middleware('permission:reports.view')->group(function () {
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         });
-        Route::middleware('permission:reports.export')
-            ->get('/reports/export/{dataset}', [ReportController::class, 'export'])->name('reports.export');
+        // CSV, Excel and PDF for every report. The per-report permission is
+        // checked inside the controller, because an export leaves the building.
+        Route::middleware('permission:reports.view')
+            ->get('/reports/{report}/{format}', [ReportController::class, 'download'])
+            ->where(['report' => '[a-z-]+', 'format' => 'csv|xlsx|pdf'])
+            ->name('reports.download');
 
         // Roles & permissions
         Route::middleware('permission:roles.view')->group(function () {

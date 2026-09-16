@@ -8,7 +8,7 @@
             @if ($image)
                 <img src="{{ $image->thumbnailUrl() }}" alt="{{ $listing->title }}" loading="lazy" class="object-fit-cover">
             @else
-                <span class="d-flex align-items-center justify-content-center">@include('partials.machine-icon')</span>
+                @include('partials.machine-icon', ['alt' => $listing->title])
             @endif
         </div>
     </a>

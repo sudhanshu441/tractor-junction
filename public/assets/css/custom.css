@@ -287,3 +287,25 @@ kbd {
   background: var(--kj-surface); border-top: 1px solid var(--kj-line);
   box-shadow: 0 -4px 24px rgba(14, 27, 19, .08);
 }
+
+/* ---------- callback prompt ----------
+   Bottom-right on desktop, a bottom sheet on a phone so it never covers the
+   content someone is actually reading. */
+.kj-callback {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 1035; width: 20rem; max-width: calc(100vw - 2rem);
+  background: var(--kj-surface); border: 1px solid var(--kj-line); border-radius: .75rem;
+  box-shadow: 0 12px 32px rgba(14, 27, 19, .16);
+}
+.kj-callback.is-open { animation: kj-callback-in .22s ease-out; }
+@keyframes kj-callback-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.kj-callback-body { padding: 1rem 1.1rem 1.1rem; }
+.kj-callback-close {
+  position: absolute; top: .25rem; right: .5rem; border: 0; background: none;
+  font-size: 1.35rem; line-height: 1; color: var(--kj-ink-3); cursor: pointer;
+}
+.kj-callback-close:hover { color: var(--kj-ink); }
+
+@media (max-width: 575.98px) {
+  .kj-callback { right: 0; left: 0; bottom: 0; width: auto; border-radius: .75rem .75rem 0 0; }
+}
+@media (prefers-reduced-motion: reduce) { .kj-callback.is-open { animation: none; } }

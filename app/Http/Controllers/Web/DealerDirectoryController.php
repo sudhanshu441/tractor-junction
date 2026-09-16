@@ -6,6 +6,7 @@ use App\Domain\Dealer\Services\DealerService;
 use App\Domain\Engagement\Services\ReviewService;
 use App\Domain\Seo\Services\SeoService;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\TrackPageView;
 use App\Models\Brand;
 use App\Models\Dealer;
 use App\Models\District;
@@ -64,6 +65,8 @@ class DealerDirectoryController extends Controller
         ])->where('slug', $slug)->firstOrFail();
 
         abort_unless($dealer->verification_status === 'verified' && $dealer->is_active, 404);
+
+        TrackPageView::attribute($dealer);
 
         return view('web.dealers.show', [
             'dealer' => $dealer,

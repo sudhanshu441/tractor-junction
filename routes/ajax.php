@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Ajax\CallbackController;
 use App\Http\Controllers\Ajax\GeoController;
 use App\Http\Controllers\Ajax\LeadController;
 use App\Http\Controllers\Ajax\ListingReportController;
@@ -82,6 +83,11 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
         Route::post('/reviews/{review}/vote', [ReviewController::class, 'vote'])
             ->middleware('throttle:60,1')->name('reviews.vote');
     });
+
+    // "Call me back" — the only route by which a visitor's name and number
+    // enter the system, and only because they typed them.
+    Route::post('/callback', [CallbackController::class, 'store'])
+        ->middleware('throttle:5,60')->name('callback.store');
 
     // Content
     Route::post('/contact', [PageController::class, 'storeContact'])

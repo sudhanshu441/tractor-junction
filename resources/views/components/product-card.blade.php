@@ -13,9 +13,7 @@
                 <img src="{{ $image->url('card') }}" alt="{{ $image->alt_text ?: $product->full_name }}"
                      loading="lazy" width="600" height="450" class="object-fit-cover">
             @else
-                <span class="d-flex align-items-center justify-content-center text-muted-2 small">
-                    @include('partials.machine-icon')
-                </span>
+                @include('partials.machine-icon', ['alt' => $product->full_name])
             @endif
         </div>
     </a>

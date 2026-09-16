@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureUserType;
 use App\Http\Middleware\HandleRedirects;
+use App\Http\Middleware\IdentifyVisitor;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\TrackPageView;
@@ -38,9 +39,19 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        /*
+         | The visitor id is an opaque random UUID that means nothing outside
+         | our own database, so encrypting it buys no privacy and costs ~200
+         | bytes on every single request, assets included. On a rural 3G
+         | connection that overhead is real; the risk is someone substituting
+         | another random UUID and polluting their own analytics row.
+         */
+        $middleware->encryptCookies(except: [IdentifyVisitor::COOKIE]);
+
         $middleware->web(append: [
             SecurityHeaders::class,
             SetLocale::class,
+            IdentifyVisitor::class,
             HandleRedirects::class,
             TrackPageView::class,
         ]);

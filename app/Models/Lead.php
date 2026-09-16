@@ -23,6 +23,7 @@ class Lead extends Model
         'leadable_type',
         'leadable_id',
         'user_id',
+        'visitor_id',
         'name',
         'mobile',
         'mobile_verified',

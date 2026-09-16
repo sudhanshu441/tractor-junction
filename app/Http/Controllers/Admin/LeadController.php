@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\State;
 use App\Models\UsedListing;
 use App\Models\User;
+use App\Support\Csv;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -224,14 +225,14 @@ class LeadController extends Controller
         return response()->streamDownload(function () use ($request, $canSeeContact) {
             $handle = fopen('php://output', 'wb');
 
-            fputcsv($handle, ['Reference', 'Type', 'Name', 'Mobile', 'About', 'District',
+            Csv::put($handle, ['Reference', 'Type', 'Name', 'Mobile', 'About', 'District',
                 'Status', 'Assignee', 'Created']);
 
             Lead::with(['leadable', 'district', 'currentAssignment.dealer', 'currentAssignment.user'])
                 ->when($request->string('status')->toString(), fn ($q, $s) => $q->where('status', $s))
                 ->chunk(500, function ($leads) use ($handle, $canSeeContact) {
                     foreach ($leads as $lead) {
-                        fputcsv($handle, [
+                        Csv::put($handle, [
                             $lead->reference_no,
                             $lead->type,
                             $lead->name,

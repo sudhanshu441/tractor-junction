@@ -86,6 +86,15 @@
                     </a>
                 </li>
             @endcan
+            @can('insurance.view')
+                <li>
+                    <a class="nav-link {{ request()->routeIs('admin.insurance.*') ? 'active' : '' }}" href="{{ route('admin.insurance.index') }}">
+                        {{ __('Insurance') }}
+                        @php $newInsurance = \App\Models\InsuranceEnquiry::where('status', 'new')->count(); @endphp
+                        @if ($newInsurance)<span class="badge badge-warn ms-auto">{{ $newInsurance }}</span>@endif
+                    </a>
+                </li>
+            @endcan
             @can('loans.view')
                 <li>
                     <a class="nav-link {{ request()->routeIs('admin.loans.*') ? 'active' : '' }}" href="{{ route('admin.loans.index') }}">
@@ -146,6 +155,7 @@
             <li class="nav-heading">{{ __('Insight') }}</li>
             @can('reports.view')
                 <li><a class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">{{ __('Reports') }}</a></li>
+                <li><a class="nav-link {{ request()->routeIs('admin.visitors.*') ? 'active' : '' }}" href="{{ route('admin.visitors.index') }}">{{ __('Visitors & intent') }}</a></li>
             @endcan
 
             <li class="nav-heading">{{ __('Search & language') }}</li>

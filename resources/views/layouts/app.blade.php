@@ -12,4 +12,5 @@
 
 @push('schema')
     @include('partials.consent-banner')
+    @include('partials.callback-prompt')
 @endpush

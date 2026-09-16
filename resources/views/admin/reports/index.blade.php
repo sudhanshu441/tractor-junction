@@ -11,16 +11,7 @@
                class="btn btn-sm {{ $days === $value ? 'btn-primary' : 'btn-outline-secondary' }}">{{ $label }}</a>
         @endforeach
     </div>
-    <div class="d-flex gap-2">
-        @can('leads.export')
-            <a href="{{ route('admin.reports.export', ['dataset' => 'leads', 'from' => today()->subDays($days)->toDateString()]) }}"
-               class="btn btn-outline-primary btn-sm">{{ __('Export leads') }}</a>
-        @endcan
-        @can('listings.export')
-            <a href="{{ route('admin.reports.export', ['dataset' => 'listings', 'from' => today()->subDays($days)->toDateString()]) }}"
-               class="btn btn-outline-primary btn-sm">{{ __('Export listings') }}</a>
-        @endcan
-    </div>
+    <a href="#downloads" class="btn btn-primary btn-sm">{{ __('Download a report') }}</a>
 </div>
 
 <div class="row g-3 mb-3">
@@ -113,12 +104,79 @@
         </div></div>
     </div>
 </div>
+<section class="card mt-4" id="downloads"><div class="card-body">
+    <h2 class="h6 mb-1">{{ __('Download a report') }}</h2>
+    <p class="small text-muted-2">
+        {{ __('Excel and CSV contain every matching row. A PDF is capped at :n rows because a longer one is unreadable — it says so on the last page when it has been cut.', ['n' => number_format(\App\Domain\Reporting\Services\ReportExporter::PDF_MAX_ROWS)]) }}
+    </p>
+
+    <form method="GET" class="row g-2 align-items-end mb-3" id="report-range">
+        <div class="col-auto">
+            <label class="form-label" for="from">{{ __('From') }}</label>
+            <input type="date" id="from" name="from" class="form-control form-control-sm"
+                   value="{{ request('from', today()->subDays($days)->toDateString()) }}">
+        </div>
+        <div class="col-auto">
+            <label class="form-label" for="to">{{ __('To') }}</label>
+            <input type="date" id="to" name="to" class="form-control form-control-sm"
+                   value="{{ request('to', today()->toDateString()) }}">
+        </div>
+        <div class="col-auto">
+            <span class="small text-muted-2">{{ __('Applies to reports that have a date. The catalogue and dealer network are always complete.') }}</span>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <tbody>
+            @foreach ($downloads as $key => $meta)
+                @continue(! auth()->user()->can($meta['permission']))
+                <tr>
+                    <td>
+                        <b class="small">{{ __($meta['title']) }}</b>
+                        <div class="small text-muted-2">{{ __($meta['description']) }}</div>
+                    </td>
+                    <td class="text-end text-nowrap">
+                        @foreach (['xlsx' => __('Excel'), 'csv' => __('CSV'), 'pdf' => __('PDF')] as $format => $label)
+                            <a class="btn btn-sm btn-outline-primary js-download"
+                               data-report="{{ $key }}" data-format="{{ $format }}"
+                               href="{{ route('admin.reports.download', ['report' => $key, 'format' => $format]) }}">{{ $label }}</a>
+                        @endforeach
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    @unless (auth()->user()->can('leads.view_contact'))
+        <p class="small text-muted-2 mt-3 mb-0">
+            {{ __('Your role sees masked contact numbers, so the numbers in these downloads are masked too.') }}
+        </p>
+    @endunless
+</div></section>
 @endsection
 
 @push('scripts')
 <script src="{{ asset('assets/vendor/chartjs/chart.umd.min.js') }}"></script>
 <script>
 $(function () {
+    // Carry the chosen range onto every download link as it changes.
+    function applyRange() {
+        var from = $('#from').val(), to = $('#to').val();
+
+        $('.js-download').each(function () {
+            var url = new URL($(this).attr('href'), window.location.origin);
+            if (from) { url.searchParams.set('from', from); }
+            if (to) { url.searchParams.set('to', to); }
+            $(this).attr('href', url.pathname + url.search);
+        });
+    }
+
+    $('#report-range').on('submit', function (e) { e.preventDefault(); });
+    $('#from, #to').on('change', applyRange);
+    applyRange();
+
     var green = '#15703A', greenSoft = 'rgba(21,112,58,.12)', ink3 = '#6B7B70';
     var line = { borderWidth: 2, tension: .3, pointRadius: 0, pointHoverRadius: 4 };
 

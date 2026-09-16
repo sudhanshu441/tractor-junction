@@ -9,6 +9,7 @@ use App\Domain\Catalog\Services\PriceService;
 use App\Domain\Engagement\Services\ReviewService;
 use App\Domain\Seo\Services\SeoService;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\TrackPageView;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -67,6 +68,7 @@ class ProductController extends Controller
 
         // A view counter must never block the render or trip a race.
         $product->incrementQuietly('view_count');
+        TrackPageView::attribute($product);
 
         $stateId = $request->user()?->state_id ?? $request->integer('state') ?: null;
 

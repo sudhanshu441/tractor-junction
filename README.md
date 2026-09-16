@@ -78,6 +78,7 @@ troubleshooting table: **[docs/18-LOCAL-SETUP.md](docs/18-LOCAL-SETUP.md)**.
 | 16 | [Runbooks](docs/16-RUNBOOKS.md) | Deploy, backup, restore, and what to do when things break |
 | 17 | [Phase 5 Notes](docs/17-PHASE-5-NOTES.md) | CMS, SEO engine, Hindi, reports, API |
 | 18 | [Local Setup](docs/18-LOCAL-SETUP.md) | **Start here** — clone to running in a browser, with every login |
+| 19 | [Image Sourcing](docs/19-IMAGE-SOURCING.md) | Where product photographs legitimately come from, and how to bulk-load them |
 
 ## Prototype
 

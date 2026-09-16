@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogComment;
 use App\Models\ContactMessage;
 use App\Models\NewsletterSubscriber;
+use App\Support\Csv;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -94,11 +95,11 @@ class InboxController extends Controller
 
         return Response::streamDownload(function () {
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['Email', 'Mobile', 'Active', 'Subscribed on']);
+            Csv::put($out, ['Email', 'Mobile', 'Active', 'Subscribed on']);
 
             NewsletterSubscriber::orderBy('id')->chunk(500, function ($batch) use ($out) {
                 foreach ($batch as $row) {
-                    fputcsv($out, [
+                    Csv::put($out, [
                         $row->email,
                         $row->mobile,
                         $row->is_active ? 'yes' : 'no',
