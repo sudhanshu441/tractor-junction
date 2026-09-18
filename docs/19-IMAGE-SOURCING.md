@@ -2,8 +2,8 @@
 
 ## The position, plainly
 
-The site ships with **no photographs of real tractor models**, and that is
-deliberate rather than unfinished.
+The site ships with **no photographs of the specific tractor models it lists**,
+and that is deliberate rather than unfinished.
 
 Photographs of a Mahindra 575 DI or a Swaraj 744 FE are the manufacturer's
 copyright. Downloading them from a brand website or a competitor's listing and
@@ -11,9 +11,36 @@ publishing them on a commercial marketplace is copyright infringement, and the
 exposure lands on Krishi Junction, not on whoever copied the file. Indian
 manufacturers do enforce this.
 
-So the catalogue currently shows original artwork — a drawn tractor — wherever a
-real photograph has not been uploaded. It reads as "no photo yet" rather than as
-a broken page, and it carries no legal risk.
+## The placeholder
+
+Wherever a model has no photograph, the catalogue shows one supplied stand-in
+photograph — `public/assets/brand/machines/tractor-*.webp`, with a `.jpg`
+fallback. It reads as "no photo yet" rather than as a broken page.
+
+Two things about it that operations needs to know, because both are live risks
+rather than theory:
+
+1. **It shows a branded machine.** The stand-in is a red Massey Ferguson 241 DI.
+   It therefore appears on Mahindra, Swaraj and John Deere models too, until
+   those models get their own photographs. A buyer who does not read the caption
+   can reasonably think the picture is the machine. That is a commercial reason
+   to finish the catalogue, not only an aesthetic one.
+2. **The client supplied it and is asserting the rights to it.** It was not
+   sourced by the build. Confirm in writing that Krishi Junction may publish it
+   commercially before launch; everything in the table below applies to this
+   file exactly as it applies to any other manufacturer photograph.
+
+Two guards keep the stand-in from becoming a claim about the machine:
+
+- The alt text says *"No photograph uploaded yet for &lt;model&gt;"* — a screen
+  reader and an image crawler both read it as absent, not as this model's photo.
+- **It is never emitted in JSON-LD.** `JsonLd` leaves `image` null when a model
+  has no real photograph, so Google is never told that a Massey Ferguson picture
+  depicts a Swaraj.
+
+The admin moderation queue deliberately does **not** use it. A moderator must
+see that a listing arrived with no photos; filling the gap with a stand-in would
+hide the thing they are reviewing for.
 
 ## Where real photographs legitimately come from
 
@@ -66,5 +93,5 @@ thumbnail. Feed it the largest files you have; do not shrink them first.
 ## Before launch
 
 `docs/15-LAUNCH-CHECKLIST.md` lists the catalogue content as a blocking item.
-Photographs are part of that: a marketplace where every machine is a drawing
-converts badly, however good the drawing is.
+Photographs are part of that: a marketplace where every machine shows the same
+borrowed stand-in converts badly, and on a rival's model it invites a complaint.

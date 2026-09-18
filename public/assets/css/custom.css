@@ -197,6 +197,15 @@ a:focus-visible, button:focus-visible, .form-control:focus-visible, .nav-link:fo
 .kj-product-card { transition: box-shadow .15s ease, border-color .15s ease; }
 .kj-product-card:hover { box-shadow: var(--kj-shadow); border-color: var(--kj-green-400); }
 
+/* The stand-in photograph is a branded machine, so a full-size hero must say so
+   in words a buyer can read — the alt text only reaches a screen reader. */
+.kj-photo-note {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    padding: .4rem .65rem;
+    background: rgba(17, 30, 22, .72);
+    color: #fff; font-size: .75rem; line-height: 1.25; text-align: center;
+}
+
 #result-grid.kj-loading { opacity: .45; pointer-events: none; transition: opacity .15s ease; }
 
 .js-band.active { background: var(--kj-green-700); border-color: var(--kj-green-700); color: #fff; }

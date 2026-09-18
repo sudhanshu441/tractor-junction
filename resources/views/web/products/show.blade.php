@@ -46,7 +46,7 @@
                         <img src="{{ $image->url('detail') }}" alt="{{ $image->alt_text ?: $product->full_name }}"
                              width="1200" height="816" class="object-fit-cover rounded">
                     @else
-                        <span class="d-flex align-items-center justify-content-center">@include('partials.machine-icon')</span>
+                        <span class="d-flex align-items-center justify-content-center">@include('partials.machine-icon', ['alt' => $product->full_name, 'sizes' => '(max-width: 991px) 100vw, 560px', 'caption' => true, 'hero' => true])</span>
                     @endif
                 </div>
 

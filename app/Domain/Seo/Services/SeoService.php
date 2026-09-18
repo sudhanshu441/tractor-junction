@@ -85,7 +85,7 @@ class SeoService
             'robots' => $stored['robots'] ?? ($overrides['robots'] ?? 'index,follow'),
             'og_title' => $stored['og_title'] ?? $this->trim($title, self::TITLE_MAX),
             'og_description' => $stored['og_description'] ?? $this->trim($description, self::DESCRIPTION_MAX),
-            'og_image' => $stored['og_image'] ?? ($overrides['image'] ?? asset('assets/brand/og-default.png')),
+            'og_image' => $stored['og_image'] ?? ($overrides['image'] ?? asset('assets/brand/og-default.jpg')),
         ];
     }
 

@@ -72,6 +72,10 @@
                 @if ($listing->images->isNotEmpty())
                     <img src="{{ $listing->images->first()->thumbnailUrl() }}" alt="{{ $listing->title }}"
                          class="img-fluid rounded mb-2">
+                @else
+                    <div class="ratio kj-thumb rounded mb-2" style="--bs-aspect-ratio: 75%;">
+                        @include('partials.machine-icon', ['alt' => $listing->title, 'sizes' => '(max-width: 991px) 100vw, 360px'])
+                    </div>
                 @endif
                 <b class="d-block">{{ $listing->title }}</b>
                 <p class="small text-muted-2 mb-0 mono">{{ $listing->reference_no }}</p>

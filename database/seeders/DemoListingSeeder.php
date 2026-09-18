@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class DemoListingSeeder extends Seeder
 {
+    private ?\GdImage $basePhoto = null;
+
     public function run(): void
     {
         $listings = app(ListingService::class);
@@ -123,9 +125,9 @@ class DemoListingSeeder extends Seeder
     }
 
     /**
-     * Generates simple labelled placeholders so the moderation queue — a
-     * photo-review screen — is reviewable with demo data. Real listings carry
-     * seller photography.
+     * Gives every demo listing the site-wide placeholder photograph, stamped
+     * with the listing and the angle so the moderation queue — a photo-review
+     * screen — stays reviewable. Real listings carry seller photography.
      */
     private function attachPlaceholderPhotos(UsedListing $listing, string $label): void
     {
@@ -133,10 +135,10 @@ class DemoListingSeeder extends Seeder
         $folder = 'used/'.now()->format('Y/m').'/'.$listing->reference_no;
 
         foreach ($angles as $i => $angle) {
-            $path = $folder.'/'.$angle.'.png';
+            $path = $folder.'/'.$angle.'.jpg';
 
             if (! Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->put($path, $this->placeholderPng($label, $angle));
+                Storage::disk('public')->put($path, $this->placeholderPhoto($label, $angle));
             }
 
             UsedListingImage::updateOrCreate(
@@ -151,25 +153,36 @@ class DemoListingSeeder extends Seeder
         }
     }
 
-    private function placeholderPng(string $label, string $angle): string
+    /**
+     * The stamp is not decoration: without it a reviewer sees four identical
+     * tractors and cannot tell demo data from a seller's upload, and the
+     * photograph is of one machine while the listing may be another.
+     */
+    private function placeholderPhoto(string $label, string $angle): string
     {
-        $width = 600;
-        $height = 450;
+        // Decoded once: a demo run stamps four photographs per listing and the
+        // JPEG decode, not the drawing, is what a seeder would spend its time on.
+        $this->basePhoto ??= imagecreatefromjpeg(public_path('assets/brand/machines/tractor.jpg'));
+
+        $width = imagesx($this->basePhoto);
+        $height = imagesy($this->basePhoto);
+
+        // Drawing mutates, so each stamp gets its own copy of the photograph.
         $image = imagecreatetruecolor($width, $height);
+        imagecopy($image, $this->basePhoto, 0, 0, 0, 0, $width, $height);
 
-        $ground = imagecolorallocate($image, 233, 241, 235);   // --kj-sunk
-        $ink = imagecolorallocate($image, 109, 129, 117);      // --kj-ink-3
-        $green = imagecolorallocate($image, 21, 112, 58);      // --kj-green-700
+        $bar = imagecolorallocatealpha($image, 10, 24, 16, 38);
+        $white = imagecolorallocate($image, 255, 255, 255);
 
-        imagefilledrectangle($image, 0, 0, $width, $height, $ground);
-        imagefilledrectangle($image, 0, $height - 46, $width, $height, $green);
-
-        imagestring($image, 5, 24, 30, substr($label, 0, 42), $ink);
-        imagestring($image, 4, 24, 56, 'SAMPLE PHOTO - '.strtoupper($angle), $ink);
-        imagestring($image, 3, 24, $height - 32, 'Krishi Junction demo data', imagecolorallocate($image, 255, 255, 255));
+        // Inset from the bottom edge: the detail hero crops a 4:3 photograph to
+        // 68%, and a stamp flush with the edge loses its second line exactly
+        // where it matters most — beside the asking price.
+        imagefilledrectangle($image, 0, $height - 108, $width, $height - 46, $bar);
+        imagestring($image, 5, 18, $height - 100, substr($label, 0, 46), $white);
+        imagestring($image, 3, 18, $height - 74, 'SAMPLE PHOTO - '.strtoupper($angle).' - NOT THIS MACHINE', $white);
 
         ob_start();
-        imagepng($image);
+        imagejpeg($image, null, 82);
         imagedestroy($image);
 
         return (string) ob_get_clean();

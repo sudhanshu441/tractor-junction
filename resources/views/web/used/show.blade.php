@@ -18,7 +18,7 @@
                         <img id="listing-main-image" src="{{ $listing->primary_image->url() }}"
                              alt="{{ $listing->title }}" class="object-fit-cover rounded">
                     @else
-                        <span class="d-flex align-items-center justify-content-center">@include('partials.machine-icon')</span>
+                        <span class="d-flex align-items-center justify-content-center">@include('partials.machine-icon', ['alt' => $listing->title, 'sizes' => '(max-width: 991px) 100vw, 560px', 'caption' => true, 'hero' => true])</span>
                     @endif
                 </div>
 

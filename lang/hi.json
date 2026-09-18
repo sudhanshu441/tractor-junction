@@ -93,5 +93,8 @@
     "Enter a valid 10-digit mobile number.": "कृपया 10 अंकों का सही मोबाइल नंबर डालें।",
     "That code is not correct.": "यह कोड सही नहीं है।",
     "That code has expired. Request a new one.": "यह कोड समाप्त हो गया है। नया कोड माँगें।",
-    "No results found.": "कोई परिणाम नहीं मिला।"
+    "No results found.": "कोई परिणाम नहीं मिला।",
+    "No photograph uploaded yet": "अभी तक कोई फोटो अपलोड नहीं हुई",
+    "No photograph uploaded yet for :machine": ":machine के लिए अभी तक कोई फोटो अपलोड नहीं हुई",
+    "Sample photograph — no picture of this machine has been uploaded yet.": "नमूना फोटो — इस मशीन की कोई तस्वीर अभी तक अपलोड नहीं हुई है।"
 }
