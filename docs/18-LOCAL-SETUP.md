@@ -343,7 +343,62 @@ Run the test suite to confirm the install is sound (about 10 minutes):
 php artisan test
 ```
 
-236 tests should pass.
+278 tests should pass.
+
+---
+
+## Pulling new changes into an existing clone
+
+`git pull` refuses to run while files it needs to update are modified locally:
+
+```
+error: Your local changes to the following files would be overwritten by merge:
+        composer.lock
+        database/migrations/...
+Please commit your changes or stash them before you merge.
+Aborting
+```
+
+That is git protecting you, not a broken repository. Look before you act:
+
+```bash
+git status          # which files, and are any of them yours?
+git diff            # what is actually different
+```
+
+If none of it is work you want to keep — which is the normal case on a machine
+you only run the project on — park it and pull. `stash` is reversible; `checkout
+--` is not, so prefer it:
+
+```bash
+git stash push -u -m "before-pull"
+git pull
+git log --oneline -1        # confirm you are on the new commit
+```
+
+The stash stays in `git stash list` if you ever need it back. Drop it with
+`git stash drop` once the site runs.
+
+**Then bring the install back in line with what you just pulled.** Skipping this
+is what produces "class not found" and "table doesn't exist" errors that look
+like code bugs:
+
+```bash
+composer install            # only if composer.lock changed
+php artisan optimize:clear  # config, route, view and event caches
+php artisan storage:link    # harmless if the link already exists
+```
+
+If any file under `database/migrations/` changed, the schema you already have
+was built from the old files and will not match. Rebuild it:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+**`migrate:fresh` drops every table.** Anything you entered by hand — listings,
+leads, settings — is gone. That is the right trade on a demo install and the
+wrong one on anything real, so check before you run it.
 
 ---
 
