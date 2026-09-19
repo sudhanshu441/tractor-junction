@@ -1,7 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Krishi Junction">
-  <circle cx="32" cy="32" r="21" fill="none" stroke="#15703A" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 5.247"/>
-  <circle cx="32" cy="32" r="16" fill="none" stroke="#15703A" stroke-width="3.4"/>
-  <path d="M32 43.5V30.5" stroke="#15703A" stroke-width="3" stroke-linecap="round"/>
-  <path d="M32 31.5c-5.6 0-8.7-3.6-8.7-9 5.6 0 8.7 3.6 8.7 9z" fill="#0B3D20"/>
-  <path d="M32 31.5c5.6 0 8.7-3.6 8.7-9-5.6 0-8.7 3.6-8.7 9z" fill="#15703A"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Tractor Sarthi">
+  <defs><mask id="ts-mark-green" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#FFFFFF"/><circle cx="23" cy="42" r="13.2" fill="#000000"/><circle cx="47" cy="45" r="8.4" fill="#000000"/></mask></defs>
+  <g fill="#15703A" mask="url(#ts-mark-green)"><path d="M12 36v-5h10V19h13v8h17v9z"/><rect x="36" y="12" width="3.8" height="15" rx="1.9"/></g>
+  <circle cx="23" cy="42" r="11" fill="none" stroke="#15703A" stroke-width="3.6"/><circle cx="23" cy="42" r="3" fill="#0B3D20"/>
+  <circle cx="47" cy="45" r="6.2" fill="none" stroke="#15703A" stroke-width="3.2"/><circle cx="47" cy="45" r="2.2" fill="#0B3D20"/>
 </svg>

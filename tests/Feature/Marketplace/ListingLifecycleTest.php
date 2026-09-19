@@ -58,7 +58,7 @@ class ListingLifecycleTest extends TestCase
 
         $this->assertSame('draft', $draft->status);
         $this->assertNull($draft->title);
-        $this->assertStringStartsWith('KJ-U-', $draft->reference_no);
+        $this->assertStringStartsWith(config('kj.brand.reference_prefix').'-U-', $draft->reference_no);
     }
 
     public function test_submitting_titles_and_slugs_the_listing(): void

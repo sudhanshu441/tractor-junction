@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', __('Buyers — Krishi Junction'))
+@section('title', __('Buyers — Tractor Sarthi'))
 @section('panel_name', __('My account'))
 @section('panel_nav')
     <li><a class="nav-link" href="{{ route('account.dashboard') }}">{{ __('Dashboard') }}</a></li>

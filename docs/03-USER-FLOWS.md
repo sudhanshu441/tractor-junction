@@ -1,4 +1,4 @@
-# Krishi Junction — User Flows & Process Diagrams
+# Tractor Sarthi — User Flows & Process Diagrams
 
 Every flow below is a build contract: the screens, states and side-effects named here are
 what will be implemented.

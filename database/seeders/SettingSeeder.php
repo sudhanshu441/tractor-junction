@@ -11,16 +11,16 @@ class SettingSeeder extends Seeder
     {
         $settings = [
             // group, key, value, type, label
-            ['general', 'site_name', 'Krishi Junction', 'string', 'Site name'],
+            ['general', 'site_name', 'Tractor Sarthi', 'string', 'Site name'],
             ['general', 'tagline', "India's rural machinery marketplace", 'string', 'Tagline'],
             ['general', 'support_mobile', '', 'string', 'Support mobile'],
-            ['general', 'support_email', 'support@krishijunction.com', 'string', 'Support email'],
+            ['general', 'support_email', 'support@tractorsarthi.com', 'string', 'Support email'],
             ['general', 'address', '', 'text', 'Registered address'],
             ['general', 'logo', 'brand/logo-horizontal.svg', 'file', 'Logo'],
             ['general', 'favicon', 'brand/favicon.svg', 'file', 'Favicon'],
             ['general', 'maintenance_mode', '0', 'bool', 'Maintenance mode'],
 
-            ['seo', 'meta_title', 'New & Used Tractors in India — Price, Specs | Krishi Junction', 'string', 'Default meta title'],
+            ['seo', 'meta_title', 'New & Used Tractors in India — Price, Specs | Tractor Sarthi', 'string', 'Default meta title'],
             ['seo', 'meta_description', 'Compare new and used tractors, implements and harvesters. Check on-road prices, EMI, dealers and reviews across India.', 'text', 'Default meta description'],
             ['seo', 'google_analytics_id', '', 'string', 'GA4 measurement ID'],
             ['seo', 'gtm_id', '', 'string', 'Google Tag Manager ID'],

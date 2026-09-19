@@ -43,7 +43,7 @@ class OtpService
         RateLimiter::hit($mobileKey, 3600);
         RateLimiter::hit($ipKey, 3600);
 
-        $message = "{$code} is your Krishi Junction verification code. Valid for "
+        $message = "{$code} is your Tractor Sarthi verification code. Valid for "
             .config('kj.otp.ttl_minutes').' minutes. Do not share it with anyone.';
 
         $this->sms->send($mobile, $message, config('kj.sms.msg91.otp_template_id'));

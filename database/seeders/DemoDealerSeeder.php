@@ -64,7 +64,7 @@ class DemoDealerSeeder extends Seeder
                     // with the password login while exploring the demo data.
                     'email' => $slug.'@example.com',
                     'mobile_verified_at' => now(),
-                    'password' => Hash::make('KrishiDemo@2026'),
+                    'password' => Hash::make('SarthiDemo@2026'),
                     'user_type' => 'customer',
                     'is_active' => true,
                 ],

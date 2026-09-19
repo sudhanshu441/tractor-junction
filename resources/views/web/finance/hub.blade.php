@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Tractor Loans — Rates, EMI & Apply Online | Krishi Junction'))
+@section('title', __('Tractor Loans — Rates, EMI & Apply Online | Tractor Sarthi'))
 @section('meta_description', __('Compare tractor loan rates, calculate your EMI and apply online. Repayment options that match the harvest, not just the calendar.'))
 
 @section('content')
@@ -62,7 +62,7 @@
     </div>
 
     <p class="small text-muted-2 mt-3">
-        {{ __('Rates are indicative and set by the lender, not by Krishi Junction. Your actual rate depends on their assessment.') }}
+        {{ __('Rates are indicative and set by the lender, not by Tractor Sarthi. Your actual rate depends on their assessment.') }}
     </p>
 </section>
 @endsection

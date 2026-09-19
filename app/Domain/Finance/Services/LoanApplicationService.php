@@ -50,7 +50,7 @@ class LoanApplicationService
     {
         $last = LoanApplication::withTrashed()->max('id') ?? 0;
 
-        return 'KJ-LN-'.str_pad((string) ($last + 1), 5, '0', STR_PAD_LEFT);
+        return config('kj.brand.reference_prefix').'-LN-'.str_pad((string) ($last + 1), 5, '0', STR_PAD_LEFT);
     }
 
     /** Creates or updates the applicant's draft; each wizard step calls this. */

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Lead :ref — Krishi Junction Admin', ['ref' => $lead->reference_no]))
+@section('title', __('Lead :ref — Tractor Sarthi Admin', ['ref' => $lead->reference_no]))
 @section('page_title', __('Lead :ref', ['ref' => $lead->reference_no]))
 
 @section('content')

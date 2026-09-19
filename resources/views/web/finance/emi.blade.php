@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $product
-    ? __(':name loan EMI calculator | Krishi Junction', ['name' => $product->full_name])
-    : __('Tractor EMI Calculator — Calculate Your Loan EMI | Krishi Junction'))
+    ? __(':name loan EMI calculator | Tractor Sarthi', ['name' => $product->full_name])
+    : __('Tractor EMI Calculator — Calculate Your Loan EMI | Tractor Sarthi'))
 @section('meta_description', __('Work out your tractor loan EMI in three steps. Monthly, quarterly, half-yearly or yearly repayment, with a full amortisation schedule.'))
 
 @section('content')

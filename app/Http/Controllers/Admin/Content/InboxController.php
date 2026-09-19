@@ -91,7 +91,7 @@ class InboxController extends Controller
     /** Streamed so a list of a hundred thousand addresses does not exhaust memory. */
     public function exportSubscribers(): StreamedResponse
     {
-        $filename = 'krishi-junction-subscribers-'.now()->format('Y-m-d').'.csv';
+        $filename = config('kj.brand.slug').'-subscribers-'.now()->format('Y-m-d').'.csv';
 
         return Response::streamDownload(function () {
             $out = fopen('php://output', 'w');

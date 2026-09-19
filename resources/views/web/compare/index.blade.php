@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Compare Tractors — Price, Specs & Mileage | Krishi Junction'))
+@section('title', __('Compare Tractors — Price, Specs & Mileage | Tractor Sarthi'))
 
 @section('content')
 <div class="container-xl py-4">

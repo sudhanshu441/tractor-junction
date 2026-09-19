@@ -1,4 +1,4 @@
-# Krishi Junction — Content & Media Plan
+# Tractor Sarthi — Content & Media Plan
 
 ## 1. Important note on assets
 

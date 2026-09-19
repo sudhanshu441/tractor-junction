@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Become a Krishi Junction dealer'))
+@section('title', __('Become a Tractor Sarthi dealer'))
 @section('meta_description', __('Register your dealership to receive verified buyer enquiries from your district.'))
 
 @section('content')

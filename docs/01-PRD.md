@@ -1,8 +1,8 @@
-# Krishi Junction — Product Requirements Document (PRD)
+# Tractor Sarthi — Product Requirements Document (PRD)
 
 | Field | Value |
 |---|---|
-| Product | Krishi Junction |
+| Product | Tractor Sarthi |
 | Version | 1.0 (Discovery / pre-development) |
 | Owner | sudhanshu441 |
 | Benchmark | tractorjunction.com |
@@ -13,7 +13,7 @@
 
 ## 1. Executive summary
 
-Krishi Junction is a rural-machinery marketplace and information portal for India. It
+Tractor Sarthi is a rural-machinery marketplace and information portal for India. It
 solves three problems for a farmer buying agricultural machinery:
 
 1. **Price opacity** — no reliable public price/spec reference for tractors & implements.

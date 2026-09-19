@@ -1,4 +1,4 @@
-/* Krishi Junction — finance: EMI calculator and the loan application wizard. */
+/* Tractor Sarthi — finance: EMI calculator and the loan application wizard. */
 (function ($) {
     'use strict';
 

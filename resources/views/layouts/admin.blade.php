@@ -8,7 +8,7 @@
         <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center gap-2 px-2 py-2 text-decoration-none">
             <img src="{{ asset('assets/brand/logo-mark.svg') }}" alt="" width="30" height="30">
             <span>
-                <span class="d-block fw-bold" style="font-family:Archivo,sans-serif; letter-spacing:-.02em;">{{ __('Krishi Junction') }}</span>
+                <span class="d-block fw-bold" style="font-family:Archivo,sans-serif; letter-spacing:-.02em;">{{ __('Tractor Sarthi') }}</span>
                 <span class="d-block mono text-muted-2" style="font-size:.625rem;">{{ __('ADMIN PANEL') }}</span>
             </span>
         </a>

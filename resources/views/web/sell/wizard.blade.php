@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Sell your tractor — free listing | Krishi Junction'))
+@section('title', __('Sell your tractor — free listing | Tractor Sarthi'))
 @section('meta_description', __('List your used tractor or implement in under three minutes. Free, verified buyers, no commission.'))
 
 @section('content')

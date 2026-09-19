@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', $config['label'].' — Krishi Junction Admin')
+@section('title', $config['label'].' — Tractor Sarthi Admin')
 @section('page_title', __(':label', ['label' => Str::plural($config['label'])]))
 
 @section('content')

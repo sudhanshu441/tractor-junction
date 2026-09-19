@@ -42,8 +42,8 @@ class ContentSeeder extends Seeder
     private function seedPages(): void
     {
         $pages = [
-            ['About Krishi Junction', 'about-us', 0, true, <<<'HTML'
-                <p>Krishi Junction is a marketplace for tractors, implements and farm machinery in India.
+            ['About Tractor Sarthi', 'about-us', 0, true, <<<'HTML'
+                <p>Tractor Sarthi is a marketplace for tractors, implements and farm machinery in India.
                 We list new models with honest on-road prices, carry verified used machines from farmers
                 and dealers, and connect buyers to the dealer, lender or insurer nearest them.</p>
 
@@ -90,7 +90,7 @@ class ContentSeeder extends Seeder
                 <p><strong>This is placeholder wording and must be reviewed by a lawyer before launch.</strong></p>
 
                 <h2>What this website is</h2>
-                <p>Krishi Junction is a listing and introduction service. We are not party to any sale,
+                <p>Tractor Sarthi is a listing and introduction service. We are not party to any sale,
                 loan or insurance contract you enter into with a dealer, seller, lender or insurer.</p>
 
                 <h2>Prices</h2>
@@ -123,12 +123,12 @@ class ContentSeeder extends Seeder
     private function seedFaqs(): void
     {
         $faqs = [
-            ['general', 'Is Krishi Junction free to use?', 'Yes. Browsing, comparing, listing a used machine and making an enquiry are all free for farmers. We earn from dealer subscriptions and paid promotions, which is why a dealer never pays us for a lead they did not ask for.'],
+            ['general', 'Is Tractor Sarthi free to use?', 'Yes. Browsing, comparing, listing a used machine and making an enquiry are all free for farmers. We earn from dealer subscriptions and paid promotions, which is why a dealer never pays us for a lead they did not ask for.'],
             ['general', 'Do you sell tractors yourselves?', 'No. We are a marketplace. Every machine is sold by a dealer or by another farmer; we introduce you to them and stay out of the price negotiation.'],
             ['general', 'Which languages do you support?', 'The whole website is available in Hindi and English. Use the language button at the top of any page.'],
 
             ['buying', 'Is the price shown the final price?', 'No. Prices are indicative ex-showroom or on-road estimates. The final on-road figure depends on your state, RTO charges, insurance and any dealer offer, so always get it in writing from the dealer.'],
-            ['buying', 'How do I check a used tractor before buying?', 'Ask for the RC and insurance papers, check engine hours against the seller claim, and look for oil leaks around the hydraulics. You can also request a Krishi Junction inspection — an inspector scores the machine on a 25-point checklist and publishes a grade.'],
+            ['buying', 'How do I check a used tractor before buying?', 'Ask for the RC and insurance papers, check engine hours against the seller claim, and look for oil leaks around the hydraulics. You can also request a Tractor Sarthi inspection — an inspector scores the machine on a 25-point checklist and publishes a grade.'],
             ['buying', 'What does the verified badge mean?', 'It means one of our inspectors physically examined that machine and their report was approved by our team. It is not a warranty, but it is a real person who saw the tractor.'],
 
             ['selling', 'How long does a listing stay live?', 'Sixty days. We remind you before it expires and you can renew it in one tap.'],

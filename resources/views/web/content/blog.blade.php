@@ -20,7 +20,7 @@
                 @endif
                 <h1 class="h3 mt-2 mb-2">{{ $post->title }}</h1>
                 <p class="small text-muted-2">
-                    {{ $post->author?->name ?? __('Krishi Junction') }} ·
+                    {{ $post->author?->name ?? __('Tractor Sarthi') }} ·
                     {{ $post->published_at?->format('d M Y') }} ·
                     {{ trans_choice('{1} :count min read|[2,*] :count min read', $post->reading_minutes, ['count' => $post->reading_minutes]) }}
                 </p>

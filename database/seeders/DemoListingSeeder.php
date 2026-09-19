@@ -38,7 +38,7 @@ class DemoListingSeeder extends Seeder
                     // password login while exploring the demo data.
                     'email' => str($row[0])->slug().'@example.com',
                     'mobile_verified_at' => now(),
-                    'password' => Hash::make('KrishiDemo@2026'),
+                    'password' => Hash::make('SarthiDemo@2026'),
                     'user_type' => 'customer',
                     'is_active' => true,
                 ],
@@ -121,7 +121,7 @@ class DemoListingSeeder extends Seeder
         }
 
         $this->command?->info("Demo marketplace: {$created} used listings from {$sellers->count()} sellers");
-        $this->command?->warn('Sample listings — remove before launch. Seller password: KrishiDemo@2026');
+        $this->command?->warn('Sample listings — remove before launch. Seller password: SarthiDemo@2026');
     }
 
     /**

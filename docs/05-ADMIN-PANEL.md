@@ -1,4 +1,4 @@
-# Krishi Junction — Admin Panel Specification
+# Tractor Sarthi — Admin Panel Specification
 
 Route prefix `/admin`, guard `staff`, all routes behind `auth` + `permission:` middleware.
 

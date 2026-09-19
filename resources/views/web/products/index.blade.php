@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($brand ?? null) ? $heading.' — Price, Specs | Krishi Junction' : $heading.' in India — Price List 2026 | Krishi Junction')
+@section('title', ($brand ?? null) ? $heading.' — Price, Specs | Tractor Sarthi' : $heading.' in India — Price List 2026 | Tractor Sarthi')
 @section('meta_description', __('Compare :heading with prices, specifications, mileage and dealer details across India.', ['heading' => strtolower($heading)]))
 
 @section('content')

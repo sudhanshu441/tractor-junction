@@ -82,7 +82,7 @@ class OtpLoginController extends Controller
 
             if (! $user) {
                 $user = User::create([
-                    'name' => $data['name'] ?? null ?: __('Krishi user'),
+                    'name' => $data['name'] ?? null ?: __('Tractor Sarthi user'),
                     'mobile' => $data['mobile'],
                     'mobile_verified_at' => now(),
                     'user_type' => 'customer',

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Offer — Krishi Junction Admin'))
+@section('title', __('Offer — Tractor Sarthi Admin'))
 @section('page_title', $offer->exists ? __('Edit offer') : __('New offer'))
 
 @section('content')

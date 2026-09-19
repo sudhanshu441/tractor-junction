@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', ($category->exists ? __('Edit category') : __('Add category')).' — Krishi Junction Admin')
+@section('title', ($category->exists ? __('Edit category') : __('Add category')).' — Tractor Sarthi Admin')
 @section('page_title', $category->exists ? __('Edit :name', ['name' => $category->name]) : __('Add category'))
 
 @section('content')

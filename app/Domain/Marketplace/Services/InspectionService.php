@@ -40,7 +40,7 @@ class InspectionService
     {
         $last = Inspection::max('id') ?? 0;
 
-        return 'KJ-I-'.str_pad((string) ($last + 1), 5, '0', STR_PAD_LEFT);
+        return config('kj.brand.reference_prefix').'-I-'.str_pad((string) ($last + 1), 5, '0', STR_PAD_LEFT);
     }
 
     public function request(UsedListing $listing): Inspection

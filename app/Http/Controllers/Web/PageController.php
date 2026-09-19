@@ -51,7 +51,7 @@ class PageController extends Controller
             'faqs' => $this->content->faqs($active),
             'seo' => $this->seo->for(null, 'page', [
                 'title' => __('Frequently Asked Questions'),
-                'description' => __('Answers on buying and selling tractors, loans, insurance, dealer enquiries and listings on Krishi Junction.'),
+                'description' => __('Answers on buying and selling tractors, loans, insurance, dealer enquiries and listings on Tractor Sarthi.'),
             ]),
         ]);
     }
@@ -91,8 +91,8 @@ class PageController extends Controller
         return view('web.content.contact', [
             'faqs' => $this->content->faqs('general'),
             'seo' => $this->seo->for(null, 'page', [
-                'title' => __('Contact Krishi Junction'),
-                'description' => __('Reach the Krishi Junction team about a listing, a dealer, a loan application or anything else.'),
+                'title' => __('Contact Tractor Sarthi'),
+                'description' => __('Reach the Tractor Sarthi team about a listing, a dealer, a loan application or anything else.'),
             ]),
         ]);
     }
@@ -148,7 +148,7 @@ class PageController extends Controller
             'found' => (bool) $subscriber,
             'seo' => $this->seo->for(null, 'page', [
                 'title' => __('Unsubscribed'),
-                'description' => __('You will not receive further emails from Krishi Junction.'),
+                'description' => __('You will not receive further emails from Tractor Sarthi.'),
                 'robots' => 'noindex,nofollow',
             ]),
         ]);

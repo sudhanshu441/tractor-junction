@@ -17,8 +17,8 @@ php artisan migrate --seed
 php artisan serve      # http://localhost:8000
 ```
 
-**Seeded super admin:** `admin@krishijunction.com` / mobile `9000000001`
-Local password `KrishiAdmin@2026` — in `production` the seeder generates a random
+**Seeded super admin:** `admin@tractorsarthi.com` / mobile `9000000001`
+Local password `SarthiAdmin@2026` — in `production` the seeder generates a random
 password and prints it once. Change it on first login either way.
 
 Mobile OTP login works without an SMS account: with `SMS_DRIVER=log` and
@@ -88,7 +88,7 @@ app/
 │   ├── Middleware/{SetLocale,EnsureUserType,TrackPageView}.php
 │   └── Requests/Admin/StaffRequest.php
 ├── Models/                                  86 models
-├── Providers/KrishiJunctionServiceProvider.php
+├── Providers/TractorSarthiServiceProvider.php
 └── Services/Sms/{SmsGateway,LogSmsGateway,Msg91SmsGateway,SmsManager}.php
 config/kj.php                                OTP, SMS, listing and lead rules
 database/

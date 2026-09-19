@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', __('My account — Krishi Junction'))
+@section('title', __('My account — Tractor Sarthi'))
 @section('panel_name', __('My account'))
 
 @section('panel_nav')

@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Krishi Junction Prototype</title>
+<title>Tractor Sarthi Prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
   color-scheme: light;
-  /* Krishi Junction — white + green. Surfaces are white; green carries the brand. */
+  /* Tractor Sarthi — white + green. Surfaces are white; green carries the brand. */
   --green-900:#0B3D20; --green-800:#10552B; --green-700:#15703A; --green-600:#1B8C48;
   --green-400:#4FB273; --green-100:#E4F2E8; --green-50:#F1F8F3;
   --ground:#F4F8F5; --surface:#FFFFFF; --surface-2:#F1F7F3; --sunk:#E9F1EB;
@@ -197,7 +197,7 @@ td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabu
     <span class="mark" aria-hidden="true">
       <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="21" fill="none" stroke="var(--on-field)" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 5.247"/><circle cx="32" cy="32" r="16" fill="none" stroke="var(--on-field)" stroke-width="3.4"/><path d="M32 43.5V30.5" stroke="var(--on-field)" stroke-width="3" stroke-linecap="round"/><path d="M32 31.5c-5.6 0-8.7-3.6-8.7-9 5.6 0 8.7 3.6 8.7 9z" fill="var(--on-field)"/><path d="M32 31.5c5.6 0 8.7-3.6 8.7-9-5.6 0-8.7 3.6-8.7 9z" fill="var(--on-field)"/></svg>
     </span>
-    <span><b>Krishi<span style="color:var(--green-700);font-family:var(--display);font-size:inherit"> Junction</span></b><span>PROTOTYPE v2 &middot; 15 screens</span></span>
+    <span><b>Tractor<span style="color:var(--green-700);font-family:var(--display);font-size:inherit"> Sarthi</span></b><span>PROTOTYPE v2 &middot; 15 screens</span></span>
   </div>
   <p class="railnote">Wireframe prototype for review. Every screen shows its real route from the sitemap. No live data &mdash; figures are illustrative samples.</p>
 
@@ -231,7 +231,7 @@ td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabu
     <span class="route mono" id="sRoute">/</span>
   </div>
   <div class="frame">
-    <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="urlbar" id="sUrl">krishijunction.com</span><span class="who" id="sWho">guest</span></div>
+    <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="urlbar" id="sUrl">tractorsarthi.com</span><span class="who" id="sWho">guest</span></div>
     <div class="canvas" id="canvas"></div>
   </div>
   <p class="small muted" style="margin-top:12px">Prototype only &mdash; illustrative sample data, no third-party imagery. Layout, hierarchy and states are the deliverable; final visual design follows approval.</p>
@@ -321,7 +321,7 @@ home:{title:'Home',route:'/',who:'guest',
 <div class="sec"><div class="grid g4">
   ${[['312','New models listed'],['41,800','Used listings'],['2,140','Verified dealers'],['1.9 M','Monthly visitors']].map(([v,k])=>`<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('')}
 </div></div>
-<div class="footerbar"><span>Company &middot; Explore &middot; Popular brands &middot; Support &middot; Newsletter</span><span>&copy; 2026 Krishi Junction</span></div>`},
+<div class="footerbar"><span>Company &middot; Explore &middot; Popular brands &middot; Support &middot; Newsletter</span><span>&copy; 2026 Tractor Sarthi</span></div>`},
 
 listing:{title:'Tractor listing',route:'/tractors/hp/40-50-hp',who:'guest',
  desc:'Shared template for tractors, implements, harvesters and tyres. Facets are URL-encoded so every combination is shareable and indexable.',
@@ -473,7 +473,7 @@ uListing:{title:'Used listing detail',route:'/used/listing/mahindra-265-di-2019-
     <div class="row" style="margin-top:8px">${['Front','Rear','Left','Engine','Meter','RC'].map(a=>`<div class="thumb" style="width:52px;aspect-ratio:4/3;border:1px solid var(--line);border-radius:6px;position:relative"><span class="mono" style="font-size:8px;position:absolute;bottom:2px;color:var(--ink-3)">${a}</span></div>`).join('')}</div>
   </div>
   <div>
-    <div class="row wrap" style="gap:6px"><span class="pill ok">Inspected &middot; Grade B</span><span class="pill">Owner listing</span><span class="pill info mono">KJ-U-000123</span></div>
+    <div class="row wrap" style="gap:6px"><span class="pill ok">Inspected &middot; Grade B</span><span class="pill">Owner listing</span><span class="pill info mono">TS-U-000123</span></div>
     <h2 style="font-size:21px;margin:8px 0 2px">Mahindra 265 DI &mdash; 2019</h2>
     <p class="small muted">Sitapur, Uttar Pradesh &middot; listed 4 days ago &middot; 218 views</p>
     <div style="margin-top:12px"><div class="eyebrow">Asking price</div><div class="price mono" style="font-size:24px">&#8377;3,85,000</div>
@@ -496,7 +496,7 @@ sell:{title:'Sell wizard',route:'/sell',who:'seller (OTP)',
  desc:'Built for a phone in a field: six steps, autosaved as a draft, minimum four guided photos, OTP at the end.',
  html:`<div class="pad" style="background:var(--surface-2)">
  <div class="mobileframe">
-  <div class="mobiletop"><span>9:41</span><span>krishijunction.com/sell</span></div>
+  <div class="mobiletop"><span>9:41</span><span>tractorsarthi.com/sell</span></div>
   <div style="padding:14px">
     <div class="steps" style="margin-bottom:14px">
       <span class="step done"><i>&#10003;</i></span><span class="stepline"></span>
@@ -637,21 +637,21 @@ loan:{title:'Loan application',route:'/loan/apply',who:'customer',
 
 account:{title:'Customer dashboard',route:'/account/dashboard',who:'ramesh_k',
  desc:'Where a seller tracks listings and leads, and an applicant tracks their loan.',
- html:`<div class="sitebar"><b style="font-family:var(--display)">Krishi Junction</b><nav><b>Dashboard</b><span>My listings</span><span>Enquiries</span><span>Loans</span><span>Wishlist</span><span>Profile</span></nav><span class="searchbox">Search</span><span class="pill">Ramesh K &middot; Sitapur</span></div>
+ html:`<div class="sitebar"><b style="font-family:var(--display)">Tractor Sarthi</b><nav><b>Dashboard</b><span>My listings</span><span>Enquiries</span><span>Loans</span><span>Wishlist</span><span>Profile</span></nav><span class="searchbox">Search</span><span class="pill">Ramesh K &middot; Sitapur</span></div>
 <div class="pad">
   <div class="grid g4">
     <div class="kpi"><div class="k">Live listings</div><div class="v">2</div><div class="d">1 pending review</div></div>
     <div class="kpi alert"><div class="k">New leads</div><div class="v">7</div><div class="d">3 not yet contacted</div></div>
     <div class="kpi"><div class="k">Listing views</div><div class="v">431</div><div class="d">last 30 days</div></div>
-    <div class="kpi"><div class="k">Loan status</div><div class="v" style="font-size:15px">Under review</div><div class="d">KJ-LN-00789</div></div>
+    <div class="kpi"><div class="k">Loan status</div><div class="v" style="font-size:15px">Under review</div><div class="d">TS-LN-00789</div></div>
   </div>
 </div>
 <div class="sec"><h3>My listings</h3><p class="sub">Renew before expiry to stay in search results</p>
 <div class="tablewrap"><table>
 <thead><tr><th>Listing</th><th>Status</th><th class="num">Views</th><th class="num">Leads</th><th>Expires</th><th>Action</th></tr></thead><tbody>
-<tr><td><b>Mahindra 265 DI &middot; 2019</b><div class="small muted mono">KJ-U-000123 &middot; &#8377;3,85,000</div></td><td><span class="pill ok">Live &middot; inspected</span></td><td class="num">218</td><td class="num">5</td><td class="mono">in 56 days</td><td><button class="btn ghost sm">Mark sold</button></td></tr>
-<tr><td><b>Fieldking 9 Tyne Cultivator</b><div class="small muted mono">KJ-U-000138 &middot; &#8377;38,000</div></td><td><span class="pill ok">Live</span></td><td class="num">213</td><td class="num">2</td><td class="mono">in 41 days</td><td><button class="btn ghost sm">Boost</button></td></tr>
-<tr><td><b>Sonalika DI 35 &middot; 2015</b><div class="small muted mono">KJ-U-000141 &middot; &#8377;2,60,000</div></td><td><span class="pill warn">Pending review</span></td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="mono">&mdash;</td><td><button class="btn ghost sm">Edit</button></td></tr>
+<tr><td><b>Mahindra 265 DI &middot; 2019</b><div class="small muted mono">TS-U-000123 &middot; &#8377;3,85,000</div></td><td><span class="pill ok">Live &middot; inspected</span></td><td class="num">218</td><td class="num">5</td><td class="mono">in 56 days</td><td><button class="btn ghost sm">Mark sold</button></td></tr>
+<tr><td><b>Fieldking 9 Tyne Cultivator</b><div class="small muted mono">TS-U-000138 &middot; &#8377;38,000</div></td><td><span class="pill ok">Live</span></td><td class="num">213</td><td class="num">2</td><td class="mono">in 41 days</td><td><button class="btn ghost sm">Boost</button></td></tr>
+<tr><td><b>Sonalika DI 35 &middot; 2015</b><div class="small muted mono">TS-U-000141 &middot; &#8377;2,60,000</div></td><td><span class="pill warn">Pending review</span></td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="mono">&mdash;</td><td><button class="btn ghost sm">Edit</button></td></tr>
 </tbody></table></div></div>
 <div class="sec"><div class="grid g2">
 <div><h3>Leads on my listings</h3><p class="sub">Buyer numbers appear once they verify by OTP</p>
@@ -660,7 +660,7 @@ account:{title:'Customer dashboard',route:'/account/dashboard',who:'ramesh_k',
 <tr><td><b>Anil K.</b><div class="small muted mono">Sitapur &middot; 94XXXXXX07</div></td><td class="small">Mahindra 265 DI</td><td class="small mono">yesterday</td><td><span class="pill info">Contacted</span></td></tr>
 <tr><td><b>Ram Prasad</b><div class="small muted mono">Biswan &middot; 78XXXXXX22</div></td><td class="small">Cultivator</td><td class="small mono">3 days ago</td><td><span class="pill">Visit planned</span></td></tr>
 </tbody></table></div></div>
-<div><h3>Loan application</h3><p class="sub">KJ-LN-00789 &middot; &#8377;5,84,000 over 60 months</p>
+<div><h3>Loan application</h3><p class="sub">TS-LN-00789 &middot; &#8377;5,84,000 over 60 months</p>
 <div class="card"><div class="body"><div class="timeline">
   <div class="tl on"><b>Submitted</b><span>12 Aug 2026, 4:12 pm</span></div>
   <div class="tl on"><b>Documents verified</b><span>13 Aug 2026, 11:30 am</span></div>
@@ -674,7 +674,7 @@ account:{title:'Customer dashboard',route:'/account/dashboard',who:'ramesh_k',
 
 dealerpanel:{title:'Dealer panel',route:'/dealer/leads',who:'krishi_motors',
  desc:'A dealer lives in the leads inbox. The SLA countdown is visible because unanswered leads get reassigned.',
- html:`<div class="sitebar"><b style="font-family:var(--display)">Krishi Junction <span class="pill">Dealer</span></b><nav><span>Dashboard</span><b>Leads</b><span>Inventory</span><span>Used listings</span><span>Branches</span><span>Reviews</span><span>Plan</span></nav><span class="searchbox">Search leads</span><span class="pill ok">Gold plan &middot; 42 / 120 leads</span></div>
+ html:`<div class="sitebar"><b style="font-family:var(--display)">Tractor Sarthi <span class="pill">Dealer</span></b><nav><span>Dashboard</span><b>Leads</b><span>Inventory</span><span>Used listings</span><span>Branches</span><span>Reviews</span><span>Plan</span></nav><span class="searchbox">Search leads</span><span class="pill ok">Gold plan &middot; 42 / 120 leads</span></div>
 <div class="pad">
  <div class="grid g5">
   <div class="kpi alert"><div class="k">Unanswered</div><div class="v">3</div><div class="d">SLA 2 hrs</div></div>
@@ -688,11 +688,11 @@ dealerpanel:{title:'Dealer panel',route:'/dealer/leads',who:'krishi_motors',
  <div class="row wrap" style="margin-bottom:10px"><span class="chip on">All (42)</span><span class="chip">New (3)</span><span class="chip">Contacted (31)</span><span class="chip">Qualified (12)</span><span class="chip">Converted (6)</span><span class="chip">Lost (5)</span></div>
  <div class="tablewrap"><table>
  <thead><tr><th>Ref</th><th>Buyer</th><th>Interested in</th><th>Location</th><th>Age</th><th>Status</th><th>Next step</th></tr></thead><tbody>
- <tr><td class="mono small">KJ-L-004512</td><td><b>Ramesh K.</b><div class="small muted mono">98XXXXXX12</div></td><td class="small">Mahindra 575 DI XP Plus<div class="small muted">Finance needed</div></td><td class="small">Sitapur</td><td><span class="pill bad mono">1h 42m left</span></td><td><span class="pill warn">New</span></td><td><button class="btn sm">Call now</button></td></tr>
- <tr><td class="mono small">KJ-L-004508</td><td><b>Sunil Y.</b><div class="small muted mono">96XXXXXX88</div></td><td class="small">Mahindra Arjun Novo 605</td><td class="small">Biswan</td><td><span class="pill mono">4h</span></td><td><span class="pill info">Contacted</span></td><td class="small">Visit 14 Sep</td></tr>
- <tr><td class="mono small">KJ-L-004491</td><td><b>Anil K.</b><div class="small muted mono">94XXXXXX07</div></td><td class="small">Used &mdash; Mahindra 265 DI</td><td class="small">Sitapur</td><td><span class="pill mono">1d</span></td><td><span class="pill ok">Qualified</span></td><td class="small">Quotation sent</td></tr>
- <tr><td class="mono small">KJ-L-004480</td><td><b>Ram Prasad</b><div class="small muted mono">78XXXXXX22</div></td><td class="small">Massey Ferguson 241 DI</td><td class="small">Hardoi</td><td><span class="pill mono">2d</span></td><td><span class="pill">Converted</span></td><td class="small">Delivered 4 Sep</td></tr>
- <tr><td class="mono small">KJ-L-004466</td><td><b>Devendra S.</b><div class="small muted mono">70XXXXXX53</div></td><td class="small">Swaraj 744 FE</td><td class="small">Sitapur</td><td><span class="pill mono">3d</span></td><td><span class="pill bad">Lost</span></td><td class="small">Bought elsewhere</td></tr>
+ <tr><td class="mono small">TS-L-004512</td><td><b>Ramesh K.</b><div class="small muted mono">98XXXXXX12</div></td><td class="small">Mahindra 575 DI XP Plus<div class="small muted">Finance needed</div></td><td class="small">Sitapur</td><td><span class="pill bad mono">1h 42m left</span></td><td><span class="pill warn">New</span></td><td><button class="btn sm">Call now</button></td></tr>
+ <tr><td class="mono small">TS-L-004508</td><td><b>Sunil Y.</b><div class="small muted mono">96XXXXXX88</div></td><td class="small">Mahindra Arjun Novo 605</td><td class="small">Biswan</td><td><span class="pill mono">4h</span></td><td><span class="pill info">Contacted</span></td><td class="small">Visit 14 Sep</td></tr>
+ <tr><td class="mono small">TS-L-004491</td><td><b>Anil K.</b><div class="small muted mono">94XXXXXX07</div></td><td class="small">Used &mdash; Mahindra 265 DI</td><td class="small">Sitapur</td><td><span class="pill mono">1d</span></td><td><span class="pill ok">Qualified</span></td><td class="small">Quotation sent</td></tr>
+ <tr><td class="mono small">TS-L-004480</td><td><b>Ram Prasad</b><div class="small muted mono">78XXXXXX22</div></td><td class="small">Massey Ferguson 241 DI</td><td class="small">Hardoi</td><td><span class="pill mono">2d</span></td><td><span class="pill">Converted</span></td><td class="small">Delivered 4 Sep</td></tr>
+ <tr><td class="mono small">TS-L-004466</td><td><b>Devendra S.</b><div class="small muted mono">70XXXXXX53</div></td><td class="small">Swaraj 744 FE</td><td class="small">Sitapur</td><td><span class="pill mono">3d</span></td><td><span class="pill bad">Lost</span></td><td class="small">Bought elsewhere</td></tr>
  </tbody></table></div>
  <div class="note" style="margin-top:12px">A lead not accepted within two hours is reassigned to the next eligible dealer in the district and lowers the response score used for routing priority.</div>
 </div>`},
@@ -736,7 +736,7 @@ admin:{title:'Admin dashboard',route:'/admin/dashboard',who:'admin: priya',
   <div class="card"><div class="body"><b style="font-size:13px">Most viewed models</b>
    ${[['Mahindra 575 DI XP Plus','18.2k'],['Swaraj 744 FE','14.9k'],['Sonalika DI 745 III','11.4k'],['MF 241 DI Maha Shakti','9.8k'],['John Deere 5050 D','8.1k']].map(([d,n])=>`<div class="row between" style="padding:6px 0"><span class="small">${d}</span><span class="mono small">${n}</span></div>`).join('')}</div></div>
   <div class="card"><div class="body"><b style="font-size:13px">Recent activity</b>
-   ${[['priya approved listing KJ-U-000141','4 min'],['rahul assigned 12 leads to dealers','22 min'],['content updated Swaraj 744 FE prices','1 hr'],['system expired 34 listings','2 hrs'],['neha verified dealer KJ-D-00318','3 hrs']].map(([d,n])=>`<div class="row between" style="padding:6px 0"><span class="small">${d}</span><span class="mono small muted">${n}</span></div>`).join('')}</div></div>
+   ${[['priya approved listing TS-U-000141','4 min'],['rahul assigned 12 leads to dealers','22 min'],['content updated Swaraj 744 FE prices','1 hr'],['system expired 34 listings','2 hrs'],['neha verified dealer TS-D-00318','3 hrs']].map(([d,n])=>`<div class="row between" style="padding:6px 0"><span class="small">${d}</span><span class="mono small muted">${n}</span></div>`).join('')}</div></div>
  </div></div>
 </div></div>`},
 
@@ -749,7 +749,7 @@ moderation:{title:'Listing moderation',route:'/admin/used-listings/moderation',w
  <div class="pad"><div class="grid" style="grid-template-columns:minmax(0,1fr) 320px">
   <div>
    <div class="row between wrap" style="margin-bottom:10px">
-    <div><h3 style="font-size:15px">Sonalika DI 35 &middot; 2015 &mdash; Sitapur</h3><p class="small muted mono">KJ-U-000141 &middot; submitted 4h 12m ago &middot; seller Ramesh K. (98XXXXXX12, verified)</p></div>
+    <div><h3 style="font-size:15px">Sonalika DI 35 &middot; 2015 &mdash; Sitapur</h3><p class="small muted mono">TS-U-000141 &middot; submitted 4h 12m ago &middot; seller Ramesh K. (98XXXXXX12, verified)</p></div>
     <span class="pill mono">3 of 18</span>
    </div>
    <div class="grid g3">${['Front','Rear','Left','Right','Engine','Hour meter'].map(a=>`<div class="card"><div class="thumb">${TR}</div><div class="body small muted mono">${a}</div></div>`).join('')}</div>
@@ -795,19 +795,19 @@ leads:{title:'Leads board',route:'/admin/leads',who:'admin: priya',
   <div class="tablewrap"><table>
   <thead><tr><th style="width:26px"><i class="box on" style="display:block"></i></th><th>Ref</th><th>Type</th><th>Contact</th><th>Interested in</th><th>District</th><th>Source</th><th>Age</th><th>Assignee</th><th>Status</th></tr></thead>
   <tbody>
-  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004512</td><td><span class="pill">New machinery</span></td><td><b class="small">Ramesh K.</b><div class="small muted mono">98XXXXXX12</div></td><td class="small">Mahindra 575 DI XP Plus</td><td class="small">Sitapur</td><td class="small mono">organic</td><td class="small mono">12m</td><td class="small muted">&mdash;</td><td><span class="pill warn">New</span></td></tr>
-  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004511</td><td><span class="pill info">Loan</span></td><td><b class="small">Sunil Y.</b><div class="small muted mono">96XXXXXX88</div></td><td class="small">Used &mdash; Swaraj 744 FE</td><td class="small">Hardoi</td><td class="small mono">google_ads</td><td class="small mono">28m</td><td class="small muted">&mdash;</td><td><span class="pill warn">New</span></td></tr>
-  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004509</td><td><span class="pill">Used listing</span></td><td><b class="small">Vijay S.</b><div class="small muted mono">99XXXXXX41</div></td><td class="small">KJ-U-000123 &middot; Mahindra 265 DI</td><td class="small">Sitapur</td><td class="small mono">organic</td><td class="small mono">1h</td><td class="small">Seller (Ramesh K.)</td><td><span class="pill info">Assigned</span></td></tr>
-  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">KJ-L-004505</td><td><span class="pill">Dealer</span></td><td><b class="small">Anil K.</b><div class="small muted mono">94XXXXXX07</div></td><td class="small">Krishi Motors, Sitapur</td><td class="small">Sitapur</td><td class="small mono">direct</td><td class="small mono">2h</td><td class="small">Krishi Motors</td><td><span class="pill info">Contacted</span></td></tr>
-  <tr><td><i class="box" style="display:block"></i></td><td class="mono small">KJ-L-004498</td><td><span class="pill">Insurance</span></td><td><b class="small">Ram Prasad</b><div class="small muted mono">78XXXXXX22</div></td><td class="small">Renewal &mdash; MF 241 DI</td><td class="small">Biswan</td><td class="small mono">whatsapp</td><td class="small mono">5h</td><td class="small">Finance desk</td><td><span class="pill ok">Qualified</span></td></tr>
-  <tr><td><i class="box" style="display:block"></i></td><td class="mono small">KJ-L-004490</td><td><span class="pill">New machinery</span></td><td><b class="small">Devendra S.</b><div class="small muted mono">70XXXXXX53</div></td><td class="small">Sonalika DI 745 III</td><td class="small">Lakhimpur</td><td class="small mono">facebook</td><td class="small mono">1d</td><td class="small">Agro Tractors</td><td><span class="pill bad">Duplicate</span></td></tr>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">TS-L-004512</td><td><span class="pill">New machinery</span></td><td><b class="small">Ramesh K.</b><div class="small muted mono">98XXXXXX12</div></td><td class="small">Mahindra 575 DI XP Plus</td><td class="small">Sitapur</td><td class="small mono">organic</td><td class="small mono">12m</td><td class="small muted">&mdash;</td><td><span class="pill warn">New</span></td></tr>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">TS-L-004511</td><td><span class="pill info">Loan</span></td><td><b class="small">Sunil Y.</b><div class="small muted mono">96XXXXXX88</div></td><td class="small">Used &mdash; Swaraj 744 FE</td><td class="small">Hardoi</td><td class="small mono">google_ads</td><td class="small mono">28m</td><td class="small muted">&mdash;</td><td><span class="pill warn">New</span></td></tr>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">TS-L-004509</td><td><span class="pill">Used listing</span></td><td><b class="small">Vijay S.</b><div class="small muted mono">99XXXXXX41</div></td><td class="small">TS-U-000123 &middot; Mahindra 265 DI</td><td class="small">Sitapur</td><td class="small mono">organic</td><td class="small mono">1h</td><td class="small">Seller (Ramesh K.)</td><td><span class="pill info">Assigned</span></td></tr>
+  <tr><td><i class="box on" style="display:block"></i></td><td class="mono small">TS-L-004505</td><td><span class="pill">Dealer</span></td><td><b class="small">Anil K.</b><div class="small muted mono">94XXXXXX07</div></td><td class="small">Krishi Motors, Sitapur</td><td class="small">Sitapur</td><td class="small mono">direct</td><td class="small mono">2h</td><td class="small">Krishi Motors</td><td><span class="pill info">Contacted</span></td></tr>
+  <tr><td><i class="box" style="display:block"></i></td><td class="mono small">TS-L-004498</td><td><span class="pill">Insurance</span></td><td><b class="small">Ram Prasad</b><div class="small muted mono">78XXXXXX22</div></td><td class="small">Renewal &mdash; MF 241 DI</td><td class="small">Biswan</td><td class="small mono">whatsapp</td><td class="small mono">5h</td><td class="small">Finance desk</td><td><span class="pill ok">Qualified</span></td></tr>
+  <tr><td><i class="box" style="display:block"></i></td><td class="mono small">TS-L-004490</td><td><span class="pill">New machinery</span></td><td><b class="small">Devendra S.</b><div class="small muted mono">70XXXXXX53</div></td><td class="small">Sonalika DI 745 III</td><td class="small">Lakhimpur</td><td class="small mono">facebook</td><td class="small mono">1d</td><td class="small">Agro Tractors</td><td><span class="pill bad">Duplicate</span></td></tr>
   </tbody></table></div>
   <div class="grid g2" style="margin-top:14px">
    <div class="card"><div class="body"><b style="font-size:12.5px">Routing rule that will fire on the selected leads</b>
     <div class="specrow"><span>Priority</span><b>3</b></div><div class="specrow"><span>Scope</span><b>Uttar Pradesh &rarr; Sitapur</b></div><div class="specrow"><span>Brand / category</span><b>Any / Tractor</b></div><div class="specrow"><span>Assign to</span><b>Verified dealers, round-robin</b></div><div class="specrow"><span>Daily cap</span><b>Gold 12 &middot; Silver 6 &middot; Free 2</b></div>
     <p class="small muted" style="margin-top:8px">Eligible right now: Krishi Motors (4 today), Agro Tractors (2), Bharat Agro (0).</p>
    </div></div>
-   <div class="card"><div class="body"><b style="font-size:12.5px">Lead KJ-L-004509 &mdash; activity</b>
+   <div class="card"><div class="body"><b style="font-size:12.5px">Lead TS-L-004509 &mdash; activity</b>
     <div class="timeline" style="margin-top:9px">
      <div class="tl on"><b>Created from used listing page</b><span>Today 08:14 &middot; organic &middot; mobile web</span></div>
      <div class="tl on"><b>Mobile verified by OTP</b><span>Today 08:15</span></div>
@@ -828,7 +828,7 @@ function show(key){
   document.getElementById('sTitle').textContent = s.title;
   document.getElementById('sDesc').textContent = s.desc;
   document.getElementById('sRoute').textContent = s.route;
-  document.getElementById('sUrl').textContent = 'krishijunction.com' + s.route;
+  document.getElementById('sUrl').textContent = 'tractorsarthi.com' + s.route;
   document.getElementById('sWho').textContent = s.who;
   buttons.forEach(b=>b.setAttribute('aria-current', String(b.dataset.s===key)));
   if(location.hash.slice(1)!==key) history.replaceState(null,'','#'+key);

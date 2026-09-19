@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "tractor-sarthi/marketplace",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Tractor Sarthi — marketplace for tractors, implements and farm machinery in India.",
     "keywords": [
         "laravel",
         "framework"

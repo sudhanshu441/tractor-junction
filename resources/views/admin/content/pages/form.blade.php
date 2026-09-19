@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Page — Krishi Junction Admin'))
+@section('title', __('Page — Tractor Sarthi Admin'))
 @section('page_title', $page->exists ? __('Edit page') : __('New page'))
 
 @section('content')

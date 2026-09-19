@@ -45,7 +45,7 @@ class LeadService
     {
         $last = Lead::withTrashed()->max('id') ?? 0;
 
-        return 'KJ-L-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
+        return config('kj.brand.reference_prefix').'-L-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
     }
 
     /**

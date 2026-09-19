@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
  */
 class DemoStaffSeeder extends Seeder
 {
-    public const PASSWORD = 'KrishiStaff@2026';
+    public const PASSWORD = 'SarthiStaff@2026';
 
     /** role => [display name, mobile] */
     private const STAFF = [
@@ -37,8 +37,8 @@ class DemoStaffSeeder extends Seeder
                 ['mobile' => $mobile],
                 [
                     'name' => $name,
-                    // Prefixed: the super admin already holds admin@krishijunction.com.
-                    'email' => 'staff.'.$role.'@krishijunction.com',
+                    // Prefixed: the super admin already holds admin@tractorsarthi.com.
+                    'email' => 'staff.'.$role.'@tractorsarthi.com',
                     'password' => Hash::make(self::PASSWORD),
                     'user_type' => 'staff',
                     'mobile_verified_at' => now(),

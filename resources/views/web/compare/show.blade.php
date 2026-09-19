@@ -2,7 +2,7 @@
 
 @php $names = $products->map(fn ($p) => $p->full_name); @endphp
 
-@section('title', $names->implode(' vs ').' — '.__('Compare Price, Specs & Mileage').' | Krishi Junction')
+@section('title', $names->implode(' vs ').' — '.__('Compare Price, Specs & Mileage').' | Tractor Sarthi')
 @section('meta_description', __('Side-by-side comparison of :names — price, engine, HP, lift capacity, transmission and features.', ['names' => $names->implode(' vs ')]))
 
 @section('content')

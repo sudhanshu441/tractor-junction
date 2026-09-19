@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Promote your listing — Krishi Junction'))
+@section('title', __('Promote your listing — Tractor Sarthi'))
 
 @section('content')
 <div class="container-xl py-4">
@@ -90,7 +90,7 @@
 <script src="{{ asset('assets/js/checkout.js') }}"></script>
 <script>
 $(function () {
-    KJ.initCheckout('.js-buy-plan', '{{ __('Krishi Junction listing promotion') }}');
+    KJ.initCheckout('.js-buy-plan', '{{ __('Tractor Sarthi listing promotion') }}');
 });
 </script>
 @endpush

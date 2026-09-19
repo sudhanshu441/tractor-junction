@@ -54,7 +54,7 @@ class InsuranceTest extends TestCase
         $lead = Lead::where('type', 'insurance')->firstOrFail();
 
         $this->assertSame(1, InsuranceEnquiry::count());
-        $this->assertStringStartsWith('KJ-N-', $enquiry->reference_no);
+        $this->assertStringStartsWith(config('kj.brand.reference_prefix').'-N-', $enquiry->reference_no);
         $this->assertSame($enquiry->reference_no, $lead->meta['insurance_reference']);
         $this->assertSame('new', $enquiry->status);
     }

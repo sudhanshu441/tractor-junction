@@ -1,4 +1,4 @@
-# Krishi Junction — working notes
+# Tractor Sarthi — working notes
 
 Laravel marketplace for tractors, implements and farm machinery in India.
 Read `docs/` before changing anything structural — the PRD, ERD and flows are the contract.

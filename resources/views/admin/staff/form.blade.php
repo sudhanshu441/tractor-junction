@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', ($user->exists ? __('Edit staff user') : __('Add staff user')).' — Krishi Junction Admin')
+@section('title', ($user->exists ? __('Edit staff user') : __('Add staff user')).' — Tractor Sarthi Admin')
 @section('page_title', $user->exists ? __('Edit staff user') : __('Add staff user'))
 
 @section('content')

@@ -39,7 +39,7 @@
 </head>
 <body>
     <div class="masthead">
-        <div class="brand">Krishi <span>Junction</span></div>
+        <div class="brand">Tractor <span>Sarthi</span></div>
         <div class="title">{{ $report->title }}</div>
         <div class="meta">
             {{ $report->subtitle }} &nbsp;·&nbsp;
@@ -81,7 +81,7 @@
     @endif
 
     <div class="foot">
-        {{ __('Krishi Junction') }} &nbsp;·&nbsp; {{ __('Confidential — contains customer data') }}
+        {{ __('Tractor Sarthi') }} &nbsp;·&nbsp; {{ __('Confidential — contains customer data') }}
         &nbsp;·&nbsp; <span class="page"></span>
     </div>
 </body>

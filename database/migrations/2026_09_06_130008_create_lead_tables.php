@@ -20,7 +20,7 @@ return new class extends Migration
         // One polymorphic table carries every enquiry type in the product
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
-            $table->string('reference_no', 20)->unique();     // KJ-L-000456
+            $table->string('reference_no', 20)->unique();     // TS-L-000456
             $table->enum('type', [
                 'new_product', 'used_listing', 'dealer', 'loan', 'insurance',
                 'callback', 'offer', 'contact', 'sell_request',

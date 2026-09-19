@@ -92,4 +92,4 @@ php artisan serve
 - `/admin/leads` — the lead board
 - `/account/listings` — the seller's view
 
-Admin `admin@krishijunction.com` / `KrishiAdmin@2026`; demo sellers use `KrishiDemo@2026`.
+Admin `admin@tractorsarthi.com` / `SarthiAdmin@2026`; demo sellers use `SarthiDemo@2026`.

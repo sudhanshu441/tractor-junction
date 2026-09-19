@@ -26,7 +26,7 @@ use App\Support\LocalizedUrlGenerator;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
-class KrishiJunctionServiceProvider extends ServiceProvider
+class TractorSarthiServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

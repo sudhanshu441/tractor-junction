@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('used_listings', function (Blueprint $table) {
             $table->id();
-            $table->string('reference_no', 20)->unique();      // KJ-U-000123
+            $table->string('reference_no', 20)->unique();      // TS-U-000123
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('dealer_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('seller_type', ['owner', 'dealer', 'broker'])->default('owner');

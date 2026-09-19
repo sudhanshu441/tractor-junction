@@ -13,13 +13,13 @@ class AdminUserSeeder extends Seeder
     {
         $password = config('app.env') === 'production'
             ? Str::password(16)
-            : 'KrishiAdmin@2026';
+            : 'SarthiAdmin@2026';
 
         $admin = User::updateOrCreate(
             ['mobile' => '9000000001'],
             [
                 'name' => 'Super Admin',
-                'email' => 'admin@krishijunction.com',
+                'email' => 'admin@tractorsarthi.com',
                 'password' => Hash::make($password),
                 'user_type' => 'staff',
                 'mobile_verified_at' => now(),
@@ -30,7 +30,7 @@ class AdminUserSeeder extends Seeder
 
         $admin->syncRoles(['super-admin']);
 
-        $this->command?->info('Super admin: admin@krishijunction.com / mobile 9000000001');
+        $this->command?->info('Super admin: admin@tractorsarthi.com / mobile 9000000001');
 
         if (config('app.env') === 'production') {
             $this->command?->warn("Generated password: {$password}  — store it now, it is not shown again.");

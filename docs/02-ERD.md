@@ -1,4 +1,4 @@
-# Krishi Junction — Database Design & ERD
+# Tractor Sarthi — Database Design & ERD
 
 Target: **MySQL 8.0** (InnoDB, utf8mb4_unicode_ci), Laravel 11 migrations.
 Conventions: snake_case plural table names, `id` BIGINT UNSIGNED AUTO_INCREMENT PK,
@@ -371,7 +371,7 @@ erDiagram
 
     USED_LISTINGS {
         bigint id PK
-        string reference_no UK "KJ-U-000123"
+        string reference_no UK "TS-U-000123"
         bigint user_id FK "seller, nullable if dealer"
         bigint dealer_id FK "nullable"
         enum seller_type "owner|dealer|broker"
@@ -530,7 +530,7 @@ erDiagram
 
     DEALERS {
         bigint id PK
-        string code UK "KJ-D-00123"
+        string code UK "TS-D-00123"
         bigint owner_user_id FK
         string business_name
         string display_name
@@ -642,7 +642,7 @@ erDiagram
 
     LEADS {
         bigint id PK
-        string reference_no UK "KJ-L-000456"
+        string reference_no UK "TS-L-000456"
         enum type "new_product|used_listing|dealer|loan|insurance|callback|offer|contact|sell_request"
         string leadable_type "polymorphic: Product|UsedListing|Dealer|Offer|LoanApplication"
         bigint leadable_id
@@ -732,7 +732,7 @@ erDiagram
     }
     LOAN_APPLICATIONS {
         bigint id PK
-        string reference_no UK "KJ-LN-00789"
+        string reference_no UK "TS-LN-00789"
         bigint user_id FK
         enum purpose "new_purchase|used_purchase|refinance"
         string financeable_type "Product|UsedListing"
@@ -1142,7 +1142,7 @@ graph TD
 | D8 | **Cached aggregates** (`rating_avg`, `view_count`, `lead_count`) on parent rows | Listing pages must not COUNT() per row | Compute on read |
 | D9 | **KYC/loan docs on a private disk** with signed URLs, PAN/Aadhaar stored masked | DPDP compliance; a public URL leak is unacceptable | Public storage |
 | D10 | **Status enums + `*_status_logs` tables** for listings, leads, loans | Auditable, disputable state machines | Status column only |
-| D11 | **`reference_no` human IDs** (KJ-L-000456) alongside PKs | Call-centre and WhatsApp support | Exposing raw incrementing IDs |
+| D11 | **`reference_no` human IDs** (TS-L-000456) alongside PKs | Call-centre and WhatsApp support | Exposing raw incrementing IDs |
 | D12 | **Soft deletes** on users, products, listings, leads, dealers, blogs | Business data is never truly deleted; audit + restore | Hard delete |
 
 ---

@@ -27,7 +27,7 @@ return new class extends Migration
 
         Schema::create('dealers', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 20)->unique();          // KJ-D-00123
+            $table->string('code', 20)->unique();          // TS-D-00123
             $table->foreignId('owner_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('business_name');
             $table->string('display_name');

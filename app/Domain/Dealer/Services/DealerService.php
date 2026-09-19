@@ -39,7 +39,7 @@ class DealerService
     {
         $last = Dealer::withTrashed()->max('id') ?? 0;
 
-        return 'KJ-D-'.str_pad((string) ($last + 1), 5, '0', STR_PAD_LEFT);
+        return config('kj.brand.reference_prefix').'-D-'.str_pad((string) ($last + 1), 5, '0', STR_PAD_LEFT);
     }
 
     /** Public "become a dealer" registration. */

@@ -30,7 +30,7 @@ class BackupDatabase extends Command
         }
 
         $config = config("database.connections.{$connection}");
-        $file = 'backups/krishi-junction-'.now()->format('Y-m-d-His').'.sql.gz';
+        $file = 'backups/'.config('kj.brand.slug').'-'.now()->format('Y-m-d-His').'.sql.gz';
         $path = Storage::disk('local')->path($file);
 
         Storage::disk('local')->makeDirectory('backups');

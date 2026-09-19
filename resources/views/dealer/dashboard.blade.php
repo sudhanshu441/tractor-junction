@@ -1,6 +1,6 @@
 @extends('layouts.dealer')
 
-@section('title', __('Dealer dashboard — Krishi Junction'))
+@section('title', __('Dealer dashboard — Tractor Sarthi'))
 
 @section('content')
 @if ($dealer->verification_status !== 'verified')

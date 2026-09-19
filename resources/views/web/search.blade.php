@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $term ? __('Search: :term | Krishi Junction', ['term' => $term]) : __('Search | Krishi Junction'))
+@section('title', $term ? __('Search: :term | Tractor Sarthi', ['term' => $term]) : __('Search | Tractor Sarthi'))
 @section('meta_description', __('Search tractors, implements and harvesters by brand, model or horsepower.'))
 
 @section('content')

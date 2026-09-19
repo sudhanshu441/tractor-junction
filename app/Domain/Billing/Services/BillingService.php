@@ -28,7 +28,7 @@ class BillingService
     {
         $last = Payment::max('id') ?? 0;
 
-        return 'KJ-P-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
+        return config('kj.brand.reference_prefix').'-P-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
     }
 
     /**

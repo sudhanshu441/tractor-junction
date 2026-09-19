@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Tractor Insurance — Compare Cover & Renew Online | Krishi Junction'))
+@section('title', __('Tractor Insurance — Compare Cover & Renew Online | Tractor Sarthi'))
 @section('meta_description', __('Compare tractor insurance from partner insurers. Comprehensive, third-party and own-damage cover, with quotes called back the same working day.'))
 
 @section('content')

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Post — Krishi Junction Admin'))
+@section('title', __('Post — Tractor Sarthi Admin'))
 @section('page_title', $post->exists ? __('Edit post') : __('Write a post'))
 
 @section('content')

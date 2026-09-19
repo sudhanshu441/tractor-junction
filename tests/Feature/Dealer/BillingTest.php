@@ -49,7 +49,7 @@ class BillingTest extends TestCase
     private function listing(): UsedListing
     {
         return UsedListing::create([
-            'reference_no' => 'KJ-U-TEST1',
+            'reference_no' => 'TS-U-TEST1',
             'user_id' => User::factory()->create(['user_type' => 'customer'])->id,
             'title' => 'Test listing',
             'slug' => 'test-listing',

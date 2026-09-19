@@ -1,9 +1,9 @@
 <?php
 
 use App\Providers\AppServiceProvider;
-use App\Providers\KrishiJunctionServiceProvider;
+use App\Providers\TractorSarthiServiceProvider;
 
 return [
     AppServiceProvider::class,
-    KrishiJunctionServiceProvider::class,
+    TractorSarthiServiceProvider::class,
 ];

@@ -1,4 +1,4 @@
-# Krishi Junction — Sitemap, Information Architecture & URL Plan
+# Tractor Sarthi — Sitemap, Information Architecture & URL Plan
 
 URL rules: lowercase, hyphenated, no trailing `.html`, no query strings for indexable
 facets (they become path segments where SEO matters), Hindi mirrored under `/hi/…`.
@@ -157,7 +157,7 @@ Hamburger for the full tree; language toggle pinned at the top.
 ### Footer
 4 columns — Company (About, Contact, Careers, Become a dealer) · Explore (New/Used/Implements/Dealers/Compare/Offers) ·
 Popular (top 10 brands, top 10 models, top 10 cities) · Support (FAQ, Privacy, Terms, Disclaimer, Sitemap) +
-app-store badges, social icons, newsletter, `© Krishi Junction`.
+app-store badges, social icons, newsletter, `© Tractor Sarthi`.
 
 ---
 
@@ -219,8 +219,8 @@ app-store badges, social icons, newsletter, `© Krishi Junction`.
 
 | Page type | Title pattern | Priority | Change freq |
 |---|---|---|---|
-| Home | `New & Used Tractors in India — Price, Specs \| Krishi Junction` | 1.0 | daily |
-| Model detail | `{Brand} {Model} Price 2026, Specifications, Mileage \| Krishi Junction` | 0.9 | weekly |
+| Home | `New & Used Tractors in India — Price, Specs \| Tractor Sarthi` | 1.0 | daily |
+| Model detail | `{Brand} {Model} Price 2026, Specifications, Mileage \| Tractor Sarthi` | 0.9 | weekly |
 | Model price | `{Brand} {Model} On-Road Price in {City} 2026` | 0.8 | weekly |
 | Brand page | `{Brand} Tractors — All Models, Price List 2026` | 0.8 | weekly |
 | HP/budget page | `{Range} Tractors in India — Price & Models` | 0.7 | weekly |
@@ -228,7 +228,7 @@ app-store badges, social icons, newsletter, `© Krishi Junction`.
 | Used listing | `Used {Brand} {Model} {Year} in {City} — ₹{Price}` | 0.6 | daily |
 | Used geo page | `Second Hand Tractors in {District}, {State}` | 0.7 | daily |
 | Dealer detail | `{Dealer} — {Brand} Tractor Dealer in {City}` | 0.6 | monthly |
-| Blog/news | `{Title} \| Krishi Junction` | 0.6 | monthly |
+| Blog/news | `{Title} \| Tractor Sarthi` | 0.6 | monthly |
 
 **Structured data:** Organization + WebSite/SearchAction (home), Product + Offer +
 AggregateRating (models), Review, BreadcrumbList (all), FAQPage (model + FAQ page),

@@ -1,4 +1,4 @@
-# Krishi Junction — Technical Architecture
+# Tractor Sarthi — Technical Architecture
 
 Stack fixed by the client: **Laravel · PHP · Bootstrap · jQuery · AJAX · HTML · CSS**.
 Everything below is built inside that constraint — no SPA framework, no Node-based

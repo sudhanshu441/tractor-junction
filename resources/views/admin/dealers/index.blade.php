@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Dealers — Krishi Junction Admin'))
+@section('title', __('Dealers — Tractor Sarthi Admin'))
 @section('page_title', __('Dealers'))
 
 @push('styles')

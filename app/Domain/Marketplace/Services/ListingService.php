@@ -39,7 +39,7 @@ class ListingService
     {
         $last = UsedListing::withTrashed()->max('id') ?? 0;
 
-        return 'KJ-U-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
+        return config('kj.brand.reference_prefix').'-U-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
     }
 
     /** Creates or updates the seller's draft; each wizard step calls this. */

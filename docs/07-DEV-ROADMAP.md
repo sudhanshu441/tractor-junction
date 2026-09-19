@@ -1,4 +1,4 @@
-# Krishi Junction — 5-Phase Development Plan
+# Tractor Sarthi — 5-Phase Development Plan
 
 Stack: **Laravel · PHP · MySQL · Bootstrap 5 · jQuery · AJAX · HTML · CSS**.
 Estimates are working days for **one full-time developer**; two developers can run

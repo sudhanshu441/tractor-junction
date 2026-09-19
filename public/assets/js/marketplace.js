@@ -1,4 +1,4 @@
-/* Krishi Junction — used marketplace: sell wizard, contact reveal, reporting. */
+/* Tractor Sarthi — used marketplace: sell wizard, contact reveal, reporting. */
 (function ($) {
     'use strict';
 

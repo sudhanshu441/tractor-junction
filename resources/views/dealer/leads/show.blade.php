@@ -1,6 +1,6 @@
 @extends('layouts.dealer')
 
-@section('title', __('Lead :ref — Krishi Junction', ['ref' => $lead->reference_no]))
+@section('title', __('Lead :ref — Tractor Sarthi', ['ref' => $lead->reference_no]))
 
 @section('content')
 <div class="row g-3">

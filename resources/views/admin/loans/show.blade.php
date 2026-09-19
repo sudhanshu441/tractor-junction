@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Loan :ref — Krishi Junction Admin', ['ref' => $application->reference_no]))
+@section('title', __('Loan :ref — Tractor Sarthi Admin', ['ref' => $application->reference_no]))
 @section('page_title', __('Loan :ref', ['ref' => $application->reference_no]))
 
 @section('content')

@@ -84,4 +84,4 @@ php artisan serve
 - `/tractors/hp/40-50-hp`, `/tractors/price/5-7-lakh` — band pages
 - `/compare` — build a comparison
 - `/search?q=mhindra 575` — synonym search
-- `/admin/products` — the editor (admin@krishijunction.com / KrishiAdmin@2026)
+- `/admin/products` — the editor (admin@tractorsarthi.com / SarthiAdmin@2026)

@@ -70,10 +70,10 @@ class CacheSerialisationTest extends TestCase
 
     public function test_settings_survive_a_warm_cache(): void
     {
-        $this->assertSame('Krishi Junction', Setting::get('site_name'));
+        $this->assertSame('Tractor Sarthi', Setting::get('site_name'));
 
         Setting::all2();   // warm
 
-        $this->assertSame('Krishi Junction', Setting::get('site_name'));
+        $this->assertSame('Tractor Sarthi', Setting::get('site_name'));
     }
 }

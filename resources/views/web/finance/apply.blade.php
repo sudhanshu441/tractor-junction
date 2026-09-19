@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Apply for a tractor loan | Krishi Junction'))
+@section('title', __('Apply for a tractor loan | Tractor Sarthi'))
 @section('meta_description', __('Apply for a tractor or implement loan. Four short steps, documents uploaded securely, and a status you can track.'))
 
 @section('content')
@@ -262,7 +262,7 @@
             </form>
 
             <p class="small text-muted-2 mt-3 text-center" id="draft-status">
-                {{ __('Krishi Junction introduces you to lenders. We are not a lender and do not decide your loan.') }}
+                {{ __('Tractor Sarthi introduces you to lenders. We are not a lender and do not decide your loan.') }}
             </p>
         </div>
     </div>

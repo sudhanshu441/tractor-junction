@@ -130,8 +130,8 @@ This creates 95 tables and loads roles, permissions, geography, the catalogue an
 demo data. It takes about 15 seconds. You will see:
 
 ```
-Super admin: admin@krishijunction.com / mobile 9000000001
-Local password: KrishiAdmin@2026
+Super admin: admin@tractorsarthi.com / mobile 9000000001
+Local password: SarthiAdmin@2026
 Demo catalogue: 58 products with specs and prices
 Demo marketplace: 18 used listings from 4 sellers
 Demo dealers: 4 dealers · 3 verified
@@ -209,35 +209,35 @@ reachable by anyone else.**
 | | |
 |---|---|
 | URL | http://localhost:8000/login/password |
-| Email | `admin@krishijunction.com` |
-| Password | `KrishiAdmin@2026` |
+| Email | `admin@tractorsarthi.com` |
+| Password | `SarthiAdmin@2026` |
 | Mobile (for OTP login) | `9000000001` |
 | Role | super-admin — every permission |
 
 Lands on **http://localhost:8000/admin**.
 
 > On a production install (`APP_ENV=production`) the seeder generates a random
-> 16-character password instead and prints it once. It is never `KrishiAdmin@2026`.
+> 16-character password instead and prints it once. It is never `SarthiAdmin@2026`.
 
 ### Staff, one per role
 
-All use password **`KrishiStaff@2026`**, all sign in at `/login/password`.
+All use password **`SarthiStaff@2026`**, all sign in at `/login/password`.
 They exist so the permission system can be exercised — a moderator genuinely
 cannot open the finance desk.
 
 | Role | Email | Can do | Cannot do |
 |---|---|---|---|
-| admin | `staff.admin@krishijunction.com` | Everything operational | Edit roles and permissions |
-| catalog-manager | `staff.catalog-manager@krishijunction.com` | Brands, models, specs, prices | Loans, leads |
-| content-editor | `staff.content-editor@krishijunction.com` | Posts, pages, SEO, translations | See contact numbers |
-| moderator | `staff.moderator@krishijunction.com` | Approve listings, inspections, reviews | Finance |
-| sales-executive | `staff.sales-executive@krishijunction.com` | Work leads, **see full contact numbers** | Change roles |
-| finance-executive | `staff.finance-executive@krishijunction.com` | Loans, lenders, insurance | Approve listings |
-| inspector | `staff.inspector@krishijunction.com` | Fill inspection reports | Approve their own report |
+| admin | `staff.admin@tractorsarthi.com` | Everything operational | Edit roles and permissions |
+| catalog-manager | `staff.catalog-manager@tractorsarthi.com` | Brands, models, specs, prices | Loans, leads |
+| content-editor | `staff.content-editor@tractorsarthi.com` | Posts, pages, SEO, translations | See contact numbers |
+| moderator | `staff.moderator@tractorsarthi.com` | Approve listings, inspections, reviews | Finance |
+| sales-executive | `staff.sales-executive@tractorsarthi.com` | Work leads, **see full contact numbers** | Change roles |
+| finance-executive | `staff.finance-executive@tractorsarthi.com` | Loans, lenders, insurance | Approve listings |
+| inspector | `staff.inspector@tractorsarthi.com` | Fill inspection reports | Approve their own report |
 
 ### Demo dealers
 
-All use password **`KrishiDemo@2026`**. Dealer panel: **http://localhost:8000/dealer**
+All use password **`SarthiDemo@2026`**. Dealer panel: **http://localhost:8000/dealer**
 
 | Dealership | Email | Status |
 |---|---|---|
@@ -247,11 +247,11 @@ All use password **`KrishiDemo@2026`**. Dealer panel: **http://localhost:8000/de
 | Godavari Farm Equipment | `godavari-farm-equipment@example.com` | **pending** — so the verification queue is not empty |
 
 A dealer employee who is not the owner: `dealer-staff@example.com` /
-**`KrishiStaff@2026`**, attached to Shri Balaji Tractors.
+**`SarthiStaff@2026`**, attached to Shri Balaji Tractors.
 
 ### Demo sellers (customers)
 
-All use password **`KrishiDemo@2026`**. Customer panel: **http://localhost:8000/account**
+All use password **`SarthiDemo@2026`**. Customer panel: **http://localhost:8000/account**
 
 | Name | Email | Mobile |
 |---|---|---|
@@ -276,8 +276,8 @@ MAIL_PORT=587
 MAIL_USERNAME=your@gmail.com
 MAIL_PASSWORD=your_app_password      # a Gmail App Password, not your login
 MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS="no-reply@krishijunction.com"
-MAIL_FROM_NAME="Krishi Junction"
+MAIL_FROM_ADDRESS="no-reply@tractorsarthi.com"
+MAIL_FROM_NAME="Tractor Sarthi"
 ```
 
 Gmail needs an **App Password** (Google Account → Security → 2-Step Verification →
@@ -399,6 +399,24 @@ php artisan migrate:fresh --seed
 **`migrate:fresh` drops every table.** Anything you entered by hand — listings,
 leads, settings — is gone. That is the right trade on a demo install and the
 wrong one on anything real, so check before you run it.
+
+### The rename to Tractor Sarthi
+
+The project was called Krishi Junction until September 2026. The code carries the
+new name, but the site name, the CMS pages, the FAQs and the message templates
+live in the database, so an install made before the rename keeps showing the old
+one until you migrate:
+
+```bash
+php artisan migrate          # not migrate:fresh — this one keeps your data
+php artisan optimize:clear
+```
+
+`2026_09_19_090000_rebrand_to_tractor_sarthi` does the rest. It also **moves the
+seeded demo logins** from `@krishijunction.com` to `@tractorsarthi.com` and resets
+their passwords to the ones listed below — so after migrating, log in with the new
+address, not the old one. Accounts on any other domain are left alone, and the
+notification log is left alone too: it records what was actually sent.
 
 ---
 

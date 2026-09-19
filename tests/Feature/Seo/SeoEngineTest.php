@@ -79,7 +79,7 @@ class SeoEngineTest extends TestCase
     public function test_a_long_title_is_trimmed_without_a_dangling_separator(): void
     {
         $seo = app(SeoService::class)->for(null, 'page', [
-            'title' => str_repeat('Mahindra tractor price list ', 10).'| Krishi Junction',
+            'title' => str_repeat('Mahindra tractor price list ', 10).'| Tractor Sarthi',
         ]);
 
         $this->assertLessThanOrEqual(SeoService::TITLE_MAX, mb_strlen($seo['title']));

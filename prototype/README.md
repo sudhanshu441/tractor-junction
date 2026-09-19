@@ -1,4 +1,4 @@
-# Krishi Junction — clickable prototype
+# Tractor Sarthi — clickable prototype
 
 A single self-contained HTML file. No build step, no dependencies (Google Fonts only).
 

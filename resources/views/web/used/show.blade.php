@@ -88,7 +88,7 @@
         <div class="col-lg-5">
             <div class="d-flex gap-2 flex-wrap mb-2">
                 @if ($listing->is_verified)
-                    <span class="badge badge-ok">{{ __('Inspected by Krishi Junction') }}</span>
+                    <span class="badge badge-ok">{{ __('Inspected by Tractor Sarthi') }}</span>
                 @endif
                 <span class="badge badge-muted">{{ ucfirst($listing->seller_type) }}</span>
                 <span class="badge badge-info mono">{{ $listing->reference_no }}</span>

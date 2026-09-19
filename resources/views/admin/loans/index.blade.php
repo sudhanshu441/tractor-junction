@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Loan applications — Krishi Junction Admin'))
+@section('title', __('Loan applications — Tractor Sarthi Admin'))
 @section('page_title', __('Loan applications'))
 
 @push('styles')

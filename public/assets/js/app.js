@@ -1,4 +1,4 @@
-/* Krishi Junction — shared front-end behaviour (Bootstrap 5 + jQuery) */
+/* Tractor Sarthi — shared front-end behaviour (Bootstrap 5 + jQuery) */
 (function ($) {
     'use strict';
 

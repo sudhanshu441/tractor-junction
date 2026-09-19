@@ -1,6 +1,6 @@
 @extends('layouts.dealer')
 
-@section('title', __('Plan & billing — Krishi Junction'))
+@section('title', __('Plan & billing — Tractor Sarthi'))
 
 @section('content')
 <div class="kj-panel p-4 mb-3">
@@ -108,7 +108,7 @@
 <script src="{{ asset('assets/js/checkout.js') }}"></script>
 <script>
 $(function () {
-    KJ.initCheckout('.js-buy-plan', '{{ __('Krishi Junction dealer plan') }}');
+    KJ.initCheckout('.js-buy-plan', '{{ __('Tractor Sarthi dealer plan') }}');
 });
 </script>
 @endpush

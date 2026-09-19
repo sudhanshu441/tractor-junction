@@ -65,7 +65,7 @@ class AuthController extends Controller
         $user = User::firstOrCreate(
             ['mobile' => $data['mobile']],
             [
-                'name' => $data['name'] ?? null ?: __('Krishi Junction user'),
+                'name' => $data['name'] ?? null ?: __('Tractor Sarthi user'),
                 'user_type' => 'customer',
                 'is_active' => true,
                 'mobile_verified_at' => now(),

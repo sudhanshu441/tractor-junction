@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Tractor Price List in :state 2026 | Krishi Junction', ['state' => $state->name]))
+@section('title', __('Tractor Price List in :state 2026 | Tractor Sarthi', ['state' => $state->name]))
 @section('meta_description', __('On-road tractor prices in :state — ex-showroom, RTO and insurance for every model.', ['state' => $state->name]))
 
 @section('content')

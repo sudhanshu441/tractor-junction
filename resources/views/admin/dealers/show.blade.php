@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', $dealer->display_name.' — Krishi Junction Admin')
+@section('title', $dealer->display_name.' — Tractor Sarthi Admin')
 @section('page_title', $dealer->display_name)
 
 @section('content')

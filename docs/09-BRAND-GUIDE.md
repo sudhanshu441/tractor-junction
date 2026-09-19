@@ -1,4 +1,4 @@
-# Krishi Junction — Brand & UI Guide
+# Tractor Sarthi — Brand & UI Guide
 
 White surfaces, green brand. Green is the only brand colour; everything else is either
 neutral or a state signal.
@@ -7,9 +7,13 @@ neutral or a state signal.
 
 ## 1. Logo
 
-The mark is a **tractor wheel with a sprout at the hub** — machinery and farming in one
-shape, and a "junction" where the two meet. It stays legible down to 16 px because the
-tread ring drops away before the rim and sprout do.
+The mark is a **tractor in side profile** — big rear wheel, bonnet, exhaust stack. The
+name already carries the idea of a guide (*sarthi*, the one who steers), so the mark
+says plainly what the guide is for rather than repeating the metaphor.
+
+A steering wheel was drawn first and abandoned: a ringed hub with three radial spokes
+reads as the Mercedes-Benz star, which is not a resemblance a vehicle marketplace can
+afford. Any future mark has to clear the same bar.
 
 | File | Use |
 |---|---|
@@ -17,15 +21,28 @@ tread ring drops away before the rim and sprout do.
 | `assets/brand/logo-mark-green.svg` | Mark alone on white or light surfaces |
 | `assets/brand/logo-horizontal.svg` | Primary lockup — header, letterhead, invoices |
 | `assets/brand/logo-horizontal-white.svg` | Lockup on green or photographic backgrounds |
-| `assets/brand/favicon.svg` | Browser tab, 32 px and below (simplified, no tread ring) |
+| `assets/brand/favicon.svg` | Browser tab, 32 px and below |
+| `assets/brand/favicon-32.png`, `favicon-16.png` | Tab fallback where SVG icons are ignored |
+| `assets/brand/apple-touch-icon.png` | 180 px — iOS home screen |
+| `assets/brand/icon-192.png`, `icon-512.png` | Android home screen and app stores |
+
+All of these live in `public/assets/brand/`. A second copy sits in `assets/brand/`
+at the repository root purely so `prototype/index.html` has an icon when opened
+straight off disk, outside the web root — keep the two in step, or the prototype
+quietly shows the old logo.
 
 **Rules**
-- Clear space on all sides = the height of the sprout (¼ of the mark).
+- Clear space on all sides = the diameter of the rear wheel hub (¼ of the mark).
 - Minimum sizes: mark 20 px, horizontal lockup 120 px wide.
-- Wordmark is two-tone: *Krishi* in `--green-900`, *Junction* in `--green-700`.
+- Wordmark is two-tone: *Tractor* in `--green-900`, *Sarthi* in `--green-700`.
 - Never: stretch it, rotate it, add a drop shadow, recolour it outside the palette, or
   place the green-on-white mark on a green ground (use the white version).
-- PNG exports for email and app stores: 512, 192, 180, 48, 32, 16 px, generated from the SVG.
+- **The favicon is its own drawing, not the mark scaled down.** Below about 24 px the
+  exhaust stack and the wheel hubs turn to mud, so it drops them and thickens what is
+  left. Redraw it whenever the mark changes; do not export it.
+- PNG exports are generated from the SVG by `php artisan brand:icons`, which rasterises
+  through the headless browser already used for testing — the PNGs are committed so a
+  deployment never depends on that browser being present.
 
 ## 2. Colour
 

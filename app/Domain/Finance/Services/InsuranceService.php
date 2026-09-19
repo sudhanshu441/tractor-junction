@@ -30,7 +30,7 @@ class InsuranceService
     {
         $last = InsuranceEnquiry::max('id') ?? 0;
 
-        return 'KJ-N-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
+        return config('kj.brand.reference_prefix').'-N-'.str_pad((string) ($last + 1), 6, '0', STR_PAD_LEFT);
     }
 
     /**

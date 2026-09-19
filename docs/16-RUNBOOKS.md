@@ -1,6 +1,6 @@
 # Runbooks
 
-Operational procedures for Krishi Junction. Each one is written to be followed by
+Operational procedures for Tractor Sarthi. Each one is written to be followed by
 somebody who did not build the system, at 2am, without asking anyone.
 
 ---
@@ -70,7 +70,7 @@ is a rumour.
 mysql -e "CREATE DATABASE kj_restore_test"
 
 # 2. Restore the most recent dump.
-gzip -dc storage/app/backups/krishi-junction-<date>.sql.gz | mysql kj_restore_test
+gzip -dc storage/app/backups/tractor-sarthi-<date>.sql.gz | mysql kj_restore_test
 
 # 3. Check the shape, not just that the import exited 0.
 mysql kj_restore_test -e "SELECT COUNT(*) FROM products;

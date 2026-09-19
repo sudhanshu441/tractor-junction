@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Krishi Junction application settings
+| Tractor Sarthi application settings
 |--------------------------------------------------------------------------
 | Business rules that operations may need to tune without a code change get
 | a matching row in the `settings` table; the values here are the defaults
@@ -11,10 +11,16 @@
 
 return [
     'brand' => [
-        'name' => 'Krishi Junction',
-        'legal_name' => 'Krishi Junction',
+        'name' => 'Tractor Sarthi',
+        'legal_name' => 'Tractor Sarthi',
+        // Used for generated filenames (exports, backups).
+        'slug' => 'tractor-sarthi',
+        // Prefixes every human-quoted reference: TS-L-000456, TS-U-000123.
+        // Changing it does not renumber existing rows, which keep the prefix
+        // they were issued under.
+        'reference_prefix' => 'TS',
         'support_mobile' => env('KJ_SUPPORT_MOBILE', ''),
-        'support_email' => env('KJ_SUPPORT_EMAIL', 'support@krishijunction.com'),
+        'support_email' => env('KJ_SUPPORT_EMAIL', 'support@tractorsarthi.com'),
     ],
 
     'otp' => [

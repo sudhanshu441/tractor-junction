@@ -16,7 +16,7 @@ class SmokeTest extends TestCase
 
         $this->get('/')
             ->assertOk()
-            ->assertSee('Krishi Junction', false)
+            ->assertSee('Tractor Sarthi', false)
             ->assertSee('Find the right tractor');
     }
 
@@ -30,7 +30,7 @@ class SmokeTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $this->assertDatabaseCount('states', 36);
-        $this->assertDatabaseHas('users', ['email' => 'admin@krishijunction.com']);
+        $this->assertDatabaseHas('users', ['email' => 'admin@tractorsarthi.com']);
         $this->assertDatabaseHas('settings', ['key' => 'site_name']);
         $this->assertDatabaseHas('notification_templates', ['event_key' => 'auth.otp']);
     }

@@ -30,7 +30,7 @@ class InsuranceDeskTest extends TestCase
     private function enquiry(array $overrides = []): InsuranceEnquiry
     {
         return InsuranceEnquiry::create([
-            'reference_no' => 'KJ-N-'.str_pad((string) random_int(1, 99999), 6, '0', STR_PAD_LEFT),
+            'reference_no' => 'TS-N-'.str_pad((string) random_int(1, 99999), 6, '0', STR_PAD_LEFT),
             'applicant_name' => 'Ramesh Kumar',
             'mobile' => '9812345670',
             'coverage_type' => 'comprehensive',

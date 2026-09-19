@@ -56,7 +56,7 @@ class LeadEngineTest extends TestCase
     {
         $lead = $this->capture();
 
-        $this->assertStringStartsWith('KJ-L-', $lead->reference_no);
+        $this->assertStringStartsWith(config('kj.brand.reference_prefix').'-L-', $lead->reference_no);
         $this->assertSame('assigned', $lead->status);
         $this->assertDatabaseHas('lead_assignments', ['lead_id' => $lead->id]);
     }
@@ -206,7 +206,7 @@ class LeadEngineTest extends TestCase
         $owner = User::factory()->create(['user_type' => 'dealer']);
 
         $dealer = Dealer::create([
-            'code' => 'KJ-D-'.str_pad((string) (Dealer::count() + 1), 5, '0', STR_PAD_LEFT),
+            'code' => 'TS-D-'.str_pad((string) (Dealer::count() + 1), 5, '0', STR_PAD_LEFT),
             'owner_user_id' => $owner->id,
             'business_name' => 'Test Motors '.$districtId,
             'display_name' => 'Test Motors '.$districtId,

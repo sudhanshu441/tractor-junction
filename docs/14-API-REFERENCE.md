@@ -1,9 +1,9 @@
 # REST API v1
 
-For the Krishi Junction mobile app. Versioned in the path so a shipped app keeps
+For the Tractor Sarthi mobile app. Versioned in the path so a shipped app keeps
 working when v2 arrives — an app on a farmer's phone may not be updated for years.
 
-**Base URL:** `https://krishijunction.com/api/v1`
+**Base URL:** `https://tractorsarthi.com/api/v1`
 
 ## Envelope
 
@@ -108,13 +108,13 @@ An enquiry from the app needs no second OTP — the token already proves the num
 ## Example
 
 ```bash
-curl -s https://krishijunction.com/api/v1/products?type=tractor&hp_min=40&per_page=5
+curl -s https://tractorsarthi.com/api/v1/products?type=tractor&hp_min=40&per_page=5
 
-curl -s -X POST https://krishijunction.com/api/v1/emi \
+curl -s -X POST https://tractorsarthi.com/api/v1/emi \
   -H "Content-Type: application/json" \
   -d '{"price":700000,"down_payment":150000,"interest_rate":12,"tenure_months":60}'
 
-curl -s https://krishijunction.com/api/v1/me \
+curl -s https://tractorsarthi.com/api/v1/me \
   -H "Authorization: Bearer 12|abc…"
 ```
 

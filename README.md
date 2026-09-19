@@ -1,8 +1,8 @@
-# Krishi Junction
+# Tractor Sarthi
 
 **India's digital marketplace for tractors, farm implements and agri-machinery.**
 
-Krishi Junction is a Laravel-based platform where farmers can research, compare, buy,
+Tractor Sarthi is a Laravel-based platform where farmers can research, compare, buy,
 sell, finance and insure new & used tractors, harvesters, implements, tyres and farm
 tools — plus a full dealer network, content/news hub and a role-based admin panel.
 
@@ -46,7 +46,7 @@ php artisan serve
 ```
 
 Open <http://localhost:8000>. Sign in to the admin panel at `/login/password` with
-`admin@krishijunction.com` / `KrishiAdmin@2026`.
+`admin@tractorsarthi.com` / `SarthiAdmin@2026`.
 
 Full walkthrough, every seeded login, mail and SMS configuration, and a
 troubleshooting table: **[docs/18-LOCAL-SETUP.md](docs/18-LOCAL-SETUP.md)**.

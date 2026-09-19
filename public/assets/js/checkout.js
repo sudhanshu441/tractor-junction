@@ -1,4 +1,4 @@
-/* Krishi Junction — plan and boost checkout.
+/* Tractor Sarthi — plan and boost checkout.
  *
  * The server opens the order and tells us how to collect the money. In test
  * mode (no gateway keys) there is no widget to open, so the confirm call is
@@ -48,7 +48,7 @@
                 order_id: checkout.order_id,
                 amount: Math.round((checkout.amount || 0) * 100),
                 currency: checkout.currency || 'INR',
-                name: 'Krishi Junction',
+                name: 'Tractor Sarthi',
                 description: description,
                 handler: function (result) {
                     confirmPayment(data.confirm_url, result, button);

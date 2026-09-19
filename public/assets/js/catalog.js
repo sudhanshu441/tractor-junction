@@ -1,4 +1,4 @@
-/* Krishi Junction — catalogue behaviour: filters, compare, gallery, type-ahead.
+/* Tractor Sarthi — catalogue behaviour: filters, compare, gallery, type-ahead.
    Everything here is enhancement: each page already renders its results server-side. */
 (function ($) {
     'use strict';

@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', __('Listing :ref — Krishi Junction', ['ref' => $listing->reference_no]))
+@section('title', __('Listing :ref — Tractor Sarthi', ['ref' => $listing->reference_no]))
 @section('panel_name', __('My account'))
 @section('panel_nav')
     <li><a class="nav-link" href="{{ route('account.dashboard') }}">{{ __('Dashboard') }}</a></li>

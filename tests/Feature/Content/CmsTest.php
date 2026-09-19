@@ -91,7 +91,7 @@ class CmsTest extends TestCase
 
     public function test_a_static_page_is_served_from_its_root_slug(): void
     {
-        $this->get('/about-us')->assertOk()->assertSee('Krishi Junction is a marketplace', false);
+        $this->get('/about-us')->assertOk()->assertSee('Tractor Sarthi is a marketplace', false);
     }
 
     public function test_the_faq_page_publishes_structured_data(): void
@@ -99,7 +99,7 @@ class CmsTest extends TestCase
         $html = $this->get(route('faqs.index'))->assertOk()->getContent();
 
         $this->assertStringContainsString('FAQPage', $html);
-        $this->assertStringContainsString('Is Krishi Junction free to use?', $html);
+        $this->assertStringContainsString('Is Tractor Sarthi free to use?', $html);
     }
 
     public function test_a_contact_message_needs_a_way_to_reply(): void

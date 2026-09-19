@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('New & Used Tractors in India — Price, Specs | Krishi Junction'))
+@section('title', __('New & Used Tractors in India — Price, Specs | Tractor Sarthi'))
 @section('meta_description', __('Compare :count tractor and implement models from :brands brands. Check on-road prices, specifications and EMI across India.', ['count' => $stats['models'], 'brands' => $stats['brands']]))
 
 @section('content')

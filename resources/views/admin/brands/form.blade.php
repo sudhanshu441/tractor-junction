@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', ($brand->exists ? __('Edit brand') : __('Add brand')).' — Krishi Junction Admin')
+@section('title', ($brand->exists ? __('Edit brand') : __('Add brand')).' — Tractor Sarthi Admin')
 @section('page_title', $brand->exists ? __('Edit :name', ['name' => $brand->name]) : __('Add brand'))
 
 @section('content')

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('SEO — Krishi Junction Admin'))
+@section('title', __('SEO — Tractor Sarthi Admin'))
 @section('page_title', __('Redirects & 404s'))
 
 @section('content')

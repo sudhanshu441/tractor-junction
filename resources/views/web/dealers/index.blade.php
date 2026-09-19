@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $heading.' — '.__('Contact & Address | Krishi Junction'))
+@section('title', $heading.' — '.__('Contact & Address | Tractor Sarthi'))
 @section('meta_description', __('Find verified tractor dealers with addresses, brands sold and contact details.'))
 
 @section('content')

@@ -31,7 +31,7 @@ return new class extends Migration
 
         Schema::create('loan_applications', function (Blueprint $table) {
             $table->id();
-            $table->string('reference_no', 20)->unique();      // KJ-LN-00789
+            $table->string('reference_no', 20)->unique();      // TS-LN-00789
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('purpose', ['new_purchase', 'used_purchase', 'refinance'])->default('new_purchase');
             $table->nullableMorphs('financeable');             // Product | UsedListing

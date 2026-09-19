@@ -52,6 +52,6 @@ class ReportDefinition
 
     public function filename(string $extension): string
     {
-        return 'krishi-junction-'.$this->key.'-'.now()->format('Y-m-d').'.'.$extension;
+        return config('kj.brand.slug').'-'.$this->key.'-'.now()->format('Y-m-d').'.'.$extension;
     }
 }

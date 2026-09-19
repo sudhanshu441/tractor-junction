@@ -8,7 +8,7 @@ and that is deliberate rather than unfinished.
 Photographs of a Mahindra 575 DI or a Swaraj 744 FE are the manufacturer's
 copyright. Downloading them from a brand website or a competitor's listing and
 publishing them on a commercial marketplace is copyright infringement, and the
-exposure lands on Krishi Junction, not on whoever copied the file. Indian
+exposure lands on Tractor Sarthi, not on whoever copied the file. Indian
 manufacturers do enforce this.
 
 ## The placeholder
@@ -26,7 +26,7 @@ rather than theory:
    can reasonably think the picture is the machine. That is a commercial reason
    to finish the catalogue, not only an aesthetic one.
 2. **The client supplied it and is asserting the rights to it.** It was not
-   sourced by the build. Confirm in writing that Krishi Junction may publish it
+   sourced by the build. Confirm in writing that Tractor Sarthi may publish it
    commercially before launch; everything in the table below applies to this
    file exactly as it applies to any other manufacturer photograph.
 

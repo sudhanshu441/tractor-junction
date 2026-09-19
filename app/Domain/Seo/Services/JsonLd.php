@@ -28,7 +28,7 @@ class JsonLd
             '@type' => 'Organization',
             'name' => Setting::get('site_name', config('kj.brand.name')),
             'url' => url('/'),
-            'logo' => asset('assets/brand/logo-horizontal.svg'),
+            'logo' => asset('assets/brand/icon-512.png'),
             'sameAs' => array_values(array_filter([
                 Setting::get('social.facebook'),
                 Setting::get('social.youtube'),
@@ -224,7 +224,7 @@ class JsonLd
             'publisher' => [
                 '@type' => 'Organization',
                 'name' => Setting::get('site_name', config('kj.brand.name')),
-                'logo' => ['@type' => 'ImageObject', 'url' => asset('assets/brand/logo-horizontal.svg')],
+                'logo' => ['@type' => 'ImageObject', 'url' => asset('assets/brand/icon-512.png')],
             ],
             'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => url()->current()],
         ], fn ($v) => filled($v));

@@ -26,7 +26,11 @@
     @endforeach
     <link rel="alternate" hreflang="x-default" href="{{ \App\Support\Locale::alternates()['en'] ?? url()->current() }}">
 
+    {{-- SVG first for anything modern; the PNG is for the browsers that ignore it,
+         and the touch icon for a handset that pins the site to its home screen. --}}
     <link rel="icon" href="{{ asset('assets/brand/favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('assets/brand/favicon-32.png') }}" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('assets/brand/apple-touch-icon.png') }}">
     {{-- Fonts are self-hosted: a CDN round-trip is the slowest thing on a 3G handset. --}}
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/bootstrap.min.css') }}">

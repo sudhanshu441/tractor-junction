@@ -107,6 +107,6 @@ php artisan serve
 - `/account/listings` → **Promote** — a paid listing boost
 - `/admin/dealers`, `/admin/loans`, `/admin/inspections`, `/admin/reviews`
 
-Admin `admin@krishijunction.com` / `KrishiAdmin@2026`.
+Admin `admin@tractorsarthi.com` / `SarthiAdmin@2026`.
 Demo dealers `shri-balaji-tractors@example.com` and sellers `vijay-singh@example.com`,
-both with `KrishiDemo@2026`.
+both with `SarthiDemo@2026`.

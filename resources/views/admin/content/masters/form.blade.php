@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', $config['label'].' — Krishi Junction Admin')
+@section('title', $config['label'].' — Tractor Sarthi Admin')
 @section('page_title', $row->exists ? __('Edit :label', ['label' => strtolower($config['label'])]) : __('New :label', ['label' => strtolower($config['label'])]))
 
 @section('content')
